@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+alias fztmux='~/.local/bin/scripts/tmux-sessionizer'
+alias w3m='w3m -config ~/.config/w3m/config'
+alias dnvim='GIT_DIR=$HOME/.dotfiles GIT_WORK_TREE=$HOME nvim'
+alias mvndebug='mvn spring-boot:run -Dspring-boot.run.jvmArguments="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"'
+alias buildnvim='cmake make CMAKE_BUILD_TYPE=RelWithDebInfo CMAKE_INSTALL_PREFIX=/home/langeoys/.local/bin 
+sudo make install'
+
+# docker
+alias dcu='docker compose up'
+alias dcd='docker compose down'
+
+# ssh
+alias ssh='TERM=xterm-256color ssh'
+
+# core
+alias ll='ls -alFh --color=auto --time-style=long-iso'
