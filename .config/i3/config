@@ -1,0 +1,25 @@
+# i3 file (v4)
+#
+# Please see https://i3wm.org/docs/userguide.html for a complete reference!
+
+set $mod Mod4
+
+include ~/.config/i3/keybindings.conf
+include ~/.config/i3/stylings.conf
+
+# Set keyboard layout
+exec_always --no-startup-id "$HOME/.config/polybar/launch.sh"
+exec_always --no-startup-id "picom --experimental-backends -b #000000"
+exec --no-startup-id "dunst"
+exec --no-startup-id "brightnessctl set 100%"
+exec --no-startup-id "autotiling &"
+exec_always --no-startup-id "feh --bg-scale ~/wallpapers/death.png"
+exec_always --no-startup-id "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &"
+
+gaps inner 6
+gaps outer 6
+
+# screen before suspend. Use loginctl lock-session to lock your screen.
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+
+exec --no-startup-id "nmcli connection up bo585"
