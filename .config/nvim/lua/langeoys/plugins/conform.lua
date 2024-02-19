@@ -28,7 +28,8 @@ return {
                 html            = { "prettier" },
                 markdown        = { "prettier" },
                 bash            = { "shfmt" },
-                sh            = { "shfmt" }
+                sh            = { "shfmt" },
+                c            = { "clang-format" }
             },
         })
 
