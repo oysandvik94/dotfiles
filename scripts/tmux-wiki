@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+read -r -p "Søk wiki: " query
+tmux neww bash -c "zk edit --interactive -m=$query"
+exit 0
+

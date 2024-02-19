@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+winclass="$(xdotool search --class wikipad)";
+if [ -z "$winclass" ]; then
+    alacritty --class wikipad -e zk edit --interactive &
+else
+    if [ ! -f /tmp/wikipad ]; then
+        touch /tmp/wikipad && xdo hide "$winclass"
+    elif [ -f /tmp/wikipad ]; then
+        rm /tmp/wikipad && xdo show "$winclass"
+    fi
+fi
+

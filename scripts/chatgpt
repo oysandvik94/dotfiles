@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+winclass="$(xdotool search --class chatgpt)";
+if [ -z "$winclass" ]; then
+    alacritty --class chatgpt -e nvim -c ":GpChatNew"&
+else
+    if [ ! -f /tmp/chatgpt ]; then
+        touch /tmp/chatgpt && xdo hide "$winclass"
+    elif [ -f /tmp/chatgpt ]; then
+        rm /tmp/chatgpt && xdo show "$winclass"
+    fi
+fi

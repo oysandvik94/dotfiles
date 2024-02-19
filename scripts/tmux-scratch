@@ -1,0 +1,10 @@
+#! /usr/bin/bash
+
+CURRENT_SESSION=$(tmux display-message -p '#S')
+SCRATCH_CONTAINS="_SCRATCH"
+
+if [[ "$CURRENT_SESSION" == *"$SCRATCH_CONTAINS"* ]]; then
+    tmux detach-client
+else
+    tmux display-popup -h 80% -w 80% -E "tmux new-session -A -s '$CURRENT_SESSION$SCRATCH_CONTAINS'"
+fi

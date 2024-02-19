@@ -1,0 +1,4 @@
+#!/usr/bin/bash
+
+tmux capture-pane -pS -3000 > /tmp/buffer.log
+tmux neww nvim +\$ /tmp/buffer.log

@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+tmux neww bash -c "zk edit --interactive"

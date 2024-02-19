@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+winclass="$(xdotool search --class colemak)";
+if [ -z "$winclass" ]; then
+    feh --scale-down --auto-zoom --geometry 800x600 ~/keyboard/kbd75/colemak.png --class colemak --reload=0
+else
+    if [ ! -f /tmp/colemak ]; then
+        touch /tmp/colemak && xdo hide "$winclass"
+    elif [ -f /tmp/colemak ]; then
+        rm /tmp/colemak && xdo show "$winclass"
+    fi
+fi
+

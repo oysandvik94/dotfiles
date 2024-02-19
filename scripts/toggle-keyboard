@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Find the ID of the keyboard
+keyboard_id=$(xinput --list | awk '/AT Translated Set 2 keyboard/ {gsub(/id=/, ""); print $7}')
+
+# Check if the keyboard is currently enabled or disabled
+is_enabled=$(xinput list-props "$keyboard_id" | awk '/Device Enabled/ {print $4}')
+
+# Toggle the state of the keyboard
+if [ "$is_enabled" -eq 1 ]; then
+    xinput disable "$keyboard_id"
+    notify-send "Keyboard disabled"
+else
+    xinput enable "$keyboard_id"
+    notify-send "Keyboard enabled"
+fi
+

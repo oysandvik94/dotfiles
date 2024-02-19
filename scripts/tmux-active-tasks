@@ -1,0 +1,19 @@
+#!/bin/sh
+ACTIVE_TASKS=$(task rc.verbose:nothing)
+LINES=$(echo $ACTIVE_TASKS | wc -l);
+case $LINES in
+	0)
+		exit 0;
+		;;
+	1)
+		echo $ACTIVE_TASKS;
+		exit 0;
+		;;
+	*)
+		# This won't usually happen as you'd have to jump through some
+		# hoops to allow taskwarrior/timewarrior to track multiple
+		# tasks in parallel.
+		echo "${LINES} tasks";
+		exit 0;
+		;;
+esac
