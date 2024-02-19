@@ -1,0 +1,16 @@
+#! /bin/sh
+
+rofi_cmd() {
+	rofi -dmenu \
+		-theme ~/.config/rofi/configs/power.rasi
+}
+
+chosen=$(printf "\n\n\n󰤄" | rofi_cmd)
+
+case "$chosen" in
+	"") poweroff ;;
+	"") reboot ;;
+	"") i3lock -c 000000 ;;
+	"󰤄") systemctl suspend ;;
+	*) exit 1 ;;
+esac

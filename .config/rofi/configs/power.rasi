@@ -1,0 +1,61 @@
+configuration {
+	show-icons: false;
+}
+
+@import "~/.config/rofi/themes/colors.rasi"
+
+window {
+	width: 451px;
+	border-radius: 0;
+	border: 0;
+	padding: 0;
+	background-color: @background;
+}
+
+mainbox {
+	children: [listview];
+	padding: 10;
+	background-color: @background;
+}
+
+listview {
+	enabled: true;
+	columns: 1;
+	lines: 4;
+	cycle: true;
+	dynamic: true;
+	scrollbar: false;
+	layout: horizontal;
+	reverse: false;
+	fixed-height: true;
+	fixed-columns: true;
+    
+	spacing: 15;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	background-color:  @background;
+}
+
+
+element {
+	background-color: @background-alt;
+	text-color: @foreground;
+	padding: 30 34;
+	border-radius: 0;
+}
+
+element-text {
+	font: "feather 34";
+	background-color: inherit;
+	text-color: inherit;
+	expand: true;
+	horizontal-align: 0.5;
+	vertical-align: 0.6;
+}
+
+element.selected.normal {
+	background-color: @accent;
+	text-color: @background;
+}
