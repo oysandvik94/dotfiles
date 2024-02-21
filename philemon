@@ -1,0 +1,61 @@
+#!/bin/bash
+
+export BIN_DIR=bin
+
+cat <<"EOF"
+       ╱|、
+      (˚ˎ ◦7  
+      |、 ˜〵          
+      じしˍ,)ノ
+
+
+
+Hi! I am Pus Philemon. I will help you boostrap your arch installation.
+I will install dependencies, packages, configurations and dotfiles to your system.
+At the end, I will also make sure that your packages are updated.
+EOF
+echo
+
+echo "This script requires sudo privileges, and you might be prompted for your password"
+echo
+sudo -v
+
+echo "First I will check if you have the required dependencies to run this script"
+echo
+$BIN_DIR/checkDependencies.sh || {
+	echo "I couldn't find or install the requirements, good luck to you :)" >&2
+	exit 1
+}
+
+
+echo "------------------"
+echo "Now we are ready to proceed."
+read -p "Are you ready? [y/n] " -n 1 -r
+echo
+if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+	exit 1
+fi
+
+echo "Installing packages"
+echo
+$BIN_DIR/installPackages.sh || exit 1
+
+echo "Updating packages"
+echo
+yay -Syu --noconfirm || exit 1
+
+echo "Stowing dotfiles"
+stow --adopt dotfiles --target="$HOME" || exit 1
+echo
+
+cat <<"EOF"
+       ╱|、
+      (˚ˎ ◦7  
+      |、 ˜〵          
+      じしˍ,)ノ
+
+
+
+I, Pus Philemon, has upgraded and bootstrapped your system.
+Call me again if you need me!
+EOF
