@@ -1,7 +1,7 @@
 sudo -v
 echo "Installing pacman packages..."
 while IFS= read -r package; do
-        pacman -Qt "$package" &> /dev/null && continue
+        pacman -Q "$package" &> /dev/null && continue
 
         echo "---------------------------------------"
         echo "$package is not installed, doing it now..."
