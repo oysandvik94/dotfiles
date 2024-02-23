@@ -48,6 +48,7 @@ xdg-user-dirs
 xdg-utils
 xdotool
 xorg-server
+xorg-xinit
 xrandr
 zip
 zk

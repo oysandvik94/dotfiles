@@ -88,3 +88,8 @@ source ~/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then 
+  exec startx &>/dev/null 
+fi
+

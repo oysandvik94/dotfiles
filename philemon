@@ -40,13 +40,20 @@ echo "Installing packages"
 echo
 $BIN_DIR/installPackages.sh || exit 1
 
+sudo -v
 echo "Updating packages"
 echo
 yay -Syu --noconfirm || exit 1
 
 echo "Stowing dotfiles"
-stow --adopt dotfiles --target="$HOME" || exit 1
 echo
+stow --adopt dotfiles --target="$HOME" || exit 1
+
+echo "Now that everything is installed, I will verify some system level settings"
+echo
+
+ZSH_PATH=/usr/bin/zsh
+test "$SHELL" = "$ZSH_PATH" || chsh -s "$ZSH_PATH"
 
 cat <<"EOF"
        ╱|、
