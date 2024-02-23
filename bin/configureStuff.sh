@@ -7,3 +7,6 @@ test "$SHELL" = "$ZSH_PATH" || chsh -s "$ZSH_PATH"
 
 echo "Creating ssh directory"
 mkdir -p ~/.ssh
+
+echo "Installing tmux plugin manager"
+[ ! -f "$HOME/.tmux/plugins/tpm/tpm" ] && git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm 
