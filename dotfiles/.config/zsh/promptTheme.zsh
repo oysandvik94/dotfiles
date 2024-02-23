@@ -7,6 +7,6 @@ THEME_NAME="powerlevel10k"
 [ ! -d "$PLUGINDIR" ] && mkdir -p $PLUGINDIR
 
 # fetch plugin if not exists
-[ ! -f "$PLUGINDIR/$THEME_NAME/$THEME_NAME.zsh-theme" ] && git clone "https://github.com/$1" $ZDOTDIR/.zsh_plugins/$THEME_NAME
+[ ! -f "$PLUGINDIR/$THEME_NAME/$THEME_NAME.zsh-theme" ] && git clone "https://github.com/$THEME_URL" $ZDOTDIR/.zsh_plugins/$THEME_NAME
 
 source "$PLUGINDIR/$THEME_NAME/$THEME_NAME.zsh-theme"
