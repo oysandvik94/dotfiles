@@ -51,9 +51,8 @@ stow --adopt dotfiles --target="$HOME" || exit 1
 
 echo "Now that everything is installed, I will verify some system level settings"
 echo
+$BIN_DIR/configureStuff.sh
 
-ZSH_PATH=/usr/bin/zsh
-test "$SHELL" = "$ZSH_PATH" || chsh -s "$ZSH_PATH"
 
 cat <<"EOF"
        ╱|、

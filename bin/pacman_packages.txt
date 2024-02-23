@@ -49,7 +49,7 @@ xdg-utils
 xdotool
 xorg-server
 xorg-xinit
-xrandr
+xorg-xrandr
 zip
 zk
 zsh
