@@ -50,6 +50,7 @@ xdotool
 xorg-server
 xorg-xinit
 xorg-xrandr
+xss-lock
 zip
 zk
 zsh

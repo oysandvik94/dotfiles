@@ -1,3 +1,4 @@
 autotiling
+fzf-git
 neovim-git
 slides

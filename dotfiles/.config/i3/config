@@ -16,24 +16,14 @@ include ~/.config/i3/stylings.conf
 
 # Set keyboard layout
 exec_always --no-startup-id "$HOME/.config/polybar/launch.sh"
-exec_always --no-startup-id "picom --experimental-backends -b #000000"
+exec_always --no-startup-id "picom"
 exec --no-startup-id "dunst"
 exec --no-startup-id "brightnessctl set 100%"
 exec_always --no-startup-id "autotiling"
-exec --no-startup-id "tmux &"
 exec_always --no-startup-id "feh --bg-scale ~/wallpapers/death.png"
-exec_always --no-startup-id "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &"
+exec --no-startup-id "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &"
+exec --no-startup-id "xss-lock --transfer-sleep-lock -- i3lock --nofork"
 
 gaps inner 6
 gaps outer 6
-
-# screen before suspend. Use loginctl lock-session to lock your screen.
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
-
-exec --no-startup-id "nmcli connection up bo585"
-# NetworkManager is the most popular way to manage wireless networks on Linux,
-# and nm-applet is a desktop environment-independent system tray GUI for it.
-# TODO: remove if no problems
-# exec --no-startup-id nm-applet
-
 
