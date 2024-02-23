@@ -8,6 +8,7 @@ fi
 
 
 source $ZDOTDIR/plugins.zsh
+source $ZDOTDIR/promptTheme.zsh
 source $ZDOTDIR/aliases
 source $ZDOTDIR/vim.zsh
 
@@ -21,9 +22,6 @@ path+=("$HOME/go/bin")
 # Completion
 autoload -U compinit; compinit
 _comp_options+=(globdots) # With hidden files
-
-# TODO: remove if not needed
-# source $ZDOTDIR/completion.zsh
 
 source $ZDOTDIR/ssh-agent.zsh
 
@@ -81,8 +79,6 @@ autoautorandr() {
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 SDKMAN_DIR="/home/oysandvik/.sdkman" 
 [[ -s "/home/oysandvik/.sdkman/bin/sdkman-init.sh" ]] && source "/home/oysandvik/.sdkman/bin/sdkman-init.sh"
-
-source ~/powerlevel10k/powerlevel10k.zsh-theme
 
 # To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
 [[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
