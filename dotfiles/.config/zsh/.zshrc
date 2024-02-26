@@ -11,6 +11,7 @@ source $ZDOTDIR/plugins.zsh
 source $ZDOTDIR/promptTheme.zsh
 source $ZDOTDIR/aliases
 source $ZDOTDIR/vim.zsh
+source $ZDOTDIR/fzf.zsh
 
 
 path+=("$HOME/.local/bin/scripts")
@@ -82,8 +83,6 @@ SDKMAN_DIR="/home/oysandvik/.sdkman"
 
 # To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
 [[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then 
   exec startx &>/dev/null 
