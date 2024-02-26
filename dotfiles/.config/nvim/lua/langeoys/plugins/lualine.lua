@@ -1,6 +1,6 @@
 local function search_count()
 	local res = vim.fn.searchcount({ maxcount = 999, timeout = 500 })
-	if res and res.total > 0 then
+	if res.total and res.total > 0 then
 		return string.format("%s/%d %s", res.current, res.total, vim.fn.getreg("/"))
 	end
 
