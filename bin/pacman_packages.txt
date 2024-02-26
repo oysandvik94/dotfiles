@@ -35,6 +35,7 @@ polybar
 ripgrep
 rofi
 sl
+openssh
 stow
 tailspin
 tldr
