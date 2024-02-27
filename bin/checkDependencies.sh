@@ -3,7 +3,7 @@
 main() {
 	sudo pacman -Syu
 	sudo pacman -Syq --noconfirm --needed git base-devel sudo
-	command yay &>/dev/null || install_yay
+	which yay &>/dev/null || install_yay
 }
 
 install_yay() {
