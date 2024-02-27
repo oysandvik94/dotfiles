@@ -1,6 +1,4 @@
 alsa-utils
-fzf
-keychain
 autorandr
 bat
 bluez
@@ -17,17 +15,20 @@ dunst
 fd
 feh
 firefox
+fzf
 gcc
 glow
 htop
 i3lock
 i3-wm
 intel-ucode
+keychain
 kitty
 less
 maven
 neofetch
 npm
+openssh
 pavucontrol
 picom
 pipewire-alsa
@@ -37,7 +38,6 @@ polybar
 ripgrep
 rofi
 sl
-openssh
 stow
 tailspin
 tldr

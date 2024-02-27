@@ -1,3 +1,4 @@
 autotiling
 neovim-git
 slides
+uuid
