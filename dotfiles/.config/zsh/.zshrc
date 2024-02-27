@@ -24,9 +24,6 @@ path+=("$HOME/go/bin")
 autoload -U compinit; compinit
 _comp_options+=(globdots) # With hidden files
 
-source $ZDOTDIR/ssh-agent.zsh
-
-
 # Directory stack
 setopt AUTO_PUSHD           # Push the current directory visited on the stack.
 setopt PUSHD_IGNORE_DUPS    # Do not store duplicates in the stack.
