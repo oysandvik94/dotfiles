@@ -6,13 +6,11 @@ For more information see:
 * https://github.com/ryanoasis/nerd-fonts/
 * https://github.com/ryanoasis/nerd-fonts/releases/latest/
 
-# JetBrains Mono
+# Symbols Only
 
-JetBrains Mono: a typeface made for developers
-
-For more information have a look at the upstream website: https://github.com/JetBrains/JetBrainsMono
-
-Version: 2.304
+This font contains (in the patched-fonts folder) all symbols and is intended to be used
+as fallback or together with fontconfig - so that you do not need to individually
+patch all the fonts. YMMV.
 
 ## Which font?
 

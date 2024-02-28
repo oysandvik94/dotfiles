@@ -55,7 +55,7 @@ get_icon() {
 	rustc | rustup)
 		echo ""
 		;;
-	Python)
+	Python|python|python3)
 		echo ""
 		;;
     java)
