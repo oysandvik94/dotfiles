@@ -26,6 +26,8 @@ keychain
 kitty
 less
 maven
+man-db
+man-pages
 neofetch
 npm
 openssh
