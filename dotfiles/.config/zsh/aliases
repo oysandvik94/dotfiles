@@ -8,6 +8,7 @@ alias mvndebug='mvn spring-boot:run -Dspring-boot.run.jvmArguments="-agentlib:jd
 alias mvntest='mvn clean test -Dsurefire.trimStackTrace=false'
 alias buildnvim='cmake make CMAKE_BUILD_TYPE=RelWithDebInfo CMAKE_INSTALL_PREFIX=/home/langeoys/.local/bin 
 sudo make install'
+alias snvim='sudo -e nvim'
 
 # docker
 alias dcu='docker compose up'
