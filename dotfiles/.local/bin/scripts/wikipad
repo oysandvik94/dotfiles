@@ -2,7 +2,7 @@
 
 winclass="$(xdotool search --class wikipad)";
 if [ -z "$winclass" ]; then
-    alacritty --class wikipad -e zk edit --interactive &
+    kitty --class wikipad -e zk edit --interactive &
 else
     if [ ! -f /tmp/wikipad ]; then
         touch /tmp/wikipad && xdo hide "$winclass"

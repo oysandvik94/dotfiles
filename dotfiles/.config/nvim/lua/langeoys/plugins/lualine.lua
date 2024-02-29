@@ -51,6 +51,8 @@ return {
 		custom_theme.normal.b.bg = '#232136'
 		custom_theme.normal.b.fg = '#E6E1CF'
 		custom_theme.normal.c.bg = 'None'
+		custom_theme.insert.c.bg = 'None'
+		custom_theme.visual.c.bg = 'None'
 		custom_theme.normal.c.fg = '#E6E1CF'
 
 		require("lualine").setup({

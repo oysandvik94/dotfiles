@@ -51,6 +51,7 @@ wireplumber
 xclip
 xdg-user-dirs
 xdg-utils
+xdo
 xdotool
 xorg-server
 xorg-xinit
