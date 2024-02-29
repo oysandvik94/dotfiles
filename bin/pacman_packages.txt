@@ -59,3 +59,4 @@ xss-lock
 zip
 zk
 zsh
+upower
