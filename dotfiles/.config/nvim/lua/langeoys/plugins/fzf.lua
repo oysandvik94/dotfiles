@@ -32,7 +32,7 @@ return {
 		})
 		vim.keymap.set("n", "<leader>/", "<cmd>lua require('fzf-lua').files()<CR>", { silent = true })
 		vim.keymap.set("n", "<leader>ft", "<cmd>lua require('fzf-lua').tags()<CR>", { silent = true })
-		vim.keymap.set("n", "<leader>fg", "<cmd>lua require('fzf-lua').live_grep_glob()<CR>", { silent = true })
+		vim.keymap.set("n", "<leader>fg", "<cmd>lua require('fzf-lua').live_grep_glob({rg_opts = \"--column --hidden --line-number --no-heading --color=always --smart-case --max-columns=4096 -e\"})<CR>", { silent = true })
 		vim.keymap.set("v", "<leader>fg", "<cmd>lua require('fzf-lua').grep_visual()<CR>", { silent = true })
 		vim.keymap.set("n", "<leader>fx", "<cmd>lua require('fzf-lua').tmux_buffers()<CR>", { silent = true })
 		vim.keymap.set("n", "<leader>fl", "<cmd>lua require('fzf-lua').resume()<CR>", { silent = true })
