@@ -37,8 +37,6 @@ local function show_active_marks()
 	else
 		return nil
 	end
-
-	return "ok"
 end
 
 return {
@@ -47,6 +45,14 @@ return {
 		{ "nvim-tree/nvim-web-devicons", lazy = true },
 	},
 	config = function()
+		local custom_theme = require('lualine.themes.auto')
+		custom_theme.normal.a.bg = '#2D5453'
+		custom_theme.normal.a.fg = '#E6E1CF'
+		custom_theme.normal.b.bg = '#232136'
+		custom_theme.normal.b.fg = '#E6E1CF'
+		custom_theme.normal.c.bg = 'None'
+		custom_theme.normal.c.fg = '#E6E1CF'
+
 		require("lualine").setup({
 			sections = {
 				lualine_a = { "mode" },
@@ -68,19 +74,20 @@ return {
 						end,
 					},
 				},
-				lualine_c = { "progress"},
+				lualine_c = { "progress" },
 				lualine_x = { "diagnostics" },
 				lualine_y = {
-					{ "seach-count", fmt = search_count },
-					{ "active-marks", fmt = show_active_marks },
+					{ "seach-count",     fmt = search_count },
+					{ "active-marks",    fmt = show_active_marks },
 					{ "macro-recording", fmt = show_macro_recording },
-				}, -- Tmp objects
+				},    -- Tmp objects
 				lualine_z = { "branch", "diff" }, -- git
 			},
 			options = {
+				theme                = custom_theme,
 				component_separators = { left = "", right = "" },
-				section_separators = { left = "", right = "" },
-				globalstatus = false,
+				section_separators   = { left = "", right = "" },
+				globalstatus         = false,
 			},
 		})
 	end,
