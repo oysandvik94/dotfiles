@@ -1,4 +1,5 @@
 autotiling
+betterlockscreen
 neovim-git
 slides
 uuid

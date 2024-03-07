@@ -19,7 +19,6 @@ fzf
 gcc
 glow
 htop
-i3lock
 i3-wm
 intel-ucode
 keychain
@@ -52,6 +51,8 @@ xclip
 xdg-user-dirs
 xdg-utils
 xdo
+libnotify
+maim
 xdotool
 xorg-server
 xorg-xinit
