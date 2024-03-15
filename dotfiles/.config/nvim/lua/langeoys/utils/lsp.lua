@@ -58,7 +58,6 @@ M.on_attach = function(client, bufnr)
 		vim.lsp.buf.rename()
 	end, opts)
 
-	-- LSP Telescope bindings
 	vim.keymap.set("n", "gr", function()
 		require("fzf-lua").lsp_references({
 			-- winopts = {

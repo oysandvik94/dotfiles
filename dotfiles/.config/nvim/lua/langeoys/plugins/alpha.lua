@@ -50,12 +50,10 @@ return {
 		}
 		dashboard.section.header.val = header
 		dashboard.section.buttons.val = {
-			dashboard.button("f", " " .. " Find file", ":Telescope find_files <CR>"),
-			dashboard.button("r", " " .. " Recent files", ":Telescope oldfiles <CR>"),
-			dashboard.button("g", " " .. " Find text", ":Telescope live_grep <CR>"),
+			dashboard.button("f", " " .. " Find file", "<cmd>lua require('fzf-lua').files()<CR>"),
+			dashboard.button("g", " " .. " Find text", "<cmd>lua require('fzf-lua').live_grep_glob({rg_opts = \"--column --hidden --line-number --no-heading --color=always --smart-case --max-columns=4096 -e\"})<CR>"),
 			dashboard.button("l", "󰒲 " .. " Lazy", ":Lazy<CR>"),
 			dashboard.button("s", "󰁯 " .. " Restore last session", ":lua require('langeoys.utils.session').load_last_session()<CR>"),
-			dashboard.button("w", " " .. " Choose worktree", ":lua require('telescope').extensions.git_worktree.git_worktrees()<CR>"),
 			dashboard.button("q", " " .. " Quit", ":qa<CR>"),
 		}
 		for _, button in ipairs(dashboard.section.buttons.val) do

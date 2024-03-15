@@ -1,6 +1,8 @@
 local M = {}
 
 M.save_state = function(state_key, object)
+    P("saving state " .. state_key)
+    P(object)
 	local Path = require("plenary.path")
 
 	local state_file = vim.fn.stdpath("data") .. "/" .. state_key .. ".json"
