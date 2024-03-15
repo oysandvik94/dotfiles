@@ -10,7 +10,7 @@ chosen=$(printf "\n\n\n󰤄" | rofi_cmd)
 case "$chosen" in
 	"") poweroff ;;
 	"") reboot ;;
-	"") betterlockscreen --lock ;;
+	"") swaylock ;;
 	"󰤄") systemctl suspend ;;
 	*) exit 1 ;;
 esac

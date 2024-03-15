@@ -1,4 +1,5 @@
 #!/usr/bin/env zsh
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.config/zsh/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -83,13 +84,28 @@ fi
 # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-SDKMAN_DIR="/home/oysandvik/.sdkman" 
-[[ -s "/home/oysandvik/.sdkman/bin/sdkman-init.sh" ]] && source "/home/oysandvik/.sdkman/bin/sdkman-init.sh"
+SDKMAN_DIR="$HOME/.sdkman" 
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
 # To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
 [[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
 
 if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then 
-  exec startx &>/dev/null 
+        echo "Choose a WM
+
+        1) i3
+        2) hypr
+        -> "
+
+        read option
+        echo $option
+
+        if [[ "$option" == "1" ]]; then
+                exec startx &>/dev/null 
+        fi
+
+        if [[ "$option" == "2" ]]; then
+                exec launchHypr.sh
+        fi
 fi
 

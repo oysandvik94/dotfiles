@@ -1,4 +1,11 @@
 alsa-utils
+hyprland
+waybar
+wl-clipboard
+swaylock
+hyprpaper
+slurp
+grim
 autorandr
 bat
 bluez
