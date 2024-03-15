@@ -23,3 +23,6 @@ alias ll='ls -alFh --color=auto --time-style=long-iso'
 alias archdocker='docker rm -vf arch && docker run -d --tty --name arch -v "$(pwd):/home/test/dotfiles" arch_test && docker exec -u test -it arch bash -c "cd /home/test/dotfiles && ./philemon"'
 
 alias dockerdelete="docker ps | awk '{ print $1 }' | docker rm -vf"
+
+alias cal="cal --monday"
+alias nn="nvim Jenkinsfile"
