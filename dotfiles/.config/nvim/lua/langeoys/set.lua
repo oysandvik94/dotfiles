@@ -5,11 +5,13 @@ vim.opt.cursorline = true
 vim.opt.cursorlineopt = "number"
 
 -- Indenting
-vim.opt.colorcolumn = "80"
+vim.opt.colorcolumn = "99"
 vim.opt.autoindent = true
 vim.opt.smartindent = true
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.expandtab = true
 function TabsOrSpaces()
 	-- Determines whether to use spaces or tabs on the current buffer.
 	if vim.fn.getfsize(vim.fn.bufname("%")) > 256000 then
@@ -40,8 +42,6 @@ vim.api.nvim_create_autocmd("BufEnter", {
 vim.api.nvim_create_user_command("TabsOrSpaces", function()
 	TabsOrSpaces()
 end, {})
--- vim.opt.shiftwidth = 4
--- vim.opt.expandtab = true
 
 -- Backup stuff
 vim.opt.swapfile = false
@@ -102,6 +102,7 @@ vim.opt.linebreak = true
 vim.opt.breakindent = true
 vim.opt.wrap = true
 vim.opt.showbreak = "↳ "
+-- vim.filetype.indent = true
 
 -- Cmdheight 0
 vim.opt.cmdheight = 0

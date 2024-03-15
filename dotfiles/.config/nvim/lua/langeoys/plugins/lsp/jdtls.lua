@@ -59,7 +59,7 @@ local function get_jdtls_paths()
 	local java_debug_path = require("mason-registry").get_package("java-debug-adapter"):get_install_path()
 
 	local java_debug_bundle =
-		vim.split(vim.fn.glob(java_debug_path .. "/extension/server/com.microsoft.java.debug.plugin-*.jar"), "\n")
+	    vim.split(vim.fn.glob(java_debug_path .. "/extension/server/com.microsoft.java.debug.plugin-*.jar"), "\n")
 
 	if java_debug_bundle[1] ~= "" then
 		vim.list_extend(path.bundles, java_debug_bundle)
@@ -75,21 +75,21 @@ local function get_jdtls_paths()
 		-- https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
 		--
 		-- This example assume you are using sdkman: https://sdkman.io
-        {
-            name = "JavaSE-1.8",
-            path = vim.fn.expand("~/.sdkman/candidates/java/8.0.392-tem"),
-        },
+		-- {
+		-- 	name = "JavaSE-1.8",
+		-- 	path = vim.fn.expand("~/.sdkman/candidates/java/8.0.392-tem"),
+		-- },
 		{
-			name = "JavaSE-17",
-			path = vim.fn.expand("/usr/lib/jvm/java-17-openjdk-amd64"),
+			name = "JavaSE-11",
+			path = vim.fn.expand("~/.sdkman/candidates/java/11.0.22-tem"),
 		},
-		{
-			name = "JavaSE-21",
-			path = vim.fn.expand("/home/oysandvik/.sdkman/candidates/java/21-open"),
-		},
-        
-		
-        -- {
+		-- {
+		-- 	name = "JavaSE-21",
+		-- 	path = vim.fn.expand("/home/oysandvik/.sdkman/candidates/java/21-open"),
+		-- },
+
+
+		-- {
 		--   name = 'JavaSE-18',
 		--   path = vim.fn.expand('~/.sdkman/candidates/java/18.0.2-amzn'),
 		-- },
@@ -145,7 +145,7 @@ local function jdtls_setup(event)
 	local jdtls = require("jdtls")
 
 	local path = get_jdtls_paths()
-    local data_dir = path.data_dir .. "/" .. string.gsub(vim.fn.getcwd(), "/", "_")
+	local data_dir = path.data_dir .. "/" .. string.gsub(vim.fn.getcwd(), "/", "_")
 
 	if cache_vars.capabilities == nil then
 		jdtls.extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
@@ -163,8 +163,7 @@ local function jdtls_setup(event)
 	-- The command that starts the language server
 	-- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
 	local cmd = {
-		"/home/oysandvik/.sdkman/candidates/java/17.0.9-tem/bin/java",
-
+		os.getenv( "HOME" ) .. "/.sdkman/candidates/java/17.0.10-tem/bin/java",
 		"-Declipse.application=org.eclipse.jdt.ls.core.id1",
 		"-Dosgi.bundles.defaultStartLevel=4",
 		"-Declipse.product=org.eclipse.jdt.ls.core.product",
@@ -260,7 +259,8 @@ local function jdtls_setup(event)
 			},
 			codeGeneration = {
 				toString = {
-					template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}",
+					template =
+					"${object.className}{${member.name()}=${member.value}, ${otherMembers}}",
 				},
 				hashCodeEquals = {
 					useJava7Objects = true,
@@ -277,7 +277,7 @@ local function jdtls_setup(event)
 		settings = lsp_settings,
 		on_attach = jdtls_on_attach,
 		capabilities = cache_vars.capabilities,
-		root_dir = vim.fs.dirname(vim.fs.find({'gradlew', '.git', 'mvnw'}, { upward = true })[1]),
+		root_dir = vim.fs.dirname(vim.fs.find({ 'gradlew', '.git', 'mvnw' }, { upward = true })[1]),
 		flags = {
 			allow_incremental_sync = true,
 		},

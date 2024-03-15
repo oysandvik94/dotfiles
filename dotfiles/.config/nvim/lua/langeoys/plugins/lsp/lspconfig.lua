@@ -74,15 +74,6 @@ return {
 					capabilities = capabilities,
 					on_attach = on_attach,
 					settings = { kotlin = { compiler = { jvm = { target = "20" } } } },
-					-- settings = {
-					-- 	kotlin = {
-					-- 		compiler = {
-					-- 			jvm = {
-					-- 				target = "1.8",
-					-- 			},
-					-- 		},
-					-- 	},
-					-- },
 				})
 			end,
 			-- no-op, configured in seperate plugins

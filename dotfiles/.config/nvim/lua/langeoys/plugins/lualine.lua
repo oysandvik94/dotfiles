@@ -43,11 +43,12 @@ return {
 	"nvim-lualine/lualine.nvim",
 	dependencies = {
 		{ "nvim-tree/nvim-web-devicons", lazy = true },
+		{ "letieu/harpoon-lualine" },
 	},
 	config = function()
 		local custom_theme = require('lualine.themes.auto')
-		custom_theme.normal.a.bg = '#2D5453'
-		custom_theme.normal.a.fg = '#E6E1CF'
+		custom_theme.normal.a.bg = '#f4dbd6'
+		custom_theme.normal.a.fg = '#292c3c'
 		custom_theme.normal.b.bg = '#232136'
 		custom_theme.normal.b.fg = '#E6E1CF'
 		custom_theme.normal.c.bg = 'None'
@@ -76,7 +77,7 @@ return {
 						end,
 					},
 				},
-				lualine_c = { "progress" },
+				lualine_c = { { "harpoon2", indicators = { '1', '2', '3', '4' }, active_indicators = { '[1]', '[2]', '[3]', '[4]' } } },
 				lualine_x = { "diagnostics" },
 				lualine_y = {
 					{ "seach-count",     fmt = search_count },
