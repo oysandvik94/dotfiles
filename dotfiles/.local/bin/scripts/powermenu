@@ -1,0 +1,24 @@
+
+
+fzf_cmd() {
+    fzf \
+        --color="fg:#ebdbb2,hl:#fabd2f,fg+:#ebdbb2,bg+:#504945,hl+:#fb4934" \
+        --layout=reverse --prompt " Power Options > " --ansi
+}
+
+# Define your options
+options="\e[31m Power Off\e[0m\n\e[32m Reboot\e[0m\n\e[34m Lock\e[0m\n\e[35m󰤄 Suspend\e[0m"
+
+chosen=$(echo -e "$options" | fzf_cmd)
+
+# Remove escape codes for colors
+chosen=$(echo "$chosen" | sed 's/\x1b\[[0-9;]*m//g')
+
+case "$chosen" in
+    " Power Off") poweroff ;;
+    " Reboot") reboot ;;
+    " Lock") swaylock ;;
+    "󰤄 Suspend") systemctl suspend ;;
+    *) exit 1 ;;
+esac
+

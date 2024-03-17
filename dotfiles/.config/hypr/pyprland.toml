@@ -1,0 +1,23 @@
+[pyprland]
+plugins = [
+  "scratchpads",
+]
+
+[scratchpads.scratchpad]
+animation = "fromTop"
+command = "kitty --class kitty-scratchpad"
+class = "kitty-scratchpad"
+lazy = true
+size = "75% 45%"
+
+[scratchpads.music]
+animation = "fromBottom"
+command = "kitty --class music -e ncspot"
+class = "music"
+size = "75% 60%"
+
+[scratchpads.power]
+animation = "fromRight"
+command = "kitty --class powermenu --override font_size=24 -e powermenu"
+class = "powermenu"
+size = "25% 30%"

@@ -1,5 +1,6 @@
 autotiling
 betterlockscreen
 neovim-git
+pyprland
 slides
 uuid

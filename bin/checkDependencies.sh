@@ -1,7 +1,7 @@
 #!/bin/bash
 
 main() {
-	sudo pacman -Syu
+	sudo pacman -Syu --noconfirm
 	sudo pacman -Syq --noconfirm --needed git base-devel sudo
 	which yay &>/dev/null || install_yay
 }
