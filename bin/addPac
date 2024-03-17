@@ -3,6 +3,6 @@
 export BIN_DIR=$(dirname $(readlink -f $0))
 
 echo $1 >> $BIN_DIR/pacman_packages.txt
-cat $BIN_DIR/pacman_packages.txt | sort -u > $BIN_DIR/pacman_packages.txt
+sort -o $BIN_DIR/pacman_packages.txt $BIN_DIR/pacman_packages.txt
 
 philemon

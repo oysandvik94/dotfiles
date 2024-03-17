@@ -43,6 +43,7 @@ yay -Syu --noconfirm || exit 1
 
 echo "Stowing dotfiles"
 echo
+cd $BIN_DIR/..
 stow --adopt dotfiles --target="$HOME" || exit 1
 
 echo "Now that everything is installed, I will verify some system level settings"

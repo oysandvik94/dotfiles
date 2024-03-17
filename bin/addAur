@@ -3,6 +3,6 @@
 export BIN_DIR=$(dirname $(readlink -f $0))
 
 echo $1 >> $BIN_DIR/aur_packages.txt
-cat $BIN_DIR/aur_packages | sort -u > $BIN_DIR/aur_packages.txt
+sort -o $BIN_DIR/aur_packages.txt $BIN_DIR/aur_packages.txt
 
 philemon
