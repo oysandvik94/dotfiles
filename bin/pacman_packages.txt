@@ -3,7 +3,7 @@ hyprland
 waybar
 wl-clipboard
 swaylock
-hyprpaper
+swaybg
 slurp
 grim
 autorandr
