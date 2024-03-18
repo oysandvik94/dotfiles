@@ -1,4 +1,3 @@
-autotiling
 betterlockscreen
 neovim-git
 pyprland
