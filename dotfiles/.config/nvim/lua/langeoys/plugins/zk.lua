@@ -16,8 +16,6 @@ return {
     "mickael-menu/zk-nvim",
     config = function()
         require("zk").setup({
-            picker = "fzf",
-
             lsp = {
                 -- `config` is passed to `vim.lsp.start_client(config)`
                 config = {

@@ -4,12 +4,27 @@ configuration {
 
 @import "~/.config/rofi/themes/colors.rasi"
 
+* {
+	t: transparent;
+	  bg: @background;
+  bgt: #28282895;
+  t: transparent;
+  fg: @foreground;
+
+  selected-bg: @fg;
+  selected-fg: @bg;
+
+  // for windows
+  active: #a9b665;
+  urgent: #ea6962;
+
+}
 window {
-	width: 451px;
-	border-radius: 0;
-	border: 0;
-	padding: 0;
-	background-color: @background;
+  fullscreen: true;
+  padding: 44% 38%;
+  transparency: "real";
+  background-color: @bgt;
+  border-color: @t;
 }
 
 mainbox {
