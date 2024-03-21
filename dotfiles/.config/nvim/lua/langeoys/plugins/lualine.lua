@@ -47,10 +47,10 @@ return {
 	},
 	config = function()
 		local custom_theme = require('lualine.themes.auto')
-		custom_theme.normal.a.bg = '#f4dbd6'
-		custom_theme.normal.a.fg = '#292c3c'
-		custom_theme.normal.b.bg = '#232136'
-		custom_theme.normal.b.fg = '#E6E1CF'
+		custom_theme.normal.a.bg = os.getenv("COLOR_PRIMARY")
+		custom_theme.normal.a.fg = os.getenv("COLOR_BACKGROUND")
+		custom_theme.normal.b.bg = os.getenv("COLOR_BACKGROUND")
+		custom_theme.normal.b.fg = os.getenv("COLOR_FOREGROUND")
 		custom_theme.normal.c.bg = 'None'
 		custom_theme.insert.c.bg = 'None'
 		custom_theme.visual.c.bg = 'None'
