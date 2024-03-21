@@ -32,6 +32,7 @@ man-db
 man-pages
 maven
 neofetch
+network-manager-applet
 npm
 openssh
 pavucontrol

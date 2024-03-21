@@ -78,7 +78,7 @@ vim.opt.termguicolors = true
 
 -- Scrollstuff
 vim.opt.scrolloff = 8
-vim.opt.signcolumn = "yes:2"
+vim.opt.signcolumn = "yes:1"
 vim.opt.isfname:append("@-@")
 
 -- Performance
