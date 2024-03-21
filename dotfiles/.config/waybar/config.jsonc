@@ -1,14 +1,9 @@
 {
 		"layer": "top",
-		"modules-left": ["custom/playerctl", "custom/cava","hyprland/workspaces", "hyprland/window"],
+		"modules-left": ["custom/playerctl", "custom/cava","hyprland/workspaces"],
 		"modules-center": ["clock", "custom/task"],
 		"modules-right": ["tray", "cpu", "temperature", "memory", "pulseaudio", "bluetooth", "backlight", "battery"],
 
-		"hyprland/window": {
-			"format": "{title}",
-			"max-length": 333,
-			"seperate-outputs": true
-		},
 		"battery": {
 			"interval": 60,
 			"states": {
