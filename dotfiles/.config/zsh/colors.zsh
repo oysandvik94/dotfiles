@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+export COLOR_PRIMARY=#f2966b
+export COLOR_SECONDARY=#A2C8C3
+export COLOR_TERTIARY=#D699B6;
+export COLOR_OK=#B2C98F
+export COLOR_BAD=#f07178
+export COLOR_FOREGROUND=#D3C6AA
+export COLOR_BACKGROUND=#141b1f

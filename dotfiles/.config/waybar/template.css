@@ -1,10 +1,10 @@
-@define-color bg #141b1f;
-@define-color sky #A2C8C3;
-@define-color red #f07178;
-@define-color lavender #D699B6;
-@define-color fg #D3C6AA;
-@define-color green #B2C98F;
-@define-color peach #f2966b;
+@define-color bg BACKGROUND_PLACEHOLDER;
+@define-color sky SECONDARY_PLACEHOLDER;
+@define-color red BAD_PLACEHOLDER;
+@define-color lavender TERTIARY_PLACEHOLDER;
+@define-color fg FOREGROUND_PLACEHOLDER;
+@define-color green OK_PLACEHOLDER;
+@define-color peach PRIMARY_PLACEHOLDER;
 @define-color border @lavender;
 
 * {

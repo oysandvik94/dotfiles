@@ -6,6 +6,7 @@ source $ZDOTDIR/plugins.zsh
 source $ZDOTDIR/aliases
 source $ZDOTDIR/vim.zsh
 source $ZDOTDIR/fzf.zsh
+source $ZDOTDIR/colors.zsh
 
 
 path+=("$HOME/.local/bin/scripts")
