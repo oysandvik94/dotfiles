@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Fetch the most urgent task from Taskwarrior, excluding tasks tagged with "blocked"
+task=$(task +READY -blocked export | jq -r 'sort_by(.urgency) | reverse | .[0] | "\(.description)"')
+
+# Check if there is a task to display
+if [ "$task" != "null ()" ]; then
+    echo "$task"
+else
+    echo "No urgent tasks"
+fi
+

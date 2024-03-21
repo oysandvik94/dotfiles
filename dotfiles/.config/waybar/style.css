@@ -21,66 +21,66 @@
 @define-color yellow #FF8F40;
 
 * {
-  min-height: 0;
-  margin: 0;
-  padding: 0;
-  border-radius: 7px;
-  font-family: "JetBrains Mono Nerd Font";
-  font-size: 10pt;
-  font-weight: 700;
-  padding-bottom: 0px;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    border-radius: 7px;
+    font-family: "JetBrains Mono Nerd Font";
+    font-size: 10pt;
+    font-weight: 700;
+    padding-bottom: 0px;
 }
 
 tooltip {
-  background: @bg;
-  border-radius: 7px;
-  border: 2px solid @border;
+    background: @bg;
+    border-radius: 7px;
+    border: 2px solid @border;
 }
 
 #window {
-	margin: 5px 5px 2px 5px;
-	padding-left: 10px;
-	padding-right: 7px;
-	border-radius: 7px;
-	border-bottom: 2px solid @bg;
-	border-right: 2px solid @bg;
-	background-color: @lbg;
-	color: @fg;
+    margin: 5px 5px 2px 5px;
+    padding-left: 10px;
+    padding-right: 7px;
+    border-radius: 7px;
+    border-bottom: 2px solid @bg;
+    border-right: 2px solid @bg;
+    background-color: @lbg;
+    color: @fg;
 }
 
 window#waybar.empty #window {
-	background-color: transparent;
-	border-bottom: none;
-	border-right: none;
+    background-color: transparent;
+    border-bottom: none;
+    border-right: none;
 }
 
 window#waybar {
-  background-color:transparent;
-  color: @lavender;
+    background-color:transparent;
+    color: @lavender;
 }
 
 /* Workspaces */
 @keyframes button_activate {
-	from { opacity: .3 }
-	to { opacity: 1.; }
+    from { opacity: .3 }
+    to { opacity: 1.; }
 }
 
 #workspaces {
-  margin: 5px 5px 2px 5px;
-  border-radius: 7px;
-  padding: 1px;
-  background-color: @bg;
-  color: @bg;
+    margin: 5px 5px 2px 5px;
+    border-radius: 7px;
+    padding: 1px;
+    background-color: @bg;
+    color: @bg;
 
 }
 
 #workspaces button {
-  margin: 5px 2px 5px 2px;
-  border-radius: 5px;
-  padding-left: 1px;
-  padding-right: 1px;
-  background-color: @bg;
-  color: @fg;
+    margin: 5px 2px 5px 2px;
+    border-radius: 5px;
+    padding-left: 1px;
+    padding-right: 1px;
+    background-color: @bg;
+    color: @fg;
 }
 
 #workspaces button.active {
@@ -91,73 +91,73 @@ window#waybar {
 }
 
 #workspaces button.urgent {
-	color: #F38BA8;
+    color: #F38BA8;
 }
 
 #workspaces button:hover {
-  border: solid transparent;
+    border: solid transparent;
 }
 
 #custom-gpu-util {
-  margin: 5px 5px 2px 5px;
-  padding-left: 10px;
-  padding-right: 10px;
-  border-radius: 7px;
-  background-color: @bg;
-  color: @fg;
+    margin: 5px 5px 2px 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 7px;
+    background-color: @bg;
+    color: @fg;
 }
 
 #tray {
-  margin: 5px 5px 2px 5px;
-  border-radius: 7px;
-  padding-left: 10px;
-  padding-right: 10px;
-  background-color: @bg;
-  color: @fg; 
+    margin: 5px 5px 2px 5px;
+    border-radius: 7px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: @bg;
+    color: @fg; 
 }
 
 #idle_inhibitor {
-  margin: 5px 5px 2px 5px;
-  padding-left: 10px;
-  padding-right: 12px;
-  border-radius: 7px;
-  background-color: @bg;
-  color: @fg;
-}
-
-#network {
-  margin: 5px 5px 2px 5px;
-  padding-left: 10px;
-  padding-right: 12px;
-  border-radius: 7px;
-  background-color: @bg;
-  color: @lavender;
-}
-
-#network.linked {
-  color: @peach;
-}
-#network.disconnected,
-#network.disabled {
-  color: @red;
-}
-
-#custom-subs {
-	color: @bg;
-	margin: 5px 5px 2px 5px;
+    margin: 5px 5px 2px 5px;
     padding-left: 10px;
     padding-right: 12px;
     border-radius: 7px;
-	border-bottom: 2px solid @bg;
-	border-right: 2px solid @bg;
-background-color: @red;
+    background-color: @bg;
+    color: @fg;
+}
+
+#network {
+    margin: 5px 5px 2px 5px;
+    padding-left: 10px;
+    padding-right: 12px;
+    border-radius: 7px;
+    background-color: @bg;
+    color: @lavender;
+}
+
+#network.linked {
+    color: @peach;
+}
+#network.disconnected,
+#network.disabled {
+    color: @red;
+}
+
+#custom-subs {
+    color: @bg;
+    margin: 5px 5px 2px 5px;
+    padding-left: 10px;
+    padding-right: 12px;
+    border-radius: 7px;
+    border-bottom: 2px solid @bg;
+    border-right: 2px solid @bg;
+    background-color: @red;
 
 }
 
 
 #custom-cliphist {
-	color: @peach;
-	margin: 5px 5px 2px 5px;
+    color: @peach;
+    margin: 5px 5px 2px 5px;
     padding-left: 10px;
     padding-right: 12px;
     border-radius: 7px;
@@ -170,76 +170,86 @@ background-color: @red;
 #memory,
 #custom-clipboard,
 #temperature {
-  margin: 5px 5px 2px 5px;
-  padding-left: 10px;
-  padding-right: 10px;
-  border-radius: 7px;
-  color: @fg;
-  background-color: @bg;
+    margin: 5px 5px 2px 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 7px;
+    color: @fg;
+    background-color: @bg;
 }
 
+#custom-task,
 #custom-playerctl {
-  margin: 5px 5px 2px 5px;
-  padding-left: 10px;
-  padding-right: 10px;
-  border-radius: 7px;
-  color: @fg;
-  background-color: @bg;
+    margin: 5px 5px 2px 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 7px;
+    color: @fg;
+    background-color: @bg;
 }
 
 #battery,
 #backlight,
 #bluetooth,
 #pulseaudio {
-  margin-top: 5px;
-  margin-bottom: 2px;
-  color: @fg;
-  background-color: @bg;
-  border-top-right-radius: 0px;
-  border-bottom-right-radius: 0px;
-  border-top-left-radius: 7px;
-  border-bottom-left-radius: 7px;
+    margin-top: 5px;
+    margin-bottom: 2px;
+    color: @fg;
+    background-color: @bg;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px;
 
 }
 
 #battery,
 #bluetooth {
-	margin-left: 0px;
-	margin-right: 5px;
-	padding-left: 7.5px;
-	padding-right: 10px;
-	border-top-left-radius: 0px;
-	border-bottom-left-radius: 0px;
-	border-top-right-radius: 7px;
-	border-bottom-right-radius: 7px;
+    margin-left: 0px;
+    margin-right: 5px;
+    padding-left: 7.5px;
+    padding-right: 10px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-top-right-radius: 7px;
+    border-bottom-right-radius: 7px;
 }
 
 #backlight,
 #pulseaudio {
-	margin-right: 0px;
-	margin-left: 5px;
-	padding-left: 10px;
-  	padding-right: 7.5px;
-	border-top-right-radius: 0px;
-	border-bottom-right-radius: 0px;
-	border-top-left-radius: 7px;
-	border-bottom-left-radius: 7px;
+    margin-right: 0px;
+    margin-left: 5px;
+    padding-left: 10px;
+    padding-right: 7.5px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px;
 }
 
 #clock {
-  margin: 5px 5px 2px 5px;
-  padding-left: 10px;
-  padding-right: 10px;
-  border-radius: 7px;
-  color: @fg;
-  background-color: @bg;
+    margin: 5px 5px 2px 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 7px;
+    color: @fg;
+    background-color: @bg;
 }
 
 #mode {
-  margin: 5px 5px 2px 5px;
-  padding-left: 10px;
-  padding-right: 10px;
-  border-radius: 7px;
-  background-color: @bg;
-  color: @peach;
+    margin: 5px 5px 2px 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 7px;
+    background-color: @bg;
+    color: @peach;
+}
+#custom-cava {
+    color: @peach;
+    background-color: @bg;
+    font-family: "bargraph";
+    margin: 5px 5px 2px 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 7px;
 }
