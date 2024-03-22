@@ -110,7 +110,3 @@ vim.opt.cmdheight = 0
 -- Automatically update files when changed outside of vim
 vim.cmd([[set autoread]])
 vim.cmd([[autocmd FocusGained * checktime]])
-
--- Remove auto comment lines
--- vim.cmd('autocmd BufEnter * set formatoptions-=cro')
--- vim.cmd('autocmd BufEnter * setlocal formatoptions-=cro')

@@ -1,6 +1,7 @@
 betterlockscreen
 cava
-neovim-git
+neovim-nightly-bin
 pyprland
+rofi-ibonn-wayland
 slides
 uuid
