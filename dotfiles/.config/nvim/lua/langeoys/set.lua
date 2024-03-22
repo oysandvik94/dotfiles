@@ -110,3 +110,4 @@ vim.opt.cmdheight = 0
 -- Automatically update files when changed outside of vim
 vim.cmd([[set autoread]])
 vim.cmd([[autocmd FocusGained * checktime]])
+hehe
