@@ -16,6 +16,8 @@ export DOTNET_ROOT="$HOME/.dotnet"
 export PATH="$PATH:$DOTNET_ROOT"
 export W3M_DIR="$HOME/.local/state/w3m"
 
+export WLR_NO_HARDWARE_CURSORS=1
+
 export DOCKER_BUILDKIT=1
 
 . "$HOME/.cargo/env"
