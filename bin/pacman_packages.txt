@@ -42,7 +42,6 @@ pipewire-pulse
 polkit-gnome
 polybar
 ripgrep
-rofi
 sl
 slurp
 starship
