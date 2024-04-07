@@ -16,6 +16,7 @@ alias dcd='docker compose down'
 
 # ssh
 alias ssh='TERM=xterm-256color ssh'
+alias vssh='TERM=xterm-256color vagrant ssh'
 
 # core
 alias ll='ls -alFh --color=auto --time-style=long-iso'
@@ -24,3 +25,6 @@ alias dockerdelete="docker ps | awk '{ print $1 }' | docker rm -vf"
 
 alias cal="cal --monday"
 alias nn="nvim Jenkinsfile"
+
+alias disablehistory="ZSH_AUTOSUGGEST_HISTORY_IGNORE=*"
+alias enablehistory="unset ZSH_AUTOSUGGEST_HISTORY_IGNORE"
