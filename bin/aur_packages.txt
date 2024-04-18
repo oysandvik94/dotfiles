@@ -1,6 +1,5 @@
 betterlockscreen
 cava
-neovim-nightly-bin
 pyprland
 rofi-ibonn-wayland
 slides
