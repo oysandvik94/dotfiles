@@ -3,7 +3,7 @@
 alias fztmux='~/.local/bin/scripts/tmux-sessionizer'
 alias mvndebug='mvn spring-boot:run -Dspring-boot.run.jvmArguments="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"'
 alias mvntest='mvn clean test -Dsurefire.trimStackTrace=false'
-alias buildnvim='cmake make CMAKE_BUILD_TYPE=RelWithDebInfo CMAKE_INSTALL_PREFIX=/home/langeoys/.local/bin 
+alias buildnvim='cmake make CMAKE_BUILD_TYPE=RelWithDebInfo CMAKE_INSTALL_PREFIX=$HOME/.local/bin 
 sudo make install'
 alias snvim='sudo -e nvim'
 
@@ -20,6 +20,10 @@ alias ll='ls -alFh --color=auto --time-style=long-iso'
 ## Alltid vis less med farger
 alias less='less -R'
 
+rgl() {
+  rg -p "$@" | less -XFR
+}
+
 alias dockerdelete="docker ps | awk '{ print $1 }' | docker rm -vf"
 
 alias cal="cal --monday"
@@ -27,3 +31,22 @@ alias nn="nvim Jenkinsfile"
 
 alias disablehistory="ZSH_AUTOSUGGEST_HISTORY_IGNORE=*"
 alias enablehistory="unset ZSH_AUTOSUGGEST_HISTORY_IGNORE"
+
+alias bwiki="zk edit --notebook-dir=\"$HOME/bergen\" --interactive"
+alias wiki="zk edit --notebook-dir=\"$HOME/wiki"\ --interactive\"
+
+alias szsh="source $HOME/.config/zsh/.zshrc"
+
+alias aliases="alias | cut -d '=' -f 1 | fzf | xargs -I {} sh -c 'eval "{}"' "
+
+function falias() {
+    local cmd
+    cmd=$(alias | sed 's/alias //g' | cut -d '=' -f 1 | fzf --prompt="Alias: ")
+    [[ -n "$cmd" ]] && BUFFER="$BUFFER $cmd" && zle end-of-line
+}
+zle -N falias
+bindkey '^F' falias
+
+
+
+
