@@ -5,6 +5,8 @@ if [[ $# -eq 1 ]]; then
 else
 	selected=$({
 		echo "$HOME/dotfiles"
+		echo "$HOME/wiki"
+		echo "$HOME/bergen"
 		find ~/dev/general/coreutils ~/dev/general ~/.local/bin ~/dev/bergen -mindepth 1 -maxdepth 1 -type d
 	} | fzf)
 
