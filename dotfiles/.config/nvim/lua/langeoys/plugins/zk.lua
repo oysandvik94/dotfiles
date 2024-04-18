@@ -21,7 +21,7 @@ return {
                 config = {
                     cmd = { "zk", "lsp" },
                     name = "zk",
-                    -- on_attach = ...
+                    on_attach = require("langeoys.utils.lsp").on_attach
                     -- etc, see `:h vim.lsp.start_client()`
                 },
 
@@ -68,10 +68,10 @@ return {
             desc =
             'Note tags'
         },
-        { '<leader>zi', '<Cmd>ZkInsertLink<CR>', desc = 'Zk Insert link' },
-        { '<leader>zi', ':\'<,\'>ZkInsertLinkAtSelection<CR>', mode = 'x', desc = 'Zk Insert link at selection' },
-        { '<leader>zb', '<Cmd>ZkBacklinks<CR>', desc = 'Zk Backlinks' },
-        { '<leader>zl', '<Cmd>ZkLinks<CR>',     desc = 'Zk Links' },
+        { '<leader>zi', '<Cmd>ZkInsertLink<CR>',               desc = 'Zk Insert link' },
+        { '<leader>zi', ':\'<,\'>ZkInsertLinkAtSelection<CR>', mode = 'x',             desc = 'Zk Insert link at selection' },
+        { '<leader>zb', '<Cmd>ZkBacklinks<CR>',                desc = 'Zk Backlinks' },
+        { '<leader>zl', '<Cmd>ZkLinks<CR>',                    desc = 'Zk Links' },
         {
             '<leader>z/',
             ":'<,'>ZkMatch<CR>",
