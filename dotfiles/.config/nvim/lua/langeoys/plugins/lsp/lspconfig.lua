@@ -54,8 +54,9 @@ return {
 					on_attach = on_attach,
 					settings = {
 						Lua = {
+							runtime = { version = "Lua 5.1" },
 							diagnostics = {
-								globals = { "vim" },
+								globals = { "vim", "it", "describe", "before_each", "after_each" },
 							},
 							workspace = {
 								library = {
