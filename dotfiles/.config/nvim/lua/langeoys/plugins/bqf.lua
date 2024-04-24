@@ -54,6 +54,7 @@ vim.o.qftf = '{info -> v:lua._G.qftf(info)}'
 
 
 return {
-    "kevinhwang91/nvim-bqf"
+    "kevinhwang91/nvim-bqf",
+    enabled = false
 }
 
