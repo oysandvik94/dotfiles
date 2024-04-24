@@ -36,11 +36,6 @@ local function files(opts)
     end
     opts.cmd = cmd
 
-    opts.winopts = {
-        fullscreen = false,
-        height = 0.90,
-        width = 1,
-    }
     opts.ignore_current_file = true
 
     return fzflua.files(opts)
