@@ -72,14 +72,13 @@ return {
 			trigger_dap(dap.run_last)
 		end, { desc = "Choose nearest test" })
 		vim.keymap.set("n", "<leader>ds", function()
-			local dap = require("dap")
 			if dap.session() then
 				local widgets = require("dap.ui.widgets")
 				widgets.centered_float(widgets.scopes)
 			else
 				require("jdtls.dap").pick_test()
 			end
-		end, opts)
+		end)
 		vim.keymap.set("n", "<leader>do", function()
 			dap.step_over()
 		end, { desc = "Step over" })
@@ -117,12 +116,12 @@ return {
 				type = "java",
 				request = "attach",
 				name = "Debug (Attach) - Remote",
-				hostName = function() 
+				hostName = function()
 					return vim.fn.input("Hostname: ", "localhost")
 				end,
 				port = function()
-                    return vim.fn.input("Port: ", "8000")
-                end,
+					return vim.fn.input("Port: ", "8000")
+				end,
 			},
 		}
 
@@ -152,7 +151,7 @@ return {
 			command = "node",
 			-- args = { os.getenv("HOME") .. "/path/to/vscode-firefox-debug/dist/adapter.bundle.js" },
 			args = { vim.fn.stdpath("data") .. "/mason/packages/firefox-debug-adapter/dist/adapter.bundle.js" },
-        }
+		}
 
 		dap.configurations.javascript = {
 			{

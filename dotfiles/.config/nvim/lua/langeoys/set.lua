@@ -57,7 +57,7 @@ vim.opt.smartcase = true
 
 -- handle unpack deprecation
 table.unpack = table.unpack or unpack
-function get_visual()
+local function get_visual()
   local _, ls, cs = table.unpack(vim.fn.getpos("v"))
   local _, le, ce = table.unpack(vim.fn.getpos("."))
   return vim.api.nvim_buf_get_text(0, ls - 1, cs - 1, le - 1, ce, {})
