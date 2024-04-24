@@ -33,11 +33,6 @@ local function files(opts)
             ['--delimiter'] = '\\s',
             ['--tiebreak'] = 'begin,index',
         }
-        -- opts._fmt = opts._fmt or {}
-        -- opts._fmt.from = function(entry, _opts)
-        --   local s = fzfutils.strsplit(entry, ' ')
-        --   return s[3]
-        -- end
     end
     opts.cmd = cmd
 
@@ -62,10 +57,7 @@ local function folders(opts)
 
     local preview_cwd = opts.cwd
 
-    -- https://github.com/ibhagwan/fzf-lua/commit/36d850b29b387768e76e59799029d1e69aee2522
-    -- opts.fd_opts = string.format('--type directory  --max-depth %s', opts.max_depth or 4)
-    -- opts.find_opts = [[-type d -not -path '*/\.git/*' -printf '%P\n']]
-    local cmd = string.format([[fd --color always --type directory --max-depth %s]], opts.max_depth or 4)
+    local cmd = string.format([[fd --color always --hidden --exclude .git --type directory --max-depth 8]], opts.max_depth or 8)
     local has_exa = vim.fn.executable('eza') == 1
 
     opts.prompt = '󰥨  Folders❯ '
@@ -92,16 +84,7 @@ local function folders(opts)
 
     opts.actions = {
         ['default'] = function(selected, selected_opts)
-            local first_selected = selected[1]
-            if not first_selected then
-                return
-            end
-            local entry = path.entry_to_file(first_selected, selected_opts)
-            local entry_path = entry.path
-            if not entry_path then
-                return
-            end
-            require('userlib.mini.clue.folder-action').open(entry_path)
+            require'oil'.open(selected[1])
         end,
     }
 
