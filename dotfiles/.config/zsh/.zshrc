@@ -24,9 +24,16 @@ setopt AUTO_PUSHD           # Push the current directory visited on the stack.
 setopt PUSHD_IGNORE_DUPS    # Do not store duplicates in the stack.
 setopt PUSHD_SILENT         # Do not print the directory stack after pushd or popd.
 
+# history
+
+setopt inc_append_history
+setopt hist_ignore_dups
+setopt hist_ignore_space
+
 alias d='dirs -v'
 for index ({1..9}) alias "$index"="cd +${index}"; unset index;
 
+bindkey '\e.' insert-last-word
 
 dotc() {
     if [ $# -eq 3 ]; then
