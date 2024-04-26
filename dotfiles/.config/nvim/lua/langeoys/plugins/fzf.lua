@@ -132,5 +132,7 @@ return {
         vim.keymap.set("n", "<leader>fd", dap_ui_picker, {})
         vim.keymap.set("n", "<leader>fc", "<cmd>lua require('fzf-lua').commands()<CR>", {})
         vim.keymap.set("n", "<leader>fs", "<cmd>lua require('fzf-lua').blines()<CR>", {})
+        vim.keymap.set("n", "<leader>fw", "<cmd>lua require('fzf-lua').grep_cword()<CR>", {})
+        vim.keymap.set("n", "<leader>fW", "<cmd>lua require('fzf-lua').grep_cWORD()<CR>", {})
     end
 }
