@@ -40,6 +40,7 @@ sudo -v
 echo "Updating packages"
 echo
 yay -Syu --noconfirm || exit 1
+output=$(yay -Syu --noconfirm 2>&1)
 
 echo "Stowing dotfiles"
 echo
@@ -91,5 +92,12 @@ cat <<"EOF"
 
 
 I, Pus Philemon, has upgraded and bootstrapped your system.
-Call me again if you need me!
+
 EOF
+
+updated_packages=$(echo "$output" | grep -oP '(?<=upgraded ).*' | tr ' ' '\n')
+
+if [[ -n "$updated_packages" ]]; then
+    echo "I have upgraded these packages:"
+    echo "$updated_packages"
+fi
