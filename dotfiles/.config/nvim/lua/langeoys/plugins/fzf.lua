@@ -13,34 +13,6 @@ local dap_ui_picker = function()
     })
 end
 
-local function files(opts)
-    opts = opts or {}
-
-    local fzflua = require('fzf-lua')
-
-    local cmd = nil
-    if vim.fn.executable('fd') == 1 then
-        local fzfutils = require('fzf-lua.utils')
-        -- fzf-lua.defaults#defaults.files.fd_opts
-        cmd = string.format(
-            [[fd --color=never --type f --hidden --follow --exclude .git -x printf "{}: {/} %s\n"]],
-            fzfutils.ansi_codes.grey('{//}')
-        )
-        opts.fzf_opts = {
-            -- process ansi colors
-            ['--ansi'] = '',
-            ['--with-nth'] = '2..',
-            ['--delimiter'] = '\\s',
-            ['--tiebreak'] = 'begin,index',
-        }
-    end
-    opts.cmd = cmd
-
-    opts.ignore_current_file = true
-
-    return fzflua.files(opts)
-end
-
 --- @see https://github.com/ibhagwan/fzf-lua/wiki/Advanced#preview-overview
 local function folders()
     local fzflua = require('fzf-lua')
@@ -119,14 +91,14 @@ return {
                 end
             },
         })
-        vim.keymap.set("n", "<leader>/", function() files() end, { silent = true })
+        vim.keymap.set("n", "<leader>/", "<cmd>lua require('fzf-lua').files() <CR>", { silent = true })
         vim.keymap.set("n", "<leader>fm", function() folders() end, { silent = true })
         vim.keymap.set("n", "<leader>ft", "<cmd>lua require('fzf-lua').tags()<CR>", { silent = true })
         vim.keymap.set("n", "<leader>fg",
             "<cmd>lua require('fzf-lua').live_grep_glob({rg_opts = \"--column --hidden --line-number --no-heading --color=always --smart-case --max-columns=4096 -g '!*.git/*' -e\"})<CR>",
             { silent = true })
         vim.keymap.set("v", "<leader>fg", "<cmd>lua require('fzf-lua').grep_visual()<CR>", { silent = true })
-        vim.keymap.set("n", "<leader>fl", "<cmd>lua rquire('fzf-lua').resume()<CR>", { silent = true })
+        vim.keymap.set("n", "<leader>fl", "<cmd>lua require('fzf-lua').resume()<CR>", { silent = true })
         vim.keymap.set("n", "<leader>fz", "<cmd>lua require('fzf-lua').builtin()<CR>", { silent = true })
         vim.keymap.set("n", "<leader>fh", "<cmd>lua require('fzf-lua').help_tags()<CR>", { silent = true })
         vim.keymap.set("n", "<leader>fd", dap_ui_picker, {})

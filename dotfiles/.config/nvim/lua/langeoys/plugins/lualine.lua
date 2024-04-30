@@ -87,7 +87,7 @@ return {
 				lualine_z = { "branch", "diff" }, -- git
 			},
 			options = {
-				theme                = custom_theme,
+				theme                = "cyberdream",
 				component_separators = { left = "", right = "" },
 				section_separators   = { left = "", right = "" },
 				globalstatus         = false,
