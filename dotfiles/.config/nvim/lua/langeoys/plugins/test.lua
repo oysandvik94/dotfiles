@@ -5,6 +5,7 @@ return {
 		"nvim-lua/plenary.nvim",
 		"antoinemadec/FixCursorHold.nvim",
 		"rcasia/neotest-java",
+		"rouge8/neotest-rust"
 	},
 	config = function()
 		require("neotest").setup({
@@ -16,6 +17,7 @@ return {
 				require("neotest-java")({
 					ignore_wrapper = false, -- whether to ignore maven/gradle wrapper
 				}),
+				require("neotest-rust")
 			},
 		})
 		vim.keymap.set("n", "<leader>tn", function()
