@@ -23,26 +23,6 @@ M.on_attach = function(client, bufnr)
 	vim.keymap.set("n", "<leader>ld", function()
 		vim.diagnostic.open_float()
 	end, opts)
-	vim.keymap.set("n", "]d", function()
-		local severities = { 1, 2, 3, 4 }
-
-		for _, value in ipairs(severities) do
-			if #vim.diagnostic.get(0, { severity = value }) > 0 then
-				vim.diagnostic.goto_next({ severity = value })
-				break;
-			end
-		end
-	end, opts)
-	vim.keymap.set("n", "[d", function()
-		local severities = { 1, 2, 3, 4 }
-
-		for _, value in ipairs(severities) do
-			if #vim.diagnostic.get(0, { severity = value }) > 0 then
-				vim.diagnostic.goto_prev({ severity = value })
-				break;
-			end
-		end
-	end, opts)
 	vim.keymap.set({ "n", "v" }, "<leader>lc", function()
 		require("fzf-lua").lsp_code_actions({
 			winopts = {
@@ -69,8 +49,11 @@ M.on_attach = function(client, bufnr)
 		})
 		-- previewer=false
 	end, {})
-	vim.keymap.set("n", "<leader>lie", function() vim.lsp.inlay_hint.enable()end)
-	vim.keymap.set("n", "<leader>lid", function() vim.lsp.inlay_hint.enable(0, false)end)
+	vim.keymap.set("n", "<leader>lie", function() vim.lsp.inlay_hint.enable() end)
+	vim.keymap.set("n", "<leader>lid", function() vim.lsp.inlay_hint.enable(0, false) end)
+
+
+	vim.keymap.set("n", "<leader>ge", function() require("langeoys.utils.rust").go_to_error() end)
 end
 
 return M
