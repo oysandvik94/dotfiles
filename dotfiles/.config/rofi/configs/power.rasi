@@ -29,7 +29,7 @@ window {
 
 mainbox {
 	children: [listview];
-	padding: 10;
+	padding: 8;
 	background-color: @background;
 }
 
@@ -57,7 +57,7 @@ listview {
 element {
 	background-color: @background-alt;
 	text-color: @foreground;
-	padding: 30 34;
+	padding: 30 8;
 	border-radius: 0;
 }
 

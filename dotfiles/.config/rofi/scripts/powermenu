@@ -5,7 +5,7 @@ rofi_cmd() {
 		-theme ~/.config/rofi/configs/power.rasi
 }
 
-chosen=$(printf "\n\n\n󰤄" | rofi_cmd)
+chosen=$(printf "  \n  \n  \n 󰤄 " | rofi_cmd)
 
 case "$chosen" in
 	"") poweroff ;;
