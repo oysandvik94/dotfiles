@@ -8,9 +8,9 @@ rofi_cmd() {
 chosen=$(printf "  \n  \n  \n 󰤄 " | rofi_cmd)
 
 case "$chosen" in
-	"") poweroff ;;
-	"") reboot ;;
-	"") swaylock ;;
-	"󰤄") systemctl suspend ;;
+	"  ") poweroff ;;
+	"  ") reboot ;;
+	"  ") swaylock ;;
+	" 󰤄 ") systemctl suspend ;;
 	*) exit 1 ;;
 esac
