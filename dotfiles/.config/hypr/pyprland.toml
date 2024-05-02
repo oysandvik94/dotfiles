@@ -15,10 +15,9 @@ animation = "fromBottom"
 command = "spotify --class music"
 class = "Spotify"
 size = "80% 80%"
-position = "10% 0%"
+position = "10% 10%"
 unfocus = "hide"
 lazy = true
-margin = 50
 
 [scratchpads.power]
 animation = "fromRight"
