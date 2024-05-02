@@ -12,9 +12,13 @@ size = "75% 45%"
 
 [scratchpads.music]
 animation = "fromBottom"
-command = "kitty --class music -e ncspot"
-class = "music"
-size = "75% 60%"
+command = "spotify --class music"
+class = "Spotify"
+size = "80% 80%"
+position = "10% 0%"
+unfocus = "hide"
+lazy = true
+margin = 50
 
 [scratchpads.power]
 animation = "fromRight"
