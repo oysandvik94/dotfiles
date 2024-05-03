@@ -32,7 +32,11 @@ return {
 		priority = 1000,
 		config = function()
 			require("cyberdream").setup({
-				-- Recommended - see "Configuring" below for more config options
+				theme = {
+					highlights = {
+						IblIndent = { fg = "#3c4048"},
+					}
+				},
 				transparent = true,
 				italic_comments = true,
 				hide_fillchars = true,
