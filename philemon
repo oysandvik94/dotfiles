@@ -27,20 +27,20 @@ $BIN_DIR/checkDependencies.sh || {
 	exit 1
 }
 
-
 echo "------------------"
 echo "Now we are ready to proceed."
 echo
 
 echo "Installing packages"
 echo
-$BIN_DIR/installPackages.sh || exit 1
+"$BIN_DIR"/installPackages.sh || exit 1
 
 sudo -v
 echo "Updating packages"
 echo
-yay -Syu --noconfirm || exit 1
-output=$(yay -Syu --noconfirm 2>&1)
+source "$BIN_DIR"/updateFormatter.sh
+upgrade_output=$(yay -Syu --noconfirm || exit 1)
+parsed_output=$(format_yay_output "$upgrade_output")
 
 echo "Stowing dotfiles"
 echo
@@ -50,7 +50,6 @@ stow --adopt dotfiles --target="$HOME" || exit 1
 echo "Now that everything is installed, I will verify some system level settings"
 echo
 $BIN_DIR/configureStuff.sh
-
 
 cat <<"EOF"
                    @@&                                                        
@@ -95,9 +94,5 @@ I, Pus Philemon, has upgraded and bootstrapped your system.
 
 EOF
 
-updated_packages=$(echo "$output" | grep -oP '(?<=upgraded ).*' | tr ' ' '\n')
-
-if [[ -n "$updated_packages" ]]; then
-    echo "I have upgraded these packages:"
-    echo "$updated_packages"
-fi
+echo "I have upgraded these packages:"
+echo "$parsed_output"
