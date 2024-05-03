@@ -9,6 +9,7 @@ M.go_to_error = function()
 		if user_data.lsp and user_data.lsp.codeDescription and user_data.lsp.codeDescription.href then
 			local url = user_data.lsp.codeDescription.href
 			vim.ui.open(url)
+			return
 		end
 	end
 end
