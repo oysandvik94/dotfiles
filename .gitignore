@@ -1,3 +1,4 @@
 .zcompdump
 .zhistory
 .zsh_plugins
+secret_git_config.lua
