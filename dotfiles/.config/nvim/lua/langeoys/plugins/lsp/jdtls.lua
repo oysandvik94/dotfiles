@@ -59,7 +59,7 @@ local function get_jdtls_paths()
 	local java_debug_path = require("mason-registry").get_package("java-debug-adapter"):get_install_path()
 
 	local java_debug_bundle =
-	    vim.split(vim.fn.glob(java_debug_path .. "/extension/server/com.microsoft.java.debug.plugin-*.jar"), "\n")
+		vim.split(vim.fn.glob(java_debug_path .. "/extension/server/com.microsoft.java.debug.plugin-*.jar"), "\n")
 
 	if java_debug_bundle[1] ~= "" then
 		vim.list_extend(path.bundles, java_debug_bundle)
@@ -276,6 +276,9 @@ local function jdtls_setup(event)
 		cmd = cmd,
 		settings = lsp_settings,
 		on_attach = jdtls_on_attach,
+		handlers = {
+			["$/progress"] = function(_, result, ctx) end,
+		},
 		capabilities = cache_vars.capabilities,
 		root_dir = vim.fs.dirname(vim.fs.find({ 'gradlew', '.git', 'mvnw' }, { upward = true })[1]),
 		flags = {
