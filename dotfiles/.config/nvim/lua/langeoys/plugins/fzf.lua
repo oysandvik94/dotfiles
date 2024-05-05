@@ -61,6 +61,9 @@ return {
     config = function()
         -- calling `setup` is optional for customization
         require("fzf-lua").setup({
+            files = {
+                formatter = "path.filename_first"
+            },
             defaults = {
                 copen = function()
                     require("trouble").toggle("quickfix")
