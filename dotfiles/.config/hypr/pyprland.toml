@@ -5,7 +5,7 @@ plugins = [
 
 [scratchpads.scratchpad]
 animation = "fromTop"
-command = "kitty --class kitty-scratchpad"
+command = "kitty --class kitty-scratchpad -e tmux new-session -A -s scratchpad"
 class = "kitty-scratchpad"
 lazy = true
 size = "75% 45%"
