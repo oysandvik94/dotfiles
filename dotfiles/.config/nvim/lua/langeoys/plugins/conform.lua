@@ -26,7 +26,7 @@ return {
                 css             = { "prettier" },
                 xml             = { "customxmlformat" },
                 html            = { "prettier" },
-                markdown        = { "prettier" },
+                markdown        = { "mdformat" },
                 bash            = { "shfmt" },
                 sh            = { "shfmt" },
                 c            = { "clang-format" }
