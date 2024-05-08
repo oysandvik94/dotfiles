@@ -48,7 +48,7 @@ end)
 vim.opt.termguicolors = true
 
 -- Scrollstuff
-vim.opt.scrolloff = 8
+vim.opt.scrolloff = 10
 vim.opt.signcolumn = "yes:1"
 vim.opt.isfname:append("@-@")
 
