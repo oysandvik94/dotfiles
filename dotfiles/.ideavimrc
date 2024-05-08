@@ -4,7 +4,7 @@
 " Find more examples here: https://jb.gg/share-ideavimrc
 
 
-set scrolloff=8
+set scrolloff=10
 
 set nu
 set relativenumber
