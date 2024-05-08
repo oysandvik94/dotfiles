@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 export BIN_DIR=$(dirname $(readlink -f $0))/bin
 
@@ -39,12 +39,12 @@ sudo -v
 echo "Updating packages"
 echo
 source "$BIN_DIR"/updateFormatter.sh
-upgrade_output=$(yay -Syu --noconfirm || exit 1)
+upgrade_output=$(yay -Syu --noconfirm | tee /dev/tty || exit 1)
 parsed_output=$(format_yay_output "$upgrade_output")
 
 echo "Stowing dotfiles"
 echo
-cd $BIN_DIR/..
+cd "$BIN_DIR"/.. || exit
 stow --adopt dotfiles --target="$HOME" || exit 1
 
 echo "Now that everything is installed, I will verify some system level settings"
