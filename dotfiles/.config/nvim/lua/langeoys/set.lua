@@ -12,36 +12,6 @@ vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
-function TabsOrSpaces()
-	-- Determines whether to use spaces or tabs on the current buffer.
-	if vim.fn.getfsize(vim.fn.bufname("%")) > 256000 then
-		-- File is very large, just use the default.
-		return
-	end
-
-	local numTabs = #vim.fn.filter(vim.fn.getbufline(vim.fn.bufname("%"), 1, 250), 'v:val =~ "^\t"')
-	local numSpaces = #vim.fn.filter(vim.fn.getbufline(vim.fn.bufname("%"), 1, 250), 'v:val =~ "^ "')
-
-	if numTabs > numSpaces then
-		vim.api.nvim_buf_set_option(0, "expandtab", false)
-	else
-		vim.api.nvim_buf_set_option(0, "expandtab", true)
-	end
-end
-
--- Call the function after opening a buffer
-local TabsOrSpacer_group = vim.api.nvim_create_augroup("TabsOrSpacer", { clear = true })
-vim.api.nvim_create_autocmd("BufEnter", {
-	callback = function()
-		TabsOrSpaces()
-	end,
-	group = TabsOrSpacer_group,
-	pattern = "*",
-})
-
-vim.api.nvim_create_user_command("TabsOrSpaces", function()
-	TabsOrSpaces()
-end, {})
 
 -- Backup stuff
 vim.opt.swapfile = false
@@ -50,7 +20,8 @@ vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 vim.opt.undofile = true
 
 -- Searching
-vim.opt.hlsearch = false
+vim.opt.hlsearch = true
+vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 vim.opt.incsearch = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
@@ -110,3 +81,6 @@ vim.opt.cmdheight = 0
 -- Automatically update files when changed outside of vim
 vim.cmd([[set autoread]])
 vim.cmd([[autocmd FocusGained * checktime]])
+
+vim.opt.list = true
+vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
