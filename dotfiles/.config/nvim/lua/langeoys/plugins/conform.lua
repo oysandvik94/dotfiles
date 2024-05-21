@@ -28,8 +28,8 @@ return {
                 html            = { "prettier" },
                 markdown        = { "mdformat" },
                 bash            = { "shfmt" },
-                sh            = { "shfmt" },
-                c            = { "clang-format" }
+                sh              = { "shfmt" },
+                c               = { "clang-format" }
             },
         })
 
@@ -47,7 +47,20 @@ return {
         end, { range = true })
 
         vim.keymap.set({ 'n' }, "<leader>gq", ":Format<CR>", { desc = "Format file according to formatter" })
-        vim.keymap.set({ 'x', 'v'}, "<leader>lf", ":'<,'>Format<CR>", { desc = "Format file according to formatter" })
+        vim.keymap.set({ 'x', 'v' }, "<leader>lf", ":'<,'>Format<CR>", { desc = "Format file according to formatter" })
         vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
+
+        local Autosave_group = vim.api.nvim_create_augroup('Autosave', { clear = true })
+        vim.api.nvim_create_autocmd('BufWritePre', {
+            callback = function()
+                local filetype = vim.filetype.match({ buf = 0 })
+                if filetype ~= nil and filetype:match('java') then
+                    return
+                end
+
+                require("conform").format({ async = false, lsp_fallback = true })
+            end,
+            group = Autosave_group,
+        })
     end
 }
