@@ -20,8 +20,7 @@ vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 vim.opt.undofile = true
 
 -- Searching
-vim.opt.hlsearch = true
-vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+vim.opt.hlsearch = false
 vim.opt.incsearch = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
@@ -29,18 +28,18 @@ vim.opt.smartcase = true
 -- handle unpack deprecation
 table.unpack = table.unpack or unpack
 local function get_visual()
-  local _, ls, cs = table.unpack(vim.fn.getpos("v"))
-  local _, le, ce = table.unpack(vim.fn.getpos("."))
-  return vim.api.nvim_buf_get_text(0, ls - 1, cs - 1, le - 1, ce, {})
+	local _, ls, cs = table.unpack(vim.fn.getpos("v"))
+	local _, le, ce = table.unpack(vim.fn.getpos("."))
+	return vim.api.nvim_buf_get_text(0, ls - 1, cs - 1, le - 1, ce, {})
 end
 
 vim.keymap.set("v", "<C-r>", function()
-  local pattern = table.concat(get_visual())
-  -- escape regex and line endings
-  pattern =
-    vim.fn.substitute(vim.fn.escape(pattern, "^$.*\\/~[]"), "\n", "\\n", "g")
-  -- send substitute command to vim command line
-  vim.api.nvim_input("<Esc>:%s/" .. pattern .. "//g<Left><Left>")
+	local pattern = table.concat(get_visual())
+	-- escape regex and line endings
+	pattern =
+		vim.fn.substitute(vim.fn.escape(pattern, "^$.*\\/~[]"), "\n", "\\n", "g")
+	-- send substitute command to vim command line
+	vim.api.nvim_input("<Esc>:%s/" .. pattern .. "//g<Left><Left>")
 end)
 
 
@@ -48,7 +47,7 @@ end)
 vim.opt.termguicolors = true
 
 -- Scrollstuff
-vim.opt.scrolloff = 10
+vim.opt.scrolloff = 8
 vim.opt.signcolumn = "yes:1"
 vim.opt.isfname:append("@-@")
 
@@ -82,5 +81,5 @@ vim.opt.cmdheight = 0
 vim.cmd([[set autoread]])
 vim.cmd([[autocmd FocusGained * checktime]])
 
-vim.opt.list = true
-vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+vim.opt.list = false
+vim.opt.listchars = { tab = '| ', trail = '·', nbsp = '␣' }

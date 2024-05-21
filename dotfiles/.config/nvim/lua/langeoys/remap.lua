@@ -16,6 +16,7 @@ vim.keymap.set("n", "N", "Nzzzv")
 -- Dont replace register when wasting over selection
 vim.keymap.set("x", "<leader>p", "p")
 vim.keymap.set("x", "p", [["_dP]])
+vim.opt.clipboard = "unnamedplus"
 
 -- Copy to system clipboard with leader y
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
@@ -30,8 +31,8 @@ vim.keymap.set("n", "[t", "<cmd>tabprev<CR>")
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>')
 
 -- Splits
-vim.keymap.set("n", "<leader>h", "<cmd>split<CR><C-w>w")
-vim.keymap.set("n", "<leader>v", "<cmd>vsplit<CR><C-w>w")
+vim.keymap.set("n", "<C-W>s", "<cmd>split<CR><C-w>w")
+vim.keymap.set("n", "<C-W>v", "<cmd>vsplit<CR><C-w>w")
 
 -- Insert semicolon
 vim.keymap.set("i", "<C-]>", "<esc>A;<esc>", { noremap = true, silent = true })
@@ -52,11 +53,8 @@ end, { nargs = 0 })
 vim.keymap.set("n", "<leader>ms", require("langeoys.utils.marks").get_mark_list, { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>mc", require("langeoys.utils.marks").clear_global_marks, { noremap = true, silent = true })
 
-vim.keymap.set("n", "<leader><leader>d", "<cmd>!/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME add %<CR>", { silent = true })
+vim.keymap.set("n", "<leader><leader>d", "<cmd>!/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME add %<CR>",
+    { silent = true })
 
 -- map leadercf to close :fc!
-vim.keymap.set("n", "<leader>cf", "<cmd>fc!<CR>", { desc = "Close all floats"})
-
--- delete function
--- vim.keymap.set("n", "<C-f>", "Vf{%d");
-vim.keymap.set("n", "<C-f>", "va{Vd");
+vim.keymap.set("n", "<leader>cf", "<cmd>fc!<CR>", { desc = "Close all floats" })
