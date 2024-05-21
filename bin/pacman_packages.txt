@@ -18,6 +18,7 @@ firefox
 fzf
 gcc
 glow
+gnome-keyring
 grim
 htop
 hyprland
