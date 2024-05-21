@@ -21,10 +21,13 @@ alias ll='ls -alFh --color=auto --time-style=long-iso'
 alias less='less -R'
 
 rgl() {
-  rg -p "$@" | less -XFR
+	rg -p "$@" | less -XFR
 }
 
 alias dockerdelete="docker ps | awk '{ print $1 }' | docker rm -vf"
+docked_delete_tag() {
+	docker images | grep "$1" | awk '{ print $3 }' | xargs -L1 docker rmi
+}
 
 alias cal="cal --monday"
 alias nn="nvim Jenkinsfile"
@@ -40,11 +43,7 @@ alias szsh="source $HOME/.config/zsh/.zshrc"
 alias aliases="alias | cut -d '=' -f 1 | fzf | xargs -I {} sh -c 'eval "{}"' "
 
 function falias() {
-    local cmd
-    cmd=$(alias | sed 's/alias //g' | cut -d '=' -f 1 | fzf --prompt="Alias: ")
-    [[ -n "$cmd" ]] && BUFFER="$BUFFER $cmd" && zle end-of-line
+	local cmd
+	cmd=$(alias | sed 's/alias //g' | cut -d '=' -f 1 | fzf --prompt="Alias: ")
+	[[ -n "$cmd" ]] && BUFFER="$BUFFER $cmd" && zle end-of-line
 }
-
-
-
-
