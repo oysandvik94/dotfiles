@@ -35,10 +35,7 @@ end
 return {
     s("logger", fmt("Logger logger = LoggerFactory.getLogger({}.class);", { getClassName() })),
     s('aw', fmt(
-        [[
-                @Autowired
-                private {} {};
-            ]],
+        "private final {} {};",
         { i(1), toParameter(1) }
     ))
 }
