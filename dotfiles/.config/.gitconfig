@@ -1,6 +1,8 @@
 [user]
 	email = oysandvik94@gmail.com
 	name = Øystein Sandvik
+[push]
+	autoSetupRemote = true
 [init]
 	defaultBranch = main
 [pull]
@@ -8,5 +10,7 @@
 [diff]
   colormoved = "default"
   colormovedws = "allow-indentation-change"
+[credential]
+  helper = /usr/lib/git-core/git-credential-libsecret
 
 
