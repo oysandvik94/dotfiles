@@ -1,14 +1,3 @@
-local function deprio(kind)
-	return function(e1, e2)
-		if e1:get_kind() == kind then
-			return false
-		end
-		if e2:get_kind() == kind then
-			return true
-		end
-	end
-end
-
 -- Put methods from Object class in java at bottom, so that more specific methods are prioritized
 local function downpri_object_methods(entry1, entry2)
 	local e1 = entry1.completion_item
@@ -147,12 +136,6 @@ return {
 		end
 
 		vim.opt.pumheight = 10
-		-- local log = require('plenary.log').new {
-		--     plugin = "cmp",
-		--     level = "debug"
-		-- }
-		---@diagnostic disable-next-line: missing-fields
-		local types = require("cmp.types")
 		cmp.setup({
 			---@diagnostic disable-next-line: missing-fields
 			completion = {
@@ -160,8 +143,6 @@ return {
 			},
 			sorting = {
 				comparators = {
-					-- deprio(types.lsp.CompletionItemKind.Snippet),
-					-- cmp.config.compare.recently_used,
 					cmp.config.compare.offset,
 					cmp.config.compare.score,
 					cmp.config.compare.exact,
@@ -201,18 +182,14 @@ return {
 					end,
 				},
 				{ name = "nvim_lua" },
-				{ name = "luasnip" },
-				{ name = "buffer", keyword_length = 5 },
+				{ name = "buffer",  keyword_length = 5 },
 				{ name = "path" },
-				-- { name = "copilot" }
 			},
 			mapping = keys,
 			---@diagnostic disable-next-line: missing-fields
 			formatting = {
 				format = lspkind.cmp_format({
 					mode = "symbol_text",
-					-- maxwidth = 10,
-					-- ellipsis_char = "...",
 					symbol_map = { Copilot = "" },
 					before = function(entry, vim_item)
 						local source = entry.source.name
