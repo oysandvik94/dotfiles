@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+set -e
+
 BW_SESSION=$(secret-tool lookup session bitwarden)
 if test -z "$BW_SESSION" || ! bw unlock --session $BW_SESSION --check; then
 	bw unlock --raw | secret-tool store --label='Bitwarden Session Token' session bitwarden
@@ -11,4 +13,6 @@ if [ "${1}" = "sync" ]; then
 	exit
 fi
 
-bw list items --session "${BW_SESSION}" | jq -j '.[] | [.name, .login.username]' | tr -d '\n["' | tr ']' '\n' | tr ',' ':' | sed 's/^\ \ //g' | fzf --layout=reverse | tail -1 | tr -d '"' | cut -d ':' -f 2 | sed 's/^\ \ //g' | cat | wl-copy
+bw list items --session "${BW_SESSION}" | jq -j '.[] | [.name, .login.password]' | tr -d '\n["' | tr ']' '\n' | tr ',' ':' | sed 's/^\ \ //g' | fzf --with-nth 1..-2 --layout=reverse | tail -1 | tr -d '"' | cut -d ':' -f 2 | sed 's/^\ \ //g' | cat | wl-copy
+
+exit 0
