@@ -1,0 +1,5 @@
+--type-add
+web:*.{html,css,js,ts}*
+
+--glob=!.git/*
+--glob=!{package-lock.json}
