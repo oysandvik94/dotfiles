@@ -7,6 +7,7 @@ source $ZDOTDIR/aliases
 source $ZDOTDIR/vim.zsh
 source $ZDOTDIR/fzf.zsh
 source $ZDOTDIR/colors.zsh
+source $HOME/.zshenv
 
 
 path+=("$HOME/.local/bin/scripts")

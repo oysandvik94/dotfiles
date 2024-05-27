@@ -20,4 +20,6 @@ export WLR_NO_HARDWARE_CURSORS=1
 
 export DOCKER_BUILDKIT=1
 
+export RIPGREP_CONFIG_PATH="$HOME/.config/.ripgreprc"
+
 . "$HOME/.cargo/env"
