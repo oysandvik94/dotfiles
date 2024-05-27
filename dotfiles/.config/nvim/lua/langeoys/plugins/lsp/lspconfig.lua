@@ -100,7 +100,6 @@ return {
 					},
 				})
 			end,
-			["tsserver"] = function() end,
 		}
 
 		if use_roslyn then
