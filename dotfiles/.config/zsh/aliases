@@ -47,3 +47,9 @@ function falias() {
 	cmd=$(alias | sed 's/alias //g' | cut -d '=' -f 1 | fzf --prompt="Alias: ")
 	[[ -n "$cmd" ]] && BUFFER="$BUFFER $cmd" && zle end-of-line
 }
+
+function gitreport() {
+	cd "$HOME"/dev/bergen || exit
+	git standup -s
+	cd - || exit
+}
