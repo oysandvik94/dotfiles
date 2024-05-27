@@ -16,6 +16,11 @@ if [[ $selected == 'man' ]]; then
 	exit 0
 fi
 
+if [[ $selected == 'tldr' ]]; then
+	tmux neww bash -c "tldr $query --color always | less -R"
+	exit 0
+fi
+
 if grep -qs "$selected" ~/.local/bin/scripts/chtsh/.tmux-cht-languages; then
 	query=$(echo $query | tr ' ' '+')
 	tmux neww bash -c "curl -s https://cht.sh/$selected/$query | less -R"
