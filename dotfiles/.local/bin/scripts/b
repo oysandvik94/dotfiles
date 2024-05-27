@@ -13,6 +13,6 @@ if [ "${1}" = "sync" ]; then
 	exit
 fi
 
-bw list items --session "${BW_SESSION}" | jq -j '.[] | [.name, .login.password]' | tr -d '\n["' | tr ']' '\n' | tr ',' ':' | sed 's/^\ \ //g' | fzf --with-nth 1..-2 --layout=reverse | tail -1 | tr -d '"' | cut -d ':' -f 2 | sed 's/^\ \ //g' | cat | wl-copy
+bw list items --session "${BW_SESSION}" | jq -r '.[] | [.name, .login.password] | @tsv' | fzf --with-nth 1..-2 --layout=reverse --delimiter='\t' | cut -f 2 -d '	' | wl-copy
 
 exit 0
