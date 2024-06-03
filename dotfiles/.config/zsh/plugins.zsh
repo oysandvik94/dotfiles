@@ -17,6 +17,7 @@ plug() {
 plug "Aloxaf/fzf-tab"
 plug "zsh-users/zsh-syntax-highlighting"
 plug "zsh-users/zsh-autosuggestions"
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 plug "zsh-users/zsh-completions"
 export NVM_LAZY_LOAD=true
 plug "lukechilds/zsh-nvm"
