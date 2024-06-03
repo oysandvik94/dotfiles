@@ -28,6 +28,7 @@ setopt PUSHD_SILENT         # Do not print the directory stack after pushd or po
 # history
 
 setopt inc_append_history
+setopt share_history
 setopt hist_ignore_dups
 setopt hist_ignore_space
 
