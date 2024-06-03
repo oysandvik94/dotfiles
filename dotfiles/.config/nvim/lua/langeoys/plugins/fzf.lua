@@ -113,7 +113,7 @@ return {
 			"n",
 			"<leader>fg",
 			-- "<cmd>lua require('fzf-lua').live_grep_glob({rg_opts = \"--column --hidden --line-number --no-heading --color=always --smart-case --max-columns=4096 -g '!*.git/*' -e\"})<CR>",
-			"<cmd>lua require('fzf-lua').live_grep_glob({})<CR>",
+			"<cmd>lua require('fzf-lua').live_grep_glob({rg_opts = \"--hidden --sort-files\"})<CR>",
 			{ silent = true }
 		)
 		vim.keymap.set("v", "<leader>fg", "<cmd>lua require('fzf-lua').grep_visual()<CR>", { silent = true })
