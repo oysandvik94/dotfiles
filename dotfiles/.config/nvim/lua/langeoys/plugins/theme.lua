@@ -9,7 +9,7 @@ return {
 			})
 		end,
 	},
-	{ "catppuccin/nvim",      name = "catppuccin", priority = 1000 },
+	{ "catppuccin/nvim", name = "catppuccin", priority = 1000 },
 	{ "matsuuu/pinkmare" },
 	{ "rebelot/kanagawa.nvim" },
 	{
@@ -34,8 +34,8 @@ return {
 			require("cyberdream").setup({
 				theme = {
 					highlights = {
-						IblIndent = { fg = "#3c4048"},
-					}
+						IblIndent = { fg = "#3c4048" },
+					},
 				},
 				transparent = true,
 				italic_comments = true,
@@ -44,5 +44,5 @@ return {
 				terminal_colors = true,
 			})
 		end,
-	}
+	},
 }
