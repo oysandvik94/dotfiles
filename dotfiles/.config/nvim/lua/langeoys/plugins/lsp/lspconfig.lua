@@ -6,15 +6,10 @@ return {
 		"jmederosalvarado/roslyn.nvim",
 		"williamboman/mason-lspconfig.nvim",
 		"hrsh7th/nvim-cmp",
-		"folke/neodev.nvim",
 	},
 	config = function()
 		-- experiment with roslyn instead of omnisharp
 		local use_roslyn = true
-		-- IMPORTANT: make sure to setup neodev BEFORE lspconfig
-		require("neodev").setup({
-			-- add any options here, or leave empty to use the default settings
-		})
 
 		local cmp_nvim_lsp = require("cmp_nvim_lsp")
 
