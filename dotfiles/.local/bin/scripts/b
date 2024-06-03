@@ -3,16 +3,25 @@
 set -e
 
 BW_SESSION=$(secret-tool lookup session bitwarden)
-if test -z "$BW_SESSION" || ! bw unlock --session $BW_SESSION --check; then
+if test -z "$BW_SESSION"; then
 	bw unlock --raw | secret-tool store --label='Bitwarden Session Token' session bitwarden
 	BW_SESSION=$(secret-tool lookup session bitwarden)
 fi
 
-if [ "${1}" = "sync" ]; then
-	bw sync
-	exit
+if ! ss -ltn | grep -q ':8099'; then
+    bw --session $BW_SESSION serve --hostname 127.0.0.1 --port 8099 &
+	BW_PID=$!
+
+	until ss -ltn | grep -q ':8099'; do
+        sleep 0.3
+    done
 fi
 
-bw list items --session "${BW_SESSION}" | jq -r '.[] | [.name, .login.password] | @tsv' | fzf --with-nth 1..-2 --layout=reverse --delimiter='\t' | cut -f 2 -d '	' | wl-copy
+if [ "${1}" = "sync" ]; then
+    curl -s http://127.0.0.1:8099/sync
+    exit
+fi
+
+curl -s http://127.0.0.1:8099/list/object/items | jq -r '.data.data.[] | [.name, .login.password] | @tsv' | fzf --with-nth 1 --layout=reverse --delimiter='\t' | cut -f 2 -d '	' | wl-copy
 
 exit 0
