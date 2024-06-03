@@ -47,23 +47,18 @@ local parameterizedTypes = {
 local function formatLspFunctions(entry, vim_item)
 	local item = entry:get_completion_item()
 
-	if entry.source.source.client.name ~= "jdtls" then
-		-- set max width
-		if vim_item.menu then
-			vim_item.menu = string.sub(vim_item.menu, 1, 10)
-		end
-		return vim_item
-	end
-	if vim_item.menu then
-		vim_item.menu = string.sub(vim_item.menu, 1, 20)
-	end
-	if tableContains(parameterizedTypes, item.kind) then
-		vim_item.abbr = item.label .. item.labelDetails.detail
-		if item.kind ~= 4 then
-			vim_item.menu = item.labelDetails.description
-		end
-	end
+	if entry.source.source.client.name == "jdtls" then
+		if tableContains(parameterizedTypes, item.kind) then
+			local new_function_name = item.label .. item.labelDetails.detail
+			if string.len(new_function_name) < 40 then
+				new_function_name = string.sub(new_function_name, 1, 40)
+				vim_item.abbr = new_function_name
+			end
 
+			local return_value = item.labelDetails.description
+			vim_item.menu = return_value
+		end
+	end
 	return vim_item
 end
 
@@ -182,7 +177,7 @@ return {
 					end,
 				},
 				{ name = "nvim_lua" },
-				{ name = "buffer",  keyword_length = 5 },
+				{ name = "buffer", keyword_length = 5 },
 				{ name = "path" },
 			},
 			mapping = keys,
