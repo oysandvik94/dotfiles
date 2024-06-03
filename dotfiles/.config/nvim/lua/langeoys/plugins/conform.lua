@@ -1,66 +1,66 @@
 return {
-    'stevearc/conform.nvim',
-    opts = {},
-    config = function()
-        require("conform").formatters.memes = {
-            command = "google-java-format",
-            args = { "-a", "-" },
-        }
+	"stevearc/conform.nvim",
+	opts = {},
+	config = function()
+		require("conform").formatters.memes = {
+			command = "google-java-format",
+			args = { "-a", "-" },
+		}
 
-        require("conform").formatters.customxmlformat = {
-            command = "xmlformat",
-            args = { "--indent", "4", "--overwrite", "-" },
-        }
+		require("conform").formatters.customxmlformat = {
+			command = "xmlformat",
+			args = { "--indent", "4", "--overwrite", "-" },
+		}
 
-        require("conform").setup({
-            formatters_by_ft = {
-                lua             = { "stylua" },
-                -- Conform will run multiple formatters sequentially
-                python          = { "isort", "black" },
-                -- Use a sub-list to run only the first available formatter
-                -- java            = { "memes" },
-                javascript      = { "prettier" },
-                typescript      = { "prettier" },
-                javascriptreact = { "prettier" },
-                typescriptreact = { "prettier" },
-                css             = { "prettier" },
-                xml             = { "customxmlformat" },
-                html            = { "prettier" },
-                markdown        = { "prettier" },
-                bash            = { "shfmt" },
-                sh              = { "shfmt" },
-                c               = { "clang-format" }
-            },
-        })
+		require("conform").setup({
+			formatters_by_ft = {
+				lua = { "stylua" },
+				-- Conform will run multiple formatters sequentially
+				python = { "isort", "black" },
+				-- Use a sub-list to run only the first available formatter
+				-- java            = { "memes" },
+				javascript = { "prettier" },
+				typescript = { "prettier" },
+				javascriptreact = { "prettier" },
+				typescriptreact = { "prettier" },
+				json = { "fixjson" },
+				css = { "prettier" },
+				xml = { "customxmlformat" },
+				html = { "prettier" },
+				markdown = { "prettier" },
+				bash = { "shfmt" },
+				sh = { "shfmt" },
+				c = { "clang-format" },
+			},
+		})
 
+		vim.api.nvim_create_user_command("Format", function(args)
+			local range = nil
+			if args.count ~= -1 then
+				local end_line = vim.api.nvim_buf_get_lines(0, args.line2 - 1, args.line2, true)[1]
+				range = {
+					start = { args.line1, 0 },
+					["end"] = { args.line2, end_line:len() },
+				}
+			end
+			require("conform").format({ async = true, lsp_fallback = true, range = range })
+		end, { range = true })
 
-        vim.api.nvim_create_user_command("Format", function(args)
-            local range = nil
-            if args.count ~= -1 then
-                local end_line = vim.api.nvim_buf_get_lines(0, args.line2 - 1, args.line2, true)[1]
-                range = {
-                    start = { args.line1, 0 },
-                    ["end"] = { args.line2, end_line:len() },
-                }
-            end
-            require("conform").format({ async = true, lsp_fallback = true, range = range })
-        end, { range = true })
+		vim.keymap.set({ "n" }, "<leader>gq", ":Format<CR>", { desc = "Format file according to formatter" })
+		vim.keymap.set({ "x", "v" }, "<leader>lf", ":'<,'>Format<CR>", { desc = "Format file according to formatter" })
+		vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
 
-        vim.keymap.set({ 'n' }, "<leader>gq", ":Format<CR>", { desc = "Format file according to formatter" })
-        vim.keymap.set({ 'x', 'v' }, "<leader>lf", ":'<,'>Format<CR>", { desc = "Format file according to formatter" })
-        vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
+		local Autosave_group = vim.api.nvim_create_augroup("Autosave", { clear = true })
+		vim.api.nvim_create_autocmd("BufWritePre", {
+			callback = function()
+				local filetype = vim.filetype.match({ buf = 0 })
+				if filetype ~= nil and filetype:match("java") then
+					return
+				end
 
-        local Autosave_group = vim.api.nvim_create_augroup('Autosave', { clear = true })
-        vim.api.nvim_create_autocmd('BufWritePre', {
-            callback = function()
-                local filetype = vim.filetype.match({ buf = 0 })
-                if filetype ~= nil and filetype:match('java') then
-                    return
-                end
-
-                require("conform").format({ async = false, lsp_fallback = true })
-            end,
-            group = Autosave_group,
-        })
-    end
+				require("conform").format({ async = false, lsp_fallback = true })
+			end,
+			group = Autosave_group,
+		})
+	end,
 }
