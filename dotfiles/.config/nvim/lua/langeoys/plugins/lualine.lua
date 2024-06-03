@@ -46,15 +46,15 @@ return {
 		{ "letieu/harpoon-lualine" },
 	},
 	config = function()
-		local custom_theme = require('lualine.themes.auto')
+		local custom_theme = require("lualine.themes.auto")
 		custom_theme.normal.a.bg = os.getenv("COLOR_PRIMARY")
 		custom_theme.normal.a.fg = os.getenv("COLOR_BACKGROUND")
 		custom_theme.normal.b.bg = os.getenv("COLOR_BACKGROUND")
 		custom_theme.normal.b.fg = os.getenv("COLOR_FOREGROUND")
-		custom_theme.normal.c.bg = 'None'
-		custom_theme.insert.c.bg = 'None'
-		custom_theme.visual.c.bg = 'None'
-		custom_theme.normal.c.fg = '#E6E1CF'
+		custom_theme.normal.c.bg = "None"
+		custom_theme.insert.c.bg = "None"
+		custom_theme.visual.c.bg = "None"
+		custom_theme.normal.c.fg = "#E6E1CF"
 
 		require("lualine").setup({
 			sections = {
@@ -77,20 +77,26 @@ return {
 						end,
 					},
 				},
-				lualine_c = { { "harpoon2", indicators = { '1', '2', '3', '4' }, active_indicators = { '[1]', '[2]', '[3]', '[4]' } } },
+				lualine_c = {
+					{
+						"harpoon2",
+						indicators = { "1", "2", "3", "4" },
+						active_indicators = { "[1]", "[2]", "[3]", "[4]" },
+					},
+				},
 				lualine_x = { "diagnostics" },
 				lualine_y = {
-					{ "seach-count",     fmt = search_count },
-					{ "active-marks",    fmt = show_active_marks },
+					{ "seach-count", fmt = search_count },
+					{ "active-marks", fmt = show_active_marks },
 					{ "macro-recording", fmt = show_macro_recording },
-				},    -- Tmp objects
+				}, -- Tmp objects
 				lualine_z = { "branch", "diff" }, -- git
 			},
 			options = {
-				theme                = "cyberdream",
+				theme = "cyberdream",
 				component_separators = { left = "", right = "" },
-				section_separators   = { left = "", right = "" },
-				globalstatus         = false,
+				section_separators = { left = "", right = "" },
+				globalstatus = false,
 			},
 		})
 	end,
