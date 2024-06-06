@@ -10,22 +10,22 @@ return {
 		local dap = require("dap")
 		local jdtls = require("jdtls")
 		dap_ui.setup({
-			layouts = {
-				{
-					elements = {
-						{
-							id = "watches",
-							size = 0.5,
-						},
-						{
-							id = "scopes",
-							size = 0.5,
-						},
-					},
-					position = "bottom",
-					size = 10,
-				},
-			},
+			-- layouts = {
+			-- 	{
+			-- 		elements = {
+			-- 			{
+			-- 				id = "watches",
+			-- 				size = 0.5,
+			-- 			},
+			-- 			{
+			-- 				id = "scopes",
+			-- 				size = 0.5,
+			-- 			},
+			-- 		},
+			-- 		position = "bottom",
+			-- 		size = 10,
+			-- 	},
+			-- },
 		})
 		require("nvim-dap-virtual-text").setup()
 
@@ -146,6 +146,14 @@ return {
 				args = {},
 			},
 		}
+
+		-- dap.adapters.java = {
+		-- 	type = "executable",
+		-- 	command = "node",
+		-- 	-- args = { os.getenv("HOME") .. "/path/to/vscode-firefox-debug/dist/adapter.bundle.js" },
+		-- 	args = { vim.fn.stdpath("data") .. "/mason/packages/firefox-debug-adapter/dist/adapter.bundle.js" },
+		-- }
+
 		dap.adapters.firefox = {
 			type = "executable",
 			command = "node",
