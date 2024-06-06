@@ -88,7 +88,6 @@ local function get_jdtls_paths()
 		-- 	path = vim.fn.expand("/home/oysandvik/.sdkman/candidates/java/21-open"),
 		-- },
 
-
 		-- {
 		--   name = 'JavaSE-18',
 		--   path = vim.fn.expand('~/.sdkman/candidates/java/18.0.2-amzn'),
@@ -138,7 +137,7 @@ local function jdtls_on_attach(client, bufnr)
 	vim.keymap.set("x", "<leader>lec", "<esc><cmd>lua require('jdtls').extract_constant(true)<cr>", opts)
 	vim.keymap.set("x", "<leader>lem", "<esc><Cmd>lua require('jdtls').extract_method(true)<cr>", opts)
 
-	require("langeoys.utils.lsp").on_attach(client, bufnr)
+	require("langeoys.utils.lsp").on_attach()
 end
 
 local function jdtls_setup(event)
@@ -259,8 +258,7 @@ local function jdtls_setup(event)
 			},
 			codeGeneration = {
 				toString = {
-					template =
-					"${object.className}{${member.name()}=${member.value}, ${otherMembers}}",
+					template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}",
 				},
 				hashCodeEquals = {
 					useJava7Objects = true,
@@ -280,7 +278,7 @@ local function jdtls_setup(event)
 			["$/progress"] = function(_, result, ctx) end,
 		},
 		capabilities = cache_vars.capabilities,
-		root_dir = vim.fs.dirname(vim.fs.find({ 'gradlew', '.git', 'mvnw' }, { upward = true })[1]),
+		root_dir = vim.fs.dirname(vim.fs.find({ "gradlew", ".git", "mvnw" }, { upward = true })[1]),
 		flags = {
 			allow_incremental_sync = true,
 		},
