@@ -6,6 +6,7 @@ return {
 		"jmederosalvarado/roslyn.nvim",
 		"williamboman/mason-lspconfig.nvim",
 		"hrsh7th/nvim-cmp",
+		"b0o/SchemaStore.nvim",
 	},
 	config = function()
 		-- experiment with roslyn instead of omnisharp
@@ -14,13 +15,18 @@ return {
 		local cmp_nvim_lsp = require("cmp_nvim_lsp")
 
 		local on_attach = require("langeoys.utils.lsp").on_attach
+		vim.api.nvim_create_autocmd("LspAttach", {
+			group = vim.api.nvim_create_augroup("langeoys-lsp-attach", { clear = true }),
+			callback = function(event)
+				on_attach(event)
+			end,
+		})
 
 		local capabilities = cmp_nvim_lsp.default_capabilities()
 		local handlers = {
 			function(server_name) -- default handler (optional)
 				require("lspconfig")[server_name].setup({
 					capabilities = capabilities,
-					on_attach = on_attach,
 				})
 			end,
 			["omnisharp"] = function()
@@ -68,27 +74,49 @@ return {
 			["kotlin_language_server"] = function()
 				require("lspconfig").kotlin_language_server.setup({
 					capabilities = capabilities,
-					on_attach = on_attach,
 					settings = { kotlin = { compiler = { jvm = { target = "20" } } } },
 				})
 			end,
 			-- no-op, configured in seperate plugins
 			["jdtls"] = function() end,
+			["yamlls"] = function()
+				require("lspconfig").yamlls.setup({
+					capabilities = capabilities,
+					settings = {
+						["yamlls"] = {
+							schemaStore = {
+								enable = false,
+								url = "",
+							},
+							schemas = require("schemastore").yaml.schemas(),
+						},
+					},
+				})
+			end,
 			["rust_analyzer"] = function()
 				require("lspconfig").rust_analyzer.setup({
 					capabilities = capabilities,
-					on_attach = on_attach,
 					settings = {
 						["rust-analyzer"] = {
+							cargo = {
+								allFeatures = true,
+								loadOutDirsFromCheck = true,
+								buildScripts = {
+									enable = true,
+								},
+							},
+							-- Add clippy lints for Rust.
 							checkOnSave = {
 								allFeatures = true,
-								overrideCommand = {
-									"cargo",
-									"clippy",
-									"--workspace",
-									"--message-format=json",
-									"--all-targets",
-									"--all-features",
+								command = "clippy",
+								extraArgs = { "--no-deps" },
+							},
+							procMacro = {
+								enable = true,
+								ignored = {
+									["async-trait"] = { "async_trait" },
+									["napi-derive"] = { "napi" },
+									["async-recursion"] = { "async_recursion" },
 								},
 							},
 						},
@@ -105,7 +133,21 @@ return {
 			})
 		end
 
-		local mason = require("mason").setup()
+		-- Får rar feil med at lsp feiler etter save, se https://github.com/neovim/neovim/issues/12970
+		vim.lsp.util.apply_text_document_edit = function(text_document_edit, index, offset_encoding)
+			local text_document = text_document_edit.textDocument
+			local bufnr = vim.uri_to_bufnr(text_document.uri)
+			if offset_encoding == nil then
+				vim.notify_once(
+					"apply_text_document_edit must be called with valid offset encoding",
+					vim.log.levels.WARN
+				)
+			end
+
+			vim.lsp.util.apply_text_edits(text_document_edit.edits, bufnr, offset_encoding)
+		end
+
+		require("mason").setup()
 		local mason_lspconfig = require("mason-lspconfig")
 		mason_lspconfig.setup({
 			ensure_installed = {
@@ -122,22 +164,19 @@ return {
 		})
 		mason_lspconfig.setup_handlers(handlers)
 
-		-- Configure diagnostics
-		local signs = { Error = "", Warn = "", Hint = "󰌵", Info = "" }
-		for type, icon in pairs(signs) do
-			local hl = "DiagnosticSign" .. type
-			vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-		end
 		local config = {
-			-- Using lsp_lines.nvim
 			virtual_text = true,
-			-- show signs
-			signs = {
-				active = signs,
-			},
 			update_in_insert = false,
 			underline = true,
 			severity_sort = true,
+			signs = {
+				text = {
+					[vim.diagnostic.severity.ERROR] = "",
+					[vim.diagnostic.severity.WARN] = "",
+					[vim.diagnostic.severity.HINT] = "󰌵",
+					[vim.diagnostic.severity.INFO] = "",
+				},
+			},
 			float = {
 				focusable = false,
 				style = "minimal",
