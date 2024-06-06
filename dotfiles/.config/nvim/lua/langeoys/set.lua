@@ -36,12 +36,10 @@ end
 vim.keymap.set("v", "<C-r>", function()
 	local pattern = table.concat(get_visual())
 	-- escape regex and line endings
-	pattern =
-		vim.fn.substitute(vim.fn.escape(pattern, "^$.*\\/~[]"), "\n", "\\n", "g")
+	pattern = vim.fn.substitute(vim.fn.escape(pattern, "^$.*\\/~[]"), "\n", "\\n", "g")
 	-- send substitute command to vim command line
 	vim.api.nvim_input("<Esc>:%s/" .. pattern .. "//g<Left><Left>")
 end)
-
 
 -- Colors?
 vim.opt.termguicolors = true
@@ -82,4 +80,9 @@ vim.cmd([[set autoread]])
 vim.cmd([[autocmd FocusGained * checktime]])
 
 vim.opt.list = false
-vim.opt.listchars = { tab = '| ', trail = '·', nbsp = '␣' }
+vim.opt.listchars = { tab = "| ", trail = "·", nbsp = "␣" }
+--
+
+vim.highlight.priorities.semantic_tokens = 95
+vim.o.whichwrap = "bs<>[]hl"
+vim.opt.formatoptions:remove({ "c", "r", "o" }) -- don't insert the current comment leader automatically for auto-wrapping comments using 'textwidth', hitting <Enter> in insert mode, or hitting 'o' or 'O' in normal mode.

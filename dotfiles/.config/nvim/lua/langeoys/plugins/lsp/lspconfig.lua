@@ -165,7 +165,13 @@ return {
 		mason_lspconfig.setup_handlers(handlers)
 
 		local config = {
-			virtual_text = true,
+			virtual_text = {
+				prefix = "●",
+				format = function(diagnostic)
+					require("langeoys.utils.lua")
+					return Split(diagnostic.message, "\n")[1]
+				end,
+			},
 			update_in_insert = false,
 			underline = true,
 			severity_sort = true,
