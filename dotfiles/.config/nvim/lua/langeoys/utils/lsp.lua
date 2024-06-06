@@ -1,6 +1,6 @@
 local M = {}
 
-M.on_attach = function(client, bufnr)
+M.on_attach = function(event)
 	local opts = { noremap = true, silent = true }
 	vim.keymap.set("n", "gd", function()
 		vim.lsp.buf.definition()
@@ -49,11 +49,13 @@ M.on_attach = function(client, bufnr)
 		})
 		-- previewer=false
 	end, {})
-	vim.keymap.set("n", "<leader>lie", function() vim.lsp.inlay_hint.enable() end)
-	vim.keymap.set("n", "<leader>lid", function() vim.lsp.inlay_hint.enable(0, false) end)
+	vim.keymap.set("n", "<leader>lit", function()
+		vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+	end)
 
-
-	vim.keymap.set("n", "<leader>ge", function() require("langeoys.utils.rust").go_to_error() end)
+	vim.keymap.set("n", "<leader>ge", function()
+		require("langeoys.utils.rust").go_to_error()
+	end)
 end
 
 return M
