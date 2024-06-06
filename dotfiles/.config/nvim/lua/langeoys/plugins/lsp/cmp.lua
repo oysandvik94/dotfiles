@@ -58,6 +58,8 @@ local function formatLspFunctions(entry, vim_item)
 			local return_value = item.labelDetails.description
 			vim_item.menu = return_value
 		end
+	else
+		vim_item.menu = ""
 	end
 	return vim_item
 end
@@ -198,13 +200,7 @@ return {
 				}),
 			},
 		})
-		require("lspkind").init({
-			symbol_map = {
-				Copilot = "",
-			},
-		})
-
-		vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { fg = "#6CC644" })
+		require("lspkind").init({})
 
 		-- Setup for cmdline
 		-- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
