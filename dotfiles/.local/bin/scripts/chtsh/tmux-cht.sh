@@ -22,7 +22,7 @@ if [[ $selected == 'tldr' ]]; then
 fi
 
 if grep -qs "$selected" ~/.local/bin/scripts/chtsh/.tmux-cht-languages; then
-	query=$(echo $query | tr ' ' '+')
+	query=$(echo "$query" | tr ' ' '+')
 	tmux neww bash -c "curl -s https://cht.sh/$selected/$query | less -R"
 else
 	tmux neww bash -c "curl -s https://cht.sh/$selected~$query | less -R"
