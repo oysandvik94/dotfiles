@@ -166,6 +166,11 @@ return {
 			sources = {
 				{
 					name = "nvim_lsp",
+					option = {
+						markdown_oxide = {
+							keyword_pattern = [[\(\k\| \|\/\|#\)\+]],
+						},
+					},
 					entry_filter = function(entry, ctx)
 						local kind = require("cmp.types.lsp").CompletionItemKind[entry:get_kind()]
 						if kind == "Snippet" and ctx.prev_context.filetype == "java" then
