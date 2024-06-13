@@ -3,18 +3,6 @@ return {
 	dependencies = { "nvim-tree/nvim-web-devicons" },
 	config = function(_, dashboard)
 		require("alpha").setup(dashboard.opts)
-
-		local start_alpha_group = vim.api.nvim_create_augroup("start_alpha", { clear = true })
-		vim.api.nvim_create_autocmd("VimEnter", {
-			callback = function(arg)
-				if string.sub(arg.file, -1) == "/" then
-					vim.cmd("Alpha")
-					return
-				end
-			end,
-			group = start_alpha_group,
-			pattern = "*",
-		})
 	end,
 	opts = function()
 		local dashboard = require("alpha.themes.dashboard")
@@ -51,9 +39,17 @@ return {
 		dashboard.section.header.val = header
 		dashboard.section.buttons.val = {
 			dashboard.button("f", " " .. " Find file", "<cmd>lua require('fzf-lua').files()<CR>"),
-			dashboard.button("g", " " .. " Find text", "<cmd>lua require('fzf-lua').live_grep_glob({rg_opts = \"--column --hidden --line-number --no-heading --color=always --smart-case --max-columns=4096 -e\"})<CR>"),
+			dashboard.button(
+				"g",
+				" " .. " Find text",
+				"<cmd>lua require('fzf-lua').live_grep_glob({rg_opts = \"--column --hidden --line-number --no-heading --color=always --smart-case --max-columns=4096 -e\"})<CR>"
+			),
 			dashboard.button("l", "󰒲 " .. " Lazy", ":Lazy<CR>"),
-			dashboard.button("s", "󰁯 " .. " Restore last session", ":lua require('langeoys.utils.session').load_last_session()<CR>"),
+			dashboard.button(
+				"s",
+				"󰁯 " .. " Restore last session",
+				":lua require('langeoys.utils.session').load_last_session()<CR>"
+			),
 			dashboard.button("q", " " .. " Quit", ":qa<CR>"),
 		}
 		for _, button in ipairs(dashboard.section.buttons.val) do
