@@ -13,6 +13,34 @@ local dap_ui_picker = function()
 	})
 end
 
+local harpoon_picker = function()
+	local fzf = require("fzf-lua")
+	local harpoon = require("harpoon")
+
+	local harpoon_files = harpoon:list()
+	local file_paths = {}
+	for idx, item in ipairs(harpoon_files.items) do
+		local filename_table = vim.split(item.value, "/")
+		local filename = filename_table[#filename_table]
+		local file = require("fzf-lua").make_entry.file(filename, { file_icons = true, color_icons = true })
+		table.insert(file_paths, idx .. ": " .. file)
+	end
+
+	fzf.fzf_exec(file_paths, {
+		prompt = "Harpoon> ",
+		actions = {
+			["default"] = function(selected)
+				local harpoon_index = vim.split(selected[1], ": ")[1]
+				harpoon:list():select(tonumber(harpoon_index))
+			end,
+		},
+		fn_transform = function(x)
+			P("heisann")
+			return require("fzf-lua").make_entry.file(x, { file_icons = true, color_icons = true })
+		end,
+	})
+end
+
 --- @see https://github.com/ibhagwan/fzf-lua/wiki/Advanced#preview-overview
 local function folders()
 	local fzflua = require("fzf-lua")
@@ -125,5 +153,6 @@ return {
 		vim.keymap.set("n", "<leader>fs", "<cmd>lua require('fzf-lua').blines()<CR>", {})
 		vim.keymap.set("n", "<leader>fw", "<cmd>lua require('fzf-lua').grep_cword()<CR>", {})
 		vim.keymap.set("n", "<leader>fW", "<cmd>lua require('fzf-lua').grep_cWORD()<CR>", {})
+		vim.keymap.set("n", "<C-e>", harpoon_picker, { desc = "Open harpoon window" })
 	end,
 }
