@@ -17,13 +17,13 @@ return {
 		vim.keymap.set("n", "<leader>xq", function()
 			require("trouble").toggle("quickfix")
 		end)
-		vim.keymap.set("n", "grr", "<cmd>Trouble lsp_references toggle focus=true<CR>")
-		vim.keymap.set("n", "gs", "<cmd>Trouble symbols toggle<CR>")
+		vim.keymap.set("n", "grr", "<cmd>Trouble lsp_references toggle focus=true pinned=true<CR>")
+		vim.keymap.set("n", "<leader>xs", "<cmd>Trouble symbols toggle<CR>")
 		vim.keymap.set("n", "]x", function()
 			require("trouble").next({ skip_groups = true, jump = true })
 		end)
 		vim.keymap.set("n", "[x", function()
-			require("trouble").previous({ skip_groups = true, jump = true })
+			require("trouble").prev({ skip_groups = true, jump = true })
 		end)
 	end,
 }
