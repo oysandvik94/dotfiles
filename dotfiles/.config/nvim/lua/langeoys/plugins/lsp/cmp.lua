@@ -18,6 +18,7 @@ local function downpri_object_methods(entry1, entry2)
 	end
 end
 
+-- downprioritze underscored items
 local function under(entry1, entry2)
 	local _, entry1_under = entry1.completion_item.label:find("^_+")
 	local _, entry2_under = entry2.completion_item.label:find("^_+")
@@ -70,6 +71,7 @@ return {
 	dependencies = {
 		{ "hrsh7th/nvim-cmp" }, -- Required
 		{ "hrsh7th/cmp-buffer" },
+		{ "ryo33/nvim-cmp-rust" },
 		{ "hrsh7th/cmp-nvim-lsp" }, -- Required
 		{ "hrsh7th/cmp-cmdline" },
 		{ "rcarriga/cmp-dap" },
@@ -133,17 +135,27 @@ return {
 		end
 
 		vim.opt.pumheight = 10
+		-- require("cmp-rust").deprioritize_postfix,
+		-- require("cmp-rust").deprioritize_borrow,
+		-- require("cmp-rust").deprioritize_deref,
+		-- require("cmp-rust").deprioritize_common_traits,
+		local rust_cmp = require("langeoys.utils.rust")
 		cmp.setup({
 			---@diagnostic disable-next-line: missing-fields
 			completion = {
 				completeopt = "menu,menuone,preview,noselect",
 			},
 			sorting = {
+				priority_weight = 2,
 				comparators = {
+					rust_cmp.deprioritize_postfix,
+					rust_cmp.deprioritize_borrow,
+					rust_cmp.deprioritize_deref,
+					rust_cmp.deprioritize_common_traits,
 					cmp.config.compare.offset,
 					cmp.config.compare.score,
 					cmp.config.compare.exact,
-					under,
+					-- under,
 					downpri_object_methods,
 					cmp.config.compare.kind,
 					cmp.config.compare.sort_text,
