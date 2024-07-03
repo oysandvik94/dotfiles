@@ -42,6 +42,13 @@ window#waybar {
     to { opacity: 1.; }
 }
 
+.modules-left > * > *,
+.modules-center > * > *,
+.modules-right > * > *{
+    border: 1px solid @peach;
+    border-radius: 4px;
+}
+
 #workspaces {
     margin: 5px 5px 2px 5px;
     border-radius: 7px;
@@ -61,7 +68,7 @@ window#waybar {
 }
 
 #workspaces button.active {
-    background-color:@red;
+    background-color:@peach;
     color: @bg;
     /*color: @bg;*/
 
@@ -186,6 +193,7 @@ window#waybar {
     margin-right: 5px;
     padding-left: 7.5px;
     padding-right: 10px;
+    border-left-width: 0px;
     border-top-left-radius: 0px;
     border-bottom-left-radius: 0px;
     border-top-right-radius: 7px;
@@ -194,6 +202,7 @@ window#waybar {
 
 #backlight,
 #pulseaudio {
+    border-right-width: 0px;
     margin-right: 0px;
     margin-left: 5px;
     padding-left: 10px;

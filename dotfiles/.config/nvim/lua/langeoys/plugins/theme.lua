@@ -10,7 +10,6 @@ return {
 		end,
 	},
 	{ "catppuccin/nvim", name = "catppuccin", priority = 1000 },
-	{ "matsuuu/pinkmare" },
 	{ "rebelot/kanagawa.nvim" },
 	{
 		"folke/tokyonight.nvim",
@@ -23,25 +22,6 @@ return {
 		config = function()
 			require("ayu").setup({
 				mirage = true,
-			})
-		end,
-	},
-	{
-		"scottmckendry/cyberdream.nvim",
-		lazy = false,
-		priority = 1000,
-		config = function()
-			require("cyberdream").setup({
-				theme = {
-					highlights = {
-						IblIndent = { fg = "#3c4048" },
-					},
-				},
-				transparent = true,
-				italic_comments = true,
-				hide_fillchars = true,
-				borderless_telescope = true,
-				terminal_colors = true,
 			})
 		end,
 	},

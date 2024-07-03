@@ -1,10 +1,10 @@
-@define-color bg #242936;
+@define-color bg #1e1e2e;
 @define-color sky #A2C8C3;
-@define-color red #f07178;
+@define-color red #f38ba8;
 @define-color lavender #D699B6;
-@define-color fg #D3C6AA;
+@define-color fg #bac2de;
 @define-color green #B2C98F;
-@define-color peach #f2966b;
+@define-color peach #f5c2e7;
 @define-color border @lavender;
 
 * {
@@ -42,6 +42,13 @@ window#waybar {
     to { opacity: 1.; }
 }
 
+.modules-left > * > *,
+.modules-center > * > *,
+.modules-right > * > *{
+    border: 1px solid @peach;
+    border-radius: 4px;
+}
+
 #workspaces {
     margin: 5px 5px 2px 5px;
     border-radius: 7px;
@@ -61,7 +68,7 @@ window#waybar {
 }
 
 #workspaces button.active {
-    background-color:@red;
+    background-color:@peach;
     color: @bg;
     /*color: @bg;*/
 
@@ -186,6 +193,7 @@ window#waybar {
     margin-right: 5px;
     padding-left: 7.5px;
     padding-right: 10px;
+    border-left-width: 0px;
     border-top-left-radius: 0px;
     border-bottom-left-radius: 0px;
     border-top-right-radius: 7px;
@@ -194,6 +202,7 @@ window#waybar {
 
 #backlight,
 #pulseaudio {
+    border-right-width: 0px;
     margin-right: 0px;
     margin-left: 5px;
     padding-left: 10px;

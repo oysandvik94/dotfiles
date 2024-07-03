@@ -15,7 +15,7 @@
 			"max-length": 25
 		},
 		"clock": {
-			"format": "<span foreground='#E69875'>  </span><span>{:%I:%M %a %d}</span>",
+			"format": "<span foreground='#f5c2e7'>  </span><span>{:%I:%M %a %d}</span>",
 			"tooltip-format": "{calendar}",
 			"calendar": {
 				"mode"          : "month",
@@ -51,14 +51,14 @@
 		},
 		"backlight": {
 			"device": "intel_backlight",
-			"format": "<span foreground='#FFA066'>{icon}</span>  {percent}%",
+			"format": "<span foreground='#f5c2e7'>{icon}</span>  {percent}%",
 			"states": [0, 25, 50, 100],
 			"format-icons": ["","󰃝", "󰃟", ""],
 			"tooltip-format": "{percent}%",
 			"tooltip": true
 		},
 		"custom/task": {
-			"format": "<span foreground='#f2966b'>TODO: </span>{}",
+			"format": "<span foreground='#f5c2e7'>TODO: </span>{}",
 			"interval": 60,
 			"exec": "waybar_task",
 			"tooltip": false
