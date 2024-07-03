@@ -17,7 +17,7 @@ return {
 					vim.schedule(function()
 						gs.next_hunk()
 					end)
-					return "zt<Ignore>"
+					return "zz<Ignore>"
 				end, { expr = true, desc = "Go to next hunk" })
 
 				map("n", "[c", function()
@@ -27,7 +27,7 @@ return {
 					vim.schedule(function()
 						gs.prev_hunk()
 					end)
-					return "zt<Ignore>"
+					return "zz<Ignore>"
 				end, { expr = true, desc = "Go to previous hunk" })
 
 				-- Actions
