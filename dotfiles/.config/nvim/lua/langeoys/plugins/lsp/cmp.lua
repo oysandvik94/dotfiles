@@ -93,27 +93,32 @@ return {
 		local cmp_select_opts = { behavior = cmp.SelectBehavior.Insert }
 		--
 		-- key mappings for Alt+number to select, have to press enter after to confirm though
+		local prev_func = function()
+			if cmp.visible() then
+				cmp.select_prev_item(cmp_select_opts)
+			else
+				cmp.complete()
+			end
+		end
+		local next_func = function()
+			if cmp.visible() then
+				cmp.select_next_item(cmp_select_opts)
+			else
+				cmp.complete()
+			end
+		end
 		local keys = {
 			["<C-K>"] = cmp.mapping.complete(),
-			["<C-p>"] = cmp.mapping(function()
-				if cmp.visible() then
-					cmp.select_prev_item(cmp_select_opts)
-				else
-					cmp.complete()
-				end
-			end),
-			["<C-n>"] = cmp.mapping(function()
-				if cmp.visible() then
-					cmp.select_next_item(cmp_select_opts)
-				else
-					cmp.complete()
-				end
-			end),
+			["<C-p>"] = cmp.mapping(prev_func),
+			["<Up>"] = cmp.mapping(prev_func),
+			["<C-n>"] = cmp.mapping(next_func),
+			["<Down>"] = cmp.mapping(next_func),
 			["<C-d>"] = cmp.mapping.scroll_docs(-4),
 			["<C-u>"] = cmp.mapping.scroll_docs(4),
 			["<C-Space>"] = cmp.mapping.complete(), -- show completion suggestions
 			["<C-e>"] = cmp.mapping.abort(), -- close completion window
 			["<C-y>"] = cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Insert }),
+			["<CR>"] = cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Insert }),
 			["<C-h>"] = function() end,
 		}
 
@@ -173,7 +178,7 @@ return {
 				documentation = cmp.config.window.bordered(),
 			},
 			view = {
-				entries = { name = "custom", selection_order = "near_cursor" },
+				entries = { name = "custom" },
 			},
 			sources = {
 				{
@@ -255,8 +260,9 @@ return {
 			},
 		})
 
-		-- set highlight LspSignatureActiveParameter
-		-- vim.api.nvim_set_hl(0, "LspSignatureActiveParameter", { fg = "#6CC644" })
+		-- If you want insert `(` after select function or method item
+		local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+		cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 		vim.api.nvim_set_hl(0, "LspSignatureActiveParameter", { ctermbg = 0, fg = "#31748F", bg = "#EBBCBA" })
 
 		vim.keymap.set({ "n" }, "<Leader>k", function()
