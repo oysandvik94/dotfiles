@@ -1,0 +1,39 @@
+[user]
+email = oysandvik94@gmail.com
+name = Øystein Sandvik
+
+[push]
+autoSetupRemote = true
+
+[init]
+defaultBranch = main
+
+[pull]
+rebase = true
+
+[diff]
+    colormoved = "default"
+    colormovedws = "allow-indentation-change"
+    algorithm = "histogram"
+
+[credential]
+helper = /usr/lib/git-core/git-credential-libsecret
+
+[branch]
+sort = committerdate
+
+[rebase]
+autostash = true
+
+[commit]
+verbose = true
+
+[merge]
+conflictstyle = zdiff3
+
+[rerere]
+enabled = true
+
+[help]
+autocorrect = prompt
+
