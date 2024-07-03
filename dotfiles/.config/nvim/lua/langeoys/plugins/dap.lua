@@ -4,30 +4,33 @@ return {
 	dependencies = {
 		"theHamsta/nvim-dap-virtual-text",
 		"rcarriga/nvim-dap-ui",
+		"Mgenuit/nvim-dap-kotlin",
 	},
 	config = function()
 		local dap_ui = require("dapui")
 		local dap = require("dap")
 		local jdtls = require("jdtls")
-		dap_ui.setup({
-			-- layouts = {
-			-- 	{
-			-- 		elements = {
-			-- 			{
-			-- 				id = "watches",
-			-- 				size = 0.5,
-			-- 			},
-			-- 			{
-			-- 				id = "scopes",
-			-- 				size = 0.5,
-			-- 			},
-			-- 		},
-			-- 		position = "bottom",
-			-- 		size = 10,
-			-- 	},
-			-- },
-		})
-		require("nvim-dap-virtual-text").setup()
+
+		local minimal_setup = {
+			layouts = {
+				{
+					elements = {
+						{
+							id = "watches",
+							size = 0.5,
+						},
+						{
+							id = "scopes",
+							size = 0.5,
+						},
+					},
+					position = "bottom",
+					size = 10,
+				},
+			},
+		}
+		dap_ui.setup(minimal_setup)
+		require("nvim-dap-virtual-text").setup({})
 
 		local function trigger_dap(dapStart)
 			dap_ui.open({ reset = true })
@@ -91,10 +94,16 @@ return {
 		vim.keymap.set("n", "<leader>db", function()
 			dap.step_back()
 		end, { desc = "Step back" })
-		vim.keymap.set("n", "<leader>dh", function()
+		vim.keymap.set("n", "<leader>dc", function()
 			dap.run_to_cursor()
 		end, { desc = "Run to cursor" })
-		vim.keymap.set("n", "<leader>dc", continue, { desc = "Start debug session, or continue session" })
+		vim.keymap.set("n", "<leader>dh", function()
+			dap_ui.eval()
+		end, { desc = "Dap: Evaluate variable under cursor" })
+		vim.keymap.set("n", "<leader>ds", function()
+			local expr = vim.fn.input("Expression:")
+			dap_ui.eval(expr)
+		end, { desc = "Dap: Evaluate variable under cursor" })
 		vim.keymap.set("n", "<leader>de", function()
 			dap.terminate()
 			dap_ui.close()
@@ -102,6 +111,10 @@ return {
 		vim.keymap.set("n", "<leader>du", function()
 			dap_ui.toggle({ reset = true })
 		end, { desc = "Reset and toggle ui" })
+
+		vim.api.nvim_create_user_command("Debug", function()
+			continue()
+		end, {})
 
 		vim.api.nvim_set_hl(0, "DapStopped", { ctermbg = 0, fg = "#1f1d2e", bg = "#f6c177" })
 		vim.fn.sign_define("DapStopped", {
@@ -111,6 +124,34 @@ return {
 			numhl = "DapStopped",
 		})
 
+		require("dap").adapters.kotlin = {
+			type = "executable",
+			command = "kotlin-debug-adapter",
+			options = {
+				initialize_timeout_sec = 15,
+				disconnect_timeout_sec = 15,
+				auto_continue_if_many_stopped = false,
+			},
+		}
+
+		require("dap").defaults.kotlin.auto_continue_if_many_stopped = false
+		dap.configurations.kotlin = {
+			{
+				type = "kotlin",
+				request = "launch",
+				name = "Launch kotlin program",
+				projectRoot = "${workspaceFolder}",
+				mainClass = "no.kommune.bergen.skjemaprosessor.SkjemaprosessorApplication",
+			},
+			{
+				type = "kotlin",
+				request = "attach",
+				projectRoot = "${workspaceFolder}",
+				hostName = "localhost",
+				port = 5005,
+				timeout = 2000,
+			},
+		}
 		dap.configurations.java = {
 			{
 				type = "java",
@@ -146,13 +187,6 @@ return {
 				args = {},
 			},
 		}
-
-		-- dap.adapters.java = {
-		-- 	type = "executable",
-		-- 	command = "node",
-		-- 	-- args = { os.getenv("HOME") .. "/path/to/vscode-firefox-debug/dist/adapter.bundle.js" },
-		-- 	args = { vim.fn.stdpath("data") .. "/mason/packages/firefox-debug-adapter/dist/adapter.bundle.js" },
-		-- }
 
 		dap.adapters.firefox = {
 			type = "executable",
