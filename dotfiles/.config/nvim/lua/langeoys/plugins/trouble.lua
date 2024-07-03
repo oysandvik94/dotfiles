@@ -17,7 +17,6 @@ return {
 		vim.keymap.set("n", "<leader>xq", function()
 			require("trouble").toggle("quickfix")
 		end)
-		vim.keymap.set("n", "grr", "<cmd>Trouble lsp_references toggle focus=true pinned=true<CR>")
 		vim.keymap.set("n", "<leader>xs", "<cmd>Trouble symbols toggle<CR>")
 		vim.keymap.set("n", "]x", function()
 			require("trouble").next({ skip_groups = true, jump = true })
