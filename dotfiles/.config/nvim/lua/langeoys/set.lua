@@ -24,7 +24,6 @@ vim.opt.hlsearch = false
 vim.opt.incsearch = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
-vim.cmd([[cnoremap <expr> <space> getcmdtype() =~ '[/?]' ? '.\{-}' : "<space>"]])
 
 -- handle unpack deprecation
 table.unpack = table.unpack or unpack
