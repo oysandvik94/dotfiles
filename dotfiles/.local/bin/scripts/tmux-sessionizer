@@ -1,16 +1,54 @@
 #!/usr/bin/env bash
 
-if [[ $# -eq 1 ]]; then
-	selected=$1
-else
-	selected=$({
-		echo "$HOME/dotfiles"
-		echo "$HOME/wiki"
-		echo "$HOME/bergen"
-		find ~/dev/general/coreutils ~/dev/general ~/.local/bin ~/dev/bergen -mindepth 1 -maxdepth 1 -type d
-	} | fzf)
+# if [[ $# -eq 1 ]]; then
+# 	selected=$1
+# else
+# 	tmux display-popup -h 80% -w 80% -E "tmux new-session -A -s '$CURRENT_SESSION$SCRATCH_CONTAINS'"
+# 	selected=$({
+# 		echo "$HOME/dotfiles"
+# 		echo "$HOME/wiki"
+# 		echo "$HOME/bergen"
+# 	} | fzf)
+#
+# fi
 
-fi
+get_fzf_find_binding() {
+	local fzf_find_binding='ctrl-f:change-prompt(find> )+reload(find ~/dotfiles ~/dev/general ~/.local/bin ~/dev/bergen -mindepth 1 -maxdepth 1 -type d)'
+	echo "$fzf_find_binding"
+}
+
+FIND_BIND=$(get_fzf_find_binding)
+
+get_sessions_by_mru() {
+	if [ "$T_RUNTYPE" == "attached" ]; then
+		CURRENT_SID=$(tmux display-message -p "#{session_id}")
+	else
+		CURRENT_SID=""
+	fi
+	tmux list-sessions \
+		-f "#{!=:#{session_id},$CURRENT_SID}" \
+		-F '#{session_last_attached} #{session_name}' |
+		sort --numeric-sort --reverse | awk '{print $2}; END {print "———"}'
+}
+
+SESSION_BIND="ctrl-s:change-prompt(sessions> )+reload(tmux list-sessions -F '#S')"
+KILL_SESSION="ctrl-d:execute-silent(tmux kill-session -t {})+reload(tmux list-sessions -F '#S')"
+
+BORDER_LABEL="sessionizer"
+HEADER=" C-s sessions / C-f find / C-d kill"
+selected=$(
+	(get_sessions_by_mru) | sed -E 's/✗/ /g' |
+		fzf-tmux \
+			-p 53%,58% \
+			--bind "$SESSION_BIND" \
+			--bind "$FIND_BIND" \
+			--bind "$KILL_SESSION" \
+			--border \
+			--border-label "$BORDER_LABEL" \
+			--header "$HEADER" \
+			--no-sort |
+		tail -n1
+)
 
 if [[ -z $selected ]]; then
 	exit 0
