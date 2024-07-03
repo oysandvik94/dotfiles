@@ -58,7 +58,7 @@ return {
 
 		require("lualine").setup({
 			sections = {
-				lualine_a = { "mode" },
+				lualine_a = { { "mode", separator = { left = "" }, right_padding = 2 } },
 				lualine_b = {
 					{
 						"filename",
@@ -90,12 +90,18 @@ return {
 					{ "active-marks", fmt = show_active_marks },
 					{ "macro-recording", fmt = show_macro_recording },
 				}, -- Tmp objects
-				lualine_z = { "branch", "diff" }, -- git
+				-- lualine_z = { "branch", "diff" }, -- git
+				lualine_z = {
+					{ "diff" },
+					{ "branch", separator = { right = "" }, left_padding = 2 },
+				},
 			},
 			options = {
-				theme = "cyberdream",
-				component_separators = { left = "", right = "" },
-				section_separators = { left = "", right = "" },
+				theme = "catppuccin",
+				component_separators = "",
+				section_separators = { left = "", right = "" },
+				-- component_separators = { left = "", right = "" },
+				-- section_separators = { left = "", right = "" },
 				globalstatus = false,
 			},
 		})
