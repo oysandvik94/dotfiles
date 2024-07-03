@@ -53,3 +53,7 @@ function gitreport() {
 	git standup -s
 	cd - || exit
 }
+
+kitty-reload() {
+	kill -SIGUSR1 $(pidof kitty)
+}
