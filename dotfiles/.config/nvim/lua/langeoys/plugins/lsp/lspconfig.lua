@@ -55,17 +55,35 @@ return {
 					on_attach = on_attach,
 					settings = {
 						Lua = {
-							runtime = { version = "Lua 5.1" },
-							diagnostics = {
-								globals = { "vim", "it", "describe", "before_each", "after_each" },
+							misc = {
+								-- parameters = { "--loglevel=trace" },
 							},
-							workspace = {
-								library = {
-									[vim.fn.expand("$VIMRUNTIME/lua")] = true,
-									[vim.fn.stdpath("config") .. "/lua"] = true,
+							-- hover = { expandAlias = false },
+							type = {
+								castNumberToInteger = true,
+							},
+							diagnostics = {
+								disable = { "incomplete-signature-doc", "trailing-space" },
+								-- enable = false,
+								groupSeverity = {
+									strong = "Warning",
+									strict = "Warning",
 								},
-								maxPreload = 10000, -- Add this if missing or increase it
-								preloadFileSize = 10000, -- Add this if missing or increase it
+								groupFileStatus = {
+									["ambiguity"] = "Opened",
+									["await"] = "Opened",
+									["codestyle"] = "None",
+									["duplicate"] = "Opened",
+									["global"] = "Opened",
+									["luadoc"] = "Opened",
+									["redefined"] = "Opened",
+									["strict"] = "Opened",
+									["strong"] = "Opened",
+									["type-check"] = "Opened",
+									["unbalanced"] = "Opened",
+									["unused"] = "Opened",
+								},
+								unusedLocalExclude = { "_*" },
 							},
 						},
 					},
