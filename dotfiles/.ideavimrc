@@ -25,10 +25,10 @@ vnoremap <S-l> gt
 nnoremap <S-h> gT
 vnoremap <S-h> gT
 
-nnoremap <C-d> <C-d>zz
-nnoremap <C-o> <C-o>zz
-nnoremap <C-i> <C-i>zz
-nnoremap <C-u> <C-u>zz
+nnoremap <C-d> <C-d>
+nnoremap <C-o> :action Back<CR>
+nnoremap <C-i> :action Forward<CR>
+nnoremap <C-u> <C-u>
 
 inoremap <C-y> :action EditorChooseLookupItem<CR>
 
@@ -37,16 +37,22 @@ nnoremap <leader>lr :action RenameElement<CR>
 nnoremap <leader>= :action ReformatCode<CR>
 nnoremap <leader>lh :action QuickJavaDoc<CR>
 nnoremap gr :action ShowUsages<CR>
-nnoremap gi :action GoToImplementation<CR>
-nnoremap gd :action GotoDeclaration<CR>
+nnoremap gi :action GotoImplementation<CR>
 nnoremap gt :action GotoTest<CR>
 nnoremap gD :action GotoTypeDeclaration<CR>
 nnoremap [d :action GotoPreviousError<CR>
 nnoremap ]d :action GotoNextError<CR>
-  map <leader>f <Action>(GotoFile)
-  map <leader>fg <Action>(FindInPath)
+nnoremap <leader>ld :action ShowErrorDescription<CR>
 
-nnoremap <leader>ff :action FindAll<CR>
+nnoremap <c-left> <c-w>h
+nnoremap <c-up> <c-w>j
+nnoremap <c-down> <c-w>k
+nnoremap <c-right> <c-w>l
+
+map <leader>/ <Action>(SearchEverywhere)
+map <leader>fg <Action>(FindInPath)
+map <leader>fd :action Find<cr>
+map <leader>lc :action ShowIntentionActions<CR>
 nnoremap <leader>nt :NERDTreeFocus<CR>
 
 
@@ -68,3 +74,4 @@ Plug 'tpope/vim-commentary'
 
 "" Map \b to toggle the breakpoint on the current line
 "map \b <Action>(ToggleLineBreakpoint)
+set ideajoin
