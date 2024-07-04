@@ -1,39 +1,42 @@
 [user]
-email = oysandvik94@gmail.com
-name = Øystein Sandvik
+    email = oysandvik94@gmail.com
+    name = Øystein Sandvik
 
 [push]
-autoSetupRemote = true
+    autoSetupRemote = true
 
 [init]
-defaultBranch = main
+    defaultBranch = main
 
 [pull]
-rebase = true
+    rebase = true
 
 [diff]
-    colormoved = "default"
-    colormovedws = "allow-indentation-change"
-    algorithm = "histogram"
+        colormoved = "default"
+        colormovedws = "allow-indentation-change"
+        algorithm = "histogram"
 
 [credential]
-helper = /usr/lib/git-core/git-credential-libsecret
+    helper = /usr/lib/git-core/git-credential-libsecret
 
 [branch]
-sort = committerdate
+    sort = committerdate
 
 [rebase]
-autostash = true
+    autostash = true
 
 [commit]
-verbose = true
+    verbose = true
 
 [merge]
-conflictstyle = zdiff3
+    conflictstyle = zdiff3
 
 [rerere]
-enabled = true
+    enabled = true
 
 [help]
-autocorrect = prompt
+    autocorrect = prompt
 
+[alias]
+    syncmain = !git fetch origin && git rebase --autosquash origin/main
+    syncfrom = "!git fetch origin && git rebase --autosquash origin/$1 #"
