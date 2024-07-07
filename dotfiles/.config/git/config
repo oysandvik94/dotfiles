@@ -39,4 +39,5 @@
 
 [alias]
     syncmain = !git fetch origin && git rebase --autosquash origin/main
+    syncmaster = !git fetch origin && git rebase --autosquash origin/master
     syncfrom = "!git fetch origin && git rebase --autosquash origin/$1 #"
