@@ -16,6 +16,8 @@ set softtabstop=4
 set shiftwidth=4
 " Do incremental searching.
 set incsearch
+set ignorecase
+set smartcase
 
 let mapleader = " "
 noremap <Space> <Nop>
