@@ -8,6 +8,7 @@ return {
 			sessions_dir = Path:new(vim.fn.stdpath("data"), "sessions"), -- The directory where the session files will be saved.
 			autoload_mode = config.AutoloadMode.CurrentDir, -- Define what to do when Neovim is started without arguments. Possible values: Disabled, CurrentDir, LastSession
 			autosave_ignore_buftypes = {}, -- All buffers of these bufer types will be closed before the session is saved.
+			autosave_ignore_filetypes = { "curl" },
 		})
 
 		vim.keymap.set(
