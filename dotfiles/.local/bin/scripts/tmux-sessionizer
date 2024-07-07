@@ -1,16 +1,12 @@
 #!/usr/bin/env bash
 
-# if [[ $# -eq 1 ]]; then
-# 	selected=$1
-# else
-# 	tmux display-popup -h 80% -w 80% -E "tmux new-session -A -s '$CURRENT_SESSION$SCRATCH_CONTAINS'"
-# 	selected=$({
-# 		echo "$HOME/dotfiles"
-# 		echo "$HOME/wiki"
-# 		echo "$HOME/bergen"
-# 	} | fzf)
-#
-# fi
+if [[ $# -eq 1 ]]; then
+	selected=$1
+	selected_name=$(basename "$selected" | tr . _)
+	tmux new-session -s "$selected_name" -c "$selected"
+	tmux switch-client -t "$selected_name"
+	exit 0
+fi
 
 get_fzf_find_binding() {
 	local fzf_find_binding='ctrl-f:change-prompt(find> )+reload(find ~/dotfiles ~/dev/general ~/.local/bin ~/dev/bergen -mindepth 1 -maxdepth 1 -type d)'
