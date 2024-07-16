@@ -10,6 +10,14 @@ return {
 		end,
 	},
 	{ "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+	{
+		"vague2k/vague.nvim",
+		config = function()
+			require("vague").setup({
+				-- optional configuration here
+			})
+		end,
+	},
 	{ "rebelot/kanagawa.nvim" },
 	{
 		"folke/tokyonight.nvim",

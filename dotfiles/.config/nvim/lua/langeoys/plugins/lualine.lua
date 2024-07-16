@@ -57,8 +57,15 @@ return {
 		custom_theme.normal.c.fg = "#E6E1CF"
 
 		require("lualine").setup({
+			options = {
+				-- theme = "catppuccin",
+				theme = custom_theme,
+				component_separators = "",
+				section_separators = { left = "", right = "" },
+				globalstatus = false,
+			},
 			sections = {
-				lualine_a = { { "mode", separator = { left = "" }, right_padding = 2 } },
+				lualine_a = { { "mode", separator = { left = "" }, right_padding = 4 } },
 				lualine_b = {
 					{
 						"filename",
@@ -95,14 +102,6 @@ return {
 					{ "diff" },
 					{ "branch", separator = { right = "" }, left_padding = 2 },
 				},
-			},
-			options = {
-				theme = "catppuccin",
-				component_separators = "",
-				section_separators = { left = "", right = "" },
-				-- component_separators = { left = "", right = "" },
-				-- section_separators = { left = "", right = "" },
-				globalstatus = false,
 			},
 		})
 	end,
