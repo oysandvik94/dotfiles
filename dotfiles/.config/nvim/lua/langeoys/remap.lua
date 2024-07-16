@@ -24,6 +24,8 @@ vim.keymap.set("x", "p", [["_dP]])
 -- Copy to system clipboard with leader y
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 vim.keymap.set("n", "<leader>Y", [["+Y]])
+vim.keymap.set({ "n", "v" }, "<leader>p", [["+p]])
+vim.keymap.set("n", "<leader>p", [["+P]])
 
 -- Back and forths
 vim.keymap.set("n", "]q", "<cmd>cnext<CR>zz")
