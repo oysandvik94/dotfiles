@@ -9,7 +9,24 @@ if [[ $# -eq 1 ]]; then
 fi
 
 get_fzf_find_binding() {
-	local fzf_find_binding='ctrl-f:change-prompt(find> )+reload(find ~/dotfiles ~/dev/general ~/.local/bin ~/dev/bergen -mindepth 1 -maxdepth 1 -type d)'
+	local dirs=(
+		"$HOME/dev/general"
+		"$HOME/.local/bin"
+		"$HOME/dev/bergen"
+	)
+
+	local find_cmd="find"
+	local echo_cmd=" && echo $HOME/wiki && echo $HOME/dotfiles"
+
+	for dir in "${dirs[@]}"; do
+		if [ -d "$dir" ]; then
+			find_cmd+=" $dir"
+		fi
+	done
+
+	find_cmd+=" -mindepth 1 -maxdepth 1 -type d"
+
+	local fzf_find_binding="ctrl-f:change-prompt(find> )+reload($find_cmd$echo_cmd)"
 	echo "$fzf_find_binding"
 }
 
