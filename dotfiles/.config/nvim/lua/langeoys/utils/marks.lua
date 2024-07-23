@@ -32,7 +32,7 @@ local globalMarks = {
 M.get_mark_table = function()
 	local marks = {}
 	for _, v in ipairs(globalMarks) do
-		local mark = vim.api.nvim_get_mark(v, {})
+		local mark = vim.api.nvim_get_mark(v, {}) ---@type vim.api.keyset.get_mark
 		if mark[1] ~= 0 then
 			marks[v] = mark
 		end
@@ -41,7 +41,7 @@ M.get_mark_table = function()
 	return marks
 end
 
-M.get_mark_list = function()
+M.select_mark = function()
 	local marks = M.get_mark_table()
 
 	local option_labels = {}
@@ -62,38 +62,61 @@ M.get_mark_list = function()
 	end)
 end
 
-M.set_global_marks = function(marks)
-	local bufnr = vim.api.nvim_create_buf(false, true)
-	for k, v in pairs(marks) do
-		local filename = vim.fn.expand(v[4])
-		filename = "/home/oysandvik/dev/spring-chat.git/main/backend/pom.xml"
-		filename = vim.fn.expand(filename)
-		vim.api.nvim_buf_set_name(bufnr, filename)
-		vim.api.nvim_buf_set_mark(bufnr, k, v[1], v[2], {})
-	end
-	vim.cmd("bd " .. bufnr)
-end
-
 M.clear_global_marks = function()
 	for _, v in ipairs(globalMarks) do
 		vim.api.nvim_del_mark(v)
 	end
 end
 
-M.restore_wormtree_marks = function(absolute_path, absolute_prev_path)
-	local state_utils = require("langeoys.utils.state")
+-- {
+--   A = { 220, 0, 44, "~/dev/bergen/intranett/intranett-appserver/tomcat/src/main/java/no/kommune/bergen/intranett/tomcat/Main.java" },
+--   R = { 222, 0, 44, "~/dev/bergen/intranett/intranett-appserver/tomcat/src/main/java/no/kommune/bergen/intranett/tomcat/Main.java" },
+--   S = { 16, 34, 0, "/home/oystein.sandvik/dev/bergen/ks-min-kommune-sync/src/main/frontend/src/services/AdminService.ts" }
+-- }
 
-	local stored_marks = state_utils.get_state(state_utils.MARK_STATE)
+M.lualine_global = function()
+	local marks = M.get_mark_table()
+	local lualine_marks = "󰐷 "
 
-	local current_marks = M.get_mark_table()
-	stored_marks[absolute_prev_path] = current_marks
+	for mark, fileinfo in pairs(marks) do
+		local filename = fileinfo[4]
 
-	M.clear_global_marks()
+		local current_filename = vim.api.nvim_buf_get_name(0)
 
-	if stored_marks and stored_marks[absolute_path] then
-		M.set_global_marks(stored_marks[absolute_path])
+		local filename_only = vim.fn.fnamemodify(filename, ":t")
+		local mark_string = string.format("%s: %s", mark, filename_only)
+
+		if current_filename == vim.fn.expand(filename) then
+			mark_string = string.format("[%s]", mark_string)
+		end
+
+		lualine_marks = lualine_marks .. mark_string .. " "
 	end
 
-    state_utils.save_state(state_utils.MARK_STATE, stored_marks)
+	return lualine_marks
 end
+
+M.lualine = function()
+	local marks = vim.fn.execute("marks")
+	marks = vim.split(marks, "\n")
+	local active_marks = {}
+	for index, line in ipairs(marks) do
+		if index == 2 then
+			goto continue
+		end
+
+		local activeMark = line:sub(1, 2):match("%l")
+		if activeMark then
+			table.insert(active_marks, activeMark)
+		end
+		::continue::
+	end
+
+	if #active_marks > 0 then
+		return " " .. table.concat(active_marks, ",")
+	else
+		return nil
+	end
+end
+
 return M

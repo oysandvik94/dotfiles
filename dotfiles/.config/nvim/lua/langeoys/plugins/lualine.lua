@@ -16,29 +16,6 @@ local function show_macro_recording()
 	end
 end
 
-local function show_active_marks()
-	local marks = vim.fn.execute("marks")
-	marks = vim.split(marks, "\n")
-	local active_marks = {}
-	for index, line in ipairs(marks) do
-		if index == 2 then
-			goto continue
-		end
-
-		local activeMark = line:sub(1, 2):match("%l")
-		if activeMark then
-			table.insert(active_marks, activeMark)
-		end
-		::continue::
-	end
-
-	if #active_marks > 0 then
-		return " " .. table.concat(active_marks, ",")
-	else
-		return nil
-	end
-end
-
 return {
 	"nvim-lualine/lualine.nvim",
 	dependencies = {
@@ -49,12 +26,14 @@ return {
 		local custom_theme = require("lualine.themes.auto")
 		custom_theme.normal.a.bg = os.getenv("COLOR_PRIMARY")
 		custom_theme.normal.a.fg = os.getenv("COLOR_BACKGROUND")
-		custom_theme.normal.b.bg = os.getenv("COLOR_BACKGROUND")
-		custom_theme.normal.b.fg = os.getenv("COLOR_FOREGROUND")
+		custom_theme.normal.b.bg = os.getenv("COLOR_TERTIARY")
+		custom_theme.normal.b.fg = os.getenv("COLOR_BACKGROUND")
 		custom_theme.normal.c.bg = "None"
 		custom_theme.insert.c.bg = "None"
 		custom_theme.visual.c.bg = "None"
 		custom_theme.normal.c.fg = "#E6E1CF"
+
+		local marks = require("langeoys.utils.marks")
 
 		require("lualine").setup({
 			options = {
@@ -65,7 +44,7 @@ return {
 				globalstatus = false,
 			},
 			sections = {
-				lualine_a = { { "mode", separator = { left = "" }, right_padding = 4 } },
+				lualine_a = { { "mode", separator = { left = "", right = "" }, right_padding = 4 } },
 				lualine_b = {
 					{
 						"filename",
@@ -86,15 +65,14 @@ return {
 				},
 				lualine_c = {
 					{
-						"harpoon2",
-						indicators = { "1", "2", "3", "4" },
-						active_indicators = { "[1]", "[2]", "[3]", "[4]" },
+						"active-global-marks",
+						fmt = marks.lualine_global,
 					},
 				},
 				lualine_x = { "diagnostics" },
 				lualine_y = {
 					{ "seach-count", fmt = search_count },
-					{ "active-marks", fmt = show_active_marks },
+					{ "active-marks", fmt = marks.lualine },
 					{ "macro-recording", fmt = show_macro_recording },
 				}, -- Tmp objects
 				-- lualine_z = { "branch", "diff" }, -- git
