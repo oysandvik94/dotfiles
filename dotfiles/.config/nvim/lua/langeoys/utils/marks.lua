@@ -68,12 +68,6 @@ M.clear_global_marks = function()
 	end
 end
 
--- {
---   A = { 220, 0, 44, "~/dev/bergen/intranett/intranett-appserver/tomcat/src/main/java/no/kommune/bergen/intranett/tomcat/Main.java" },
---   R = { 222, 0, 44, "~/dev/bergen/intranett/intranett-appserver/tomcat/src/main/java/no/kommune/bergen/intranett/tomcat/Main.java" },
---   S = { 16, 34, 0, "/home/oystein.sandvik/dev/bergen/ks-min-kommune-sync/src/main/frontend/src/services/AdminService.ts" }
--- }
-
 M.lualine_global = function()
 	local marks = M.get_mark_table()
 	local lualine_marks = "󰐷 "
