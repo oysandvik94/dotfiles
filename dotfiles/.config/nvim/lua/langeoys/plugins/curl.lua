@@ -1,12 +1,12 @@
 return {
-	dir = "~/dev/general/curl.nvim/",
-	-- "oysandvik94/curl.nvim",
+	-- dir = "~/dev/general/curl.nvim/",
+	"oysandvik94/curl.nvim",
 	dependencies = {
 		"nvim-lua/plenary.nvim",
 	},
 	config = function()
 		local curl = require("curl")
-		curl.setup({ curl_binary = "echo" })
+		curl.setup({})
 
 		vim.keymap.set("n", "<leader>cc", function()
 			curl.open_curl_tab()
@@ -28,8 +28,8 @@ return {
 			curl.pick_scoped_collection()
 		end, { desc = "Choose a scoped collection and open it" })
 
-		vim.keymap.set("n", "<leader>fgc", function()
-			curl.pick_global_collection()
-		end, { desc = "Choose a global collection and open it" })
+		-- vim.keymap.set("n", "<leader>fgc", function()
+		-- 	curl.pick_global_collection()
+		-- end, { desc = "Choose a global collection and open it" })
 	end,
 }
