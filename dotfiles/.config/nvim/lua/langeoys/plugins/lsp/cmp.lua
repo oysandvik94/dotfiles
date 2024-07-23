@@ -79,7 +79,6 @@ return {
 		{ "hrsh7th/cmp-nvim-lua" },
 		{ "L3MON4D3/LuaSnip" }, -- Required
 		"saadparwaiz1/cmp_luasnip",
-		"rafamadriz/friendly-snippets",
 		{ "onsails/lspkind.nvim" },
 		{ "hrsh7th/cmp-nvim-lsp-signature-help" },
 	},
