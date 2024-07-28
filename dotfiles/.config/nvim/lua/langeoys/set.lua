@@ -87,3 +87,16 @@ vim.opt.listchars = { tab = "| ", trail = "·", nbsp = "␣" }
 vim.highlight.priorities.semantic_tokens = 95
 vim.o.whichwrap = "bs<>[]hl"
 vim.opt.formatoptions:remove({ "c", "r", "o" }) -- don't insert the current comment leader automatically for auto-wrapping comments using 'textwidth', hitting <Enter> in insert mode, or hitting 'o' or 'O' in normal mode.
+
+-- In your Neovim configuration:
+vim.opt.exrc = true
+vim.opt.secure = true
+local workspace_path = vim.fn.getcwd()
+local cache_dir = vim.fn.stdpath("data")
+local unique_id = vim.fn.fnamemodify(workspace_path, ":t") .. "_" .. vim.fn.sha256(workspace_path):sub(1, 8) ---@type string
+local shadafile = cache_dir .. "/myshada/" .. unique_id .. ".shada"
+
+vim.opt.shadafile = shadafile
+
+vim.opt.switchbuf = "usetab"
+require("langeoys.utils.marks").init()
