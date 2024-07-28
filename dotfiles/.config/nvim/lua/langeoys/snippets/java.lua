@@ -35,7 +35,7 @@ end
 
 local function get_package_name()
 	local file_path = vim.fn.expand("%:p")
-	local package_path = file_path:match("src/main/java/(.*)/.*%.java$")
+	local package_path = file_path:match("src/[^/]+/java/(.*)/.+%.java$")
 	if package_path then
 		return package_path:gsub("/", ".")
 	end
@@ -61,6 +61,15 @@ end
 
 return {
 	s("logger", fmt("Logger logger = LoggerFactory.getLogger({}.class);", { getClassName() })),
+	s("ctor", {
+		t({ "public " }),
+		type_name(),
+		t({ "(" }),
+		i(1),
+		t({ ")" }),
+		t({ " {", "", "}" }),
+	}),
+
 	s("aw", fmt("private final {} {};", { i(1), toParameter(1) })),
 
 	s("class", {
