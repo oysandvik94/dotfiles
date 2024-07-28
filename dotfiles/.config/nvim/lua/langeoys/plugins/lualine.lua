@@ -1,4 +1,8 @@
 local function search_count()
+	if vim.v.hlsearch == 0 then
+		return
+	end
+
 	local res = vim.fn.searchcount({ maxcount = 999, timeout = 500 })
 	if res.total and res.total > 0 then
 		return string.format("%s/%d %s", res.current, res.total, vim.fn.getreg("/"))
@@ -59,6 +63,11 @@ return {
 							if vim.startswith(fn, "jdt://") then
 								return fn:gsub("?.*$", "")
 							end
+
+							if marks.is_marked(str) then
+								return "󰐷 " .. str
+							end
+
 							return str
 						end,
 					},
