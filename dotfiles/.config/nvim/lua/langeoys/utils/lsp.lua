@@ -3,7 +3,9 @@ local M = {}
 M.on_attach = function(event)
 	local opts = { noremap = true, silent = true }
 	vim.keymap.set("n", "gd", function()
-		require("fzf-lua").lsp_definitions({})
+		require("fzf-lua").lsp_definitions({
+			jump_to_single_result = true,
+		})
 	end, opts)
 	vim.keymap.set("n", "gD", function()
 		vim.lsp.buf.declaration()
@@ -38,7 +40,11 @@ M.on_attach = function(event)
 	end, opts)
 
 	vim.keymap.set("n", "grr", function()
-		require("fzf-lua").lsp_references({})
+		require("fzf-lua").lsp_references({
+			jump_to_single_result = true,
+			ignore_current_line = true,
+			ignoreDecleration = true,
+		})
 	end, {})
 	vim.keymap.set("n", "<leader>lit", function()
 		vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
