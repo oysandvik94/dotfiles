@@ -29,7 +29,7 @@ return {
 				},
 			},
 		}
-		dap_ui.setup(minimal_setup)
+		dap_ui.setup()
 		require("nvim-dap-virtual-text").setup({})
 
 		local function trigger_dap(dapStart)
@@ -161,7 +161,7 @@ return {
 					return vim.fn.input("Hostname: ", "localhost")
 				end,
 				port = function()
-					return vim.fn.input("Port: ", "8000")
+					return vim.fn.input("Port: ", "5005")
 				end,
 			},
 		}
