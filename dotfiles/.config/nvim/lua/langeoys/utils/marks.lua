@@ -29,6 +29,12 @@ local globalMarks = {
 	"Z",
 }
 
+M.init = function()
+	for _, mark in ipairs(globalMarks) do
+		vim.keymap.set("n", "'" .. mark, "'" .. mark .. "'\"", {})
+	end
+end
+
 M.get_mark_table = function()
 	local marks = {}
 	for _, v in ipairs(globalMarks) do
