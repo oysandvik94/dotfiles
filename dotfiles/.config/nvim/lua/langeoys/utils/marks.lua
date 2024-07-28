@@ -80,14 +80,23 @@ M.lualine_global = function()
 		local filename_only = vim.fn.fnamemodify(filename, ":t")
 		local mark_string = string.format("%s: %s", mark, filename_only)
 
-		if current_filename == vim.fn.expand(filename) then
-			mark_string = string.format("[%s]", mark_string)
+		if current_filename ~= vim.fn.expand(filename) then
+			lualine_marks = lualine_marks .. mark_string .. " "
 		end
-
-		lualine_marks = lualine_marks .. mark_string .. " "
 	end
 
 	return lualine_marks
+end
+
+M.is_marked = function(filename)
+	local marks = M.get_mark_table()
+	for _, fileinfo in pairs(marks) do
+		if vim.fn.fnamemodify(fileinfo[4], ":t") == filename then
+			return true
+		end
+	end
+
+	return false
 end
 
 M.lualine = function()
