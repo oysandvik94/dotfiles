@@ -1,7 +1,6 @@
 return {
-	url = "https://gitlab.com/schrieveslaach/sonarlint.nvim",
-	-- dir = "$HOME/dev/general/sonarlint.nvim",
-	enabled = false,
+	-- url = "https://gitlab.com/schrieveslaach/sonarlint.nvim",
+	dir = "$HOME/dev/general/sonarlint.nvim",
 	dependencies = {
 		"mfussenegger/nvim-jdtls",
 		"neovim/nvim-lspconfig",

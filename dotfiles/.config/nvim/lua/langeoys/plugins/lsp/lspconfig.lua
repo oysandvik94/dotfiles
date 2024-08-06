@@ -7,8 +7,11 @@ return {
 		"williamboman/mason-lspconfig.nvim",
 		"hrsh7th/nvim-cmp",
 		"b0o/SchemaStore.nvim",
+		"nvim-java/nvim-java",
 	},
 	config = function()
+		require("java").setup()
+
 		-- experiment with roslyn instead of omnisharp
 		local use_roslyn = true
 
@@ -96,7 +99,7 @@ return {
 				})
 			end,
 			-- no-op, configured in seperate plugins
-			["jdtls"] = function() end,
+			-- ["jdtls"] = function() end,
 			["yamlls"] = function()
 				require("lspconfig").yamlls.setup({
 					capabilities = capabilities,

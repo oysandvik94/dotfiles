@@ -46,6 +46,12 @@ M.on_attach = function(event)
 			ignoreDecleration = true,
 		})
 	end, {})
+	vim.keymap.set("n", "<leader>gds", function()
+		require("fzf-lua").lsp_document_symbols({})
+	end, {})
+	vim.keymap.set("n", "<leader>gws", function()
+		require("fzf-lua").lsp_workspace_symbols({})
+	end, {})
 	vim.keymap.set("n", "<leader>lit", function()
 		vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
 	end)
@@ -53,6 +59,18 @@ M.on_attach = function(event)
 	vim.keymap.set("n", "<leader>ge", function()
 		require("langeoys.utils.rust").go_to_error()
 	end)
+
+	-- Map the function to a key (e.g., <leader>a)
+	vim.keymap.set("n", "<leader>lq", function()
+		vim.lsp.buf.code_action({
+			filter = function(action)
+				return action.kind == vim.lsp.protocol.CodeActionKind.QuickFix or action.isPreferred
+			end,
+			context = {
+				diagnostics = vim.lsp.diagnostic.get_line_diagnostics(),
+			},
+		})
+	end, { noremap = true, silent = true })
 end
 
 return M
