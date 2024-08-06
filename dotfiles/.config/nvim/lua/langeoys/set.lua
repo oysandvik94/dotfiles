@@ -100,3 +100,9 @@ vim.opt.shadafile = shadafile
 
 vim.opt.switchbuf = "usetab"
 require("langeoys.utils.marks").init()
+
+vim.filetype.add({
+	extension = {
+		las = "pipescript",
+	},
+})
