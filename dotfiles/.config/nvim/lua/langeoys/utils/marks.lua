@@ -58,7 +58,9 @@ M.select_mark = function()
 	vim.ui.select(option_labels, {
 		prompt = "Select mark",
 		format_item = function(item)
-			local formatted_label = item .. " - " .. marks[item][4]
+			local filename_only = vim.fn.fnamemodify(marks[item][4], ":t")
+
+			local formatted_label = item .. " - " .. filename_only
 			return formatted_label
 		end,
 	}, function(mark)
