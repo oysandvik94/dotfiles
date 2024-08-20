@@ -90,6 +90,9 @@ return {
 			files = {
 				formatter = "path.filename_first",
 			},
+			live_grep_glob = {
+				formatter = "path.filename_first",
+			},
 			defaults = {
 				copen = function()
 					require("trouble").toggle("quickfix")
@@ -141,7 +144,7 @@ return {
 			"n",
 			"<leader>fg",
 			-- "<cmd>lua require('fzf-lua').live_grep_glob({rg_opts = \"--column --hidden --line-number --no-heading --color=always --smart-case --max-columns=4096 -g '!*.git/*' -e\"})<CR>",
-			"<cmd>lua require('fzf-lua').live_grep_glob({rg_opts = \"--hidden --line-number --smart-case --sort-files -g '!*.git/*'\"})<CR>",
+			"<cmd>lua require('fzf-lua').live_grep_glob({               formatter = 'path.filename_first', rg_opts = \"--hidden --line-number --smart-case --sort-files -g '!*.git/*'\"})<CR>",
 			{ silent = true }
 		)
 		vim.keymap.set("v", "<leader>fg", "<cmd>lua require('fzf-lua').grep_visual()<CR>", { silent = true })

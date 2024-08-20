@@ -7,10 +7,10 @@ return {
 		"williamboman/mason-lspconfig.nvim",
 		"hrsh7th/nvim-cmp",
 		"b0o/SchemaStore.nvim",
-		"nvim-java/nvim-java",
+		-- "nvim-java/nvim-java",
 	},
 	config = function()
-		require("java").setup()
+		-- require("java").setup()
 
 		-- experiment with roslyn instead of omnisharp
 		local use_roslyn = true
@@ -25,12 +25,68 @@ return {
 			end,
 		})
 
+		local java_rootdir = function()
+			return vim.fs.dirname(vim.fs.find({ "gradlew", ".git", "mvnw", "pom.xml" }, { path = vim.fn.getcwd() })[1])
+		end
+
 		local capabilities = cmp_nvim_lsp.default_capabilities()
 		local handlers = {
 			function(server_name) -- default handler (optional)
 				require("lspconfig")[server_name].setup({
 					capabilities = capabilities,
 				})
+			end,
+			["jdtls"] = function()
+				-- require("lspconfig").jdtls.setup({
+				-- capabilities = capabilities,
+				-- root_dir = java_rootdir,
+				-- settings = {
+				-- 	java = {
+				-- 		signatureHelp = {
+				-- 			enabled = true,
+				-- 		},
+				-- 		eclipse = {
+				-- 			downloadSources = true,
+				-- 		},
+				-- 		maven = {
+				-- 			downloadSources = true,
+				-- 		},
+				-- 		implementationsCodeLens = {
+				-- 			enabled = true,
+				-- 		},
+				-- 		referencesCodeLens = {
+				-- 			enabled = true,
+				-- 		},
+				-- 		inlayHints = {
+				-- 			parameterNames = {
+				-- 				enabled = "all", -- literals, all, none
+				-- 			},
+				-- 		},
+				-- 		completion = {
+				-- 			favoriteStaticMembers = {
+				-- 				"org.hamcrest.MatcherAssert.assertThat",
+				-- 				"org.hamcrest.Matchers.*",
+				-- 				"org.hamcrest.CoreMatchers.*",
+				-- 				"org.junit.jupiter.api.Assertions.*",
+				-- 				"java.util.Objects.requireNonNull",
+				-- 				"java.util.Objects.requireNonNullElse",
+				-- 				"org.mockito.Mockito.*",
+				-- 			},
+				-- 			filteredTypes = {
+				-- 				"com.sun.*",
+				-- 				"io.micrometer.shaded.*",
+				-- 				"java.awt.*",
+				-- 				"jdk.*",
+				-- 				"sun.*",
+				-- 			},
+				-- 			guessMethodArguments = true,
+				-- 		},
+				-- 		contentProvider = {
+				-- 			preferred = "fernflower",
+				-- 		},
+				-- 	},
+				-- },
+				-- })
 			end,
 			["omnisharp"] = function()
 				if not use_roslyn then

@@ -1,4 +1,4 @@
-vim.b.disable_autoformat = true
+-- vim.b.disable_autoformat = true
 
 local java_utils = require("langeoys.utils.java")
 

@@ -288,16 +288,16 @@ local function jdtls_setup(event)
 	})
 end
 
--- vim.api.nvim_create_autocmd("FileType", {
--- 	group = java_cmds,
--- 	pattern = { "java" },
--- 	desc = "Setup jdtls",
--- 	callback = jdtls_setup,
--- })
+vim.api.nvim_create_autocmd("FileType", {
+	group = java_cmds,
+	pattern = { "java" },
+	desc = "Setup jdtls",
+	callback = jdtls_setup,
+})
 
 return {
 	"mfussenegger/nvim-jdtls",
-	enabled = false,
+	enabled = true,
 	-- dir = "~/dev/general/nvim-jdtls",
 	dependencies = {
 		"rcarriga/nvim-dap-ui",
