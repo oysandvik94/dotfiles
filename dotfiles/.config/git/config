@@ -42,3 +42,4 @@
     syncmaster = !git fetch origin && git rebase --autosquash origin/master
     syncfrom = "!git fetch origin && git rebase --autosquash origin/$1 #"
     lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
+    yeet = push --force
