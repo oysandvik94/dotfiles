@@ -1,6 +1,7 @@
 betterlockscreen
 cava
 pyprland
+kanshi
 rofi-lbonn-wayland
 slides
 uuid

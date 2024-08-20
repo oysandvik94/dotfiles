@@ -1,0 +1,19 @@
+profile {
+    output eDP-1 disable
+    output DP-4 enable
+}
+
+profile rosenkrantz {
+    output DVI-I-1 disable
+    output DVI-I-2 enable
+    output eDP-1 disable
+}
+
+profile {
+    output eDP-1 disable
+    output DP-5 enable
+}
+
+profile {
+    output eDP-1 enable scale 1
+}
