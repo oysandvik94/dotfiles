@@ -1,16 +1,16 @@
 #! /bin/sh
 
 rofi_cmd() {
-	rofi -dmenu \
-		-theme ~/.config/rofi/configs/power.rasi
+    rofi -dmenu \
+        -theme ~/.config/rofi/configs/power.rasi
 }
 
 chosen=$(printf "  \n  \n  \n 󰤄 " | rofi_cmd)
 
 case "$chosen" in
-	"  ") poweroff ;;
-	"  ") reboot ;;
-	"  ") swaylock ;;
-	" 󰤄 ") systemctl suspend ;;
-	*) exit 1 ;;
+"  ") poweroff ;;
+"  ") reboot ;;
+"  ") swaylock 2>~/.log/swaylog.log ;;
+" 󰤄 ") systemctl suspend ;;
+*) exit 1 ;;
 esac

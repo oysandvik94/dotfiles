@@ -5,6 +5,12 @@ vim.opt.cursorline = true
 vim.opt.cursorlineopt = "number"
 
 -- Indenting
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "*",
+	callback = function()
+		vim.opt_local.formatoptions:remove({ "o" })
+	end,
+})
 vim.opt.colorcolumn = "99"
 vim.opt.autoindent = true
 vim.opt.smartindent = true

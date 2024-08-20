@@ -1,27 +1,21 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 
-set -e
+# function opbash_signin() {
+#     op list templates >>/dev/null 2>&1
+#     if [[ $? -ne 0 ]]; then
+#         eval $(op signin)
+#     fi
+# }
 
-BW_SESSION=$(secret-tool lookup session bitwarden)
-if test -z "$BW_SESSION"; then
-	bw unlock --raw | secret-tool store --label='Bitwarden Session Token' session bitwarden
-	BW_SESSION=$(secret-tool lookup session bitwarden)
-fi
+function opbash_get_names() {
+    op item list
+}
 
-if ! ss -ltn | grep -q ':8099'; then
-    bw --session $BW_SESSION serve --hostname 127.0.0.1 --port 8099 &
-	BW_PID=$!
+function opbash_get_entry() {
+    passwd=$(op item get "$1" --reveal --fields password)
+    echo "$passwd" | wl-copy
+}
 
-	until ss -ltn | grep -q ':8099'; do
-        sleep 0.3
-    done
-fi
-
-if [ "${1}" = "sync" ]; then
-    curl -s http://127.0.0.1:8099/sync
-    exit
-fi
-
-curl -s http://127.0.0.1:8099/list/object/items | jq -r '.data.data.[] | [.name, .login.password] | @tsv' | fzf --with-nth 1 --layout=reverse --delimiter='\t' | cut -f 2 -d '	' | wl-copy
-
-exit 0
+# opbash_signin
+opname=$(opbash_get_names | fzf | awk '{print $1}')
+opbash_get_entry "$opname"
