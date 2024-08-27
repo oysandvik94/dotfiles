@@ -12,5 +12,7 @@ return {
 		})
 
 		-- Setup shortcuts here (see Usage > Shortcuts in the Documentation/Readme)
+		vim.keymap.set("v", "<leader>air", ":<C-u>'<,'>GpRewrite<cr>", {})
+		vim.keymap.set("v", "<leader>aic", ":<C-u>'<,'>GpChatToggle<cr>", {})
 	end,
 }
