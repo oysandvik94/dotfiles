@@ -106,7 +106,8 @@ return {
 			},
 			keymap = {
 				fzf = {
-					["ctrl-q"] = "select-all+accept",
+					["ctrl-a"] = "select-all",
+					["ctrl-q"] = "accept",
 				},
 				builtin = {
 					["<C-d>"] = "preview-page-down",
