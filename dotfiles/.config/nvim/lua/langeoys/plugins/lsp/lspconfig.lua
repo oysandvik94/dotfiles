@@ -224,7 +224,12 @@ return {
 			vim.lsp.util.apply_text_edits(text_document_edit.edits, bufnr, offset_encoding)
 		end
 
-		require("mason").setup()
+		require("mason").setup({
+			registries = {
+				"github:mason-org/mason-registry",
+				"github:nvim-java/mason-registry",
+			},
+		})
 		local mason_lspconfig = require("mason-lspconfig")
 		mason_lspconfig.setup({
 			ensure_installed = {

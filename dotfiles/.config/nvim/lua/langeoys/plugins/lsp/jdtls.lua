@@ -52,6 +52,11 @@ local function get_jdtls_paths()
 	if java_test_bundle[1] ~= "" then
 		vim.list_extend(path.bundles, java_test_bundle)
 	end
+	-- vim.list_extend(path.bundles, require("spring_boot").java_extensions())
+	local spring_path = require("mason-registry").get_package("spring-boot-tools"):get_install_path()
+		.. "/extension/jars/*.jar"
+	local spring = vim.split(vim.fn.glob(spring_path), "\n", {})
+	vim.list_extend(path.bundles, spring)
 
 	---
 	-- Include java-debug-adapter bundle if present
@@ -142,6 +147,10 @@ end
 
 local function jdtls_setup(event)
 	local jdtls = require("jdtls")
+	local spring_path = require("mason-registry").get_package("spring-boot-tools"):get_install_path()
+	require("spring_boot").setup({
+		ls_path = spring_path .. "/extension/language-server",
+	})
 
 	local path = get_jdtls_paths()
 	local data_dir = path.data_dir .. "/" .. string.gsub(vim.fn.getcwd(), "/", "_")
@@ -270,6 +279,7 @@ local function jdtls_setup(event)
 
 	-- This starts a new client & server,
 	-- or attaches to an existing client & server depending on the `root_dir`.
+	require("spring_boot").init_lsp_commands()
 	jdtls.start_or_attach({
 		cmd = cmd,
 		settings = lsp_settings,
@@ -290,13 +300,14 @@ end
 
 vim.api.nvim_create_autocmd("FileType", {
 	group = java_cmds,
-	pattern = { "java" },
+	pattern = { "java", "yaml" },
 	desc = "Setup jdtls",
 	callback = jdtls_setup,
 })
 
 return {
 	"mfussenegger/nvim-jdtls",
+	"JavaHello/spring-boot.nvim",
 	enabled = true,
 	-- dir = "~/dev/general/nvim-jdtls",
 	dependencies = {
