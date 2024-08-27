@@ -1,4 +1,4 @@
-profile {
+profile hjemmedock {
     output eDP-1 disable
     output DP-4 enable
 }
