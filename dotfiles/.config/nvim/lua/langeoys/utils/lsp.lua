@@ -24,9 +24,9 @@ M.on_attach = function(event)
 	vim.keymap.set("n", "<leader>ld", function()
 		vim.diagnostic.open_float()
 	end, opts)
-	vim.keymap.set("n", "<leader>lr", function()
-		vim.lsp.buf.rename()
-	end, opts)
+	-- vim.keymap.set("n", "<leader>lr", function()
+	-- 	vim.lsp.buf.rename()
+	-- end, opts)
 
 	vim.keymap.set("n", "grr", function()
 		require("fzf-lua").lsp_references({
