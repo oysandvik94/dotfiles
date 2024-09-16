@@ -9,6 +9,11 @@ profile rosenkrantz {
     output eDP-1 disable
 }
 
+profile bouvetvindu {
+    output eDP-1 disable
+    output DP-2 enable
+}
+
 profile {
     output eDP-1 disable
     output DP-5 enable
