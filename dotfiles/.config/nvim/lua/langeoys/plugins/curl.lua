@@ -6,11 +6,17 @@ return {
 	},
 	config = function()
 		local curl = require("curl")
-		curl.setup({})
+		curl.setup({
+			open_with = "split",
+		})
 
 		vim.keymap.set("n", "<leader>hh", function()
 			curl.open_curl_tab()
 		end, { desc = "Open a curl tab scoped to the current working directory" })
+
+		vim.keymap.set("n", "<leader>hq", function()
+			curl.close_curl_tab()
+		end, { desc = "Close curl tab" })
 
 		vim.keymap.set("n", "<leader>ho", function()
 			curl.open_global_tab()
