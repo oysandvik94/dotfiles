@@ -4,7 +4,7 @@ bindkey -v
 export KEYTIMEOUT=1
 
 bindkey -M vicmd _ beginning-of-line
-
+bindkey '^f' vi-cmd-mode
 
 # Open command in vim
 autoload -Uz edit-command-line
@@ -61,3 +61,4 @@ cursor_mode() {
 }
 
 cursor_mode
+
