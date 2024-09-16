@@ -50,18 +50,27 @@ local function formatLspFunctions(entry, vim_item)
 
 	if entry.source.source.client.name == "jdtls" then
 		if tableContains(parameterizedTypes, item.kind) then
-			local new_function_name = item.label .. item.labelDetails.detail
-			if string.len(new_function_name) < 40 then
-				new_function_name = string.sub(new_function_name, 1, 40)
-				vim_item.abbr = new_function_name
-			end
+			if vim_item.kind == "Constructor" then
+				-- local new_constr_name = vim_item.word .. vim_item.menu
+				-- vim_item.abbr = new_constr_name
 
-			local return_value = item.labelDetails.description
-			vim_item.menu = return_value
+				local type = item.detail and vim.split(item.detail, vim_item.word)[1] or ""
+				vim_item.menu = type
+			else
+				local new_function_name = item.label .. item.labelDetails.detail
+				if string.len(new_function_name) < 40 then
+					new_function_name = string.sub(new_function_name, 1, 40)
+					vim_item.abbr = new_function_name
+				end
+
+				local return_value = item.labelDetails.description
+				vim_item.menu = return_value
+			end
 		end
 	else
 		vim_item.menu = ""
 	end
+
 	return vim_item
 end
 
@@ -69,7 +78,6 @@ return {
 	"hrsh7th/nvim-cmp",
 	event = "InsertEnter",
 	dependencies = {
-		{ "hrsh7th/nvim-cmp" }, -- Required
 		{ "hrsh7th/cmp-buffer" },
 		{ "ryo33/nvim-cmp-rust" },
 		{ "hrsh7th/cmp-nvim-lsp" }, -- Required
@@ -138,6 +146,9 @@ return {
 			end
 		end
 
+		-- To toglge doc menu:
+		-- https://github.com/hrsh7th/nvim-cmp/pull/1647
+
 		vim.opt.pumheight = 10
 		-- require("cmp-rust").deprioritize_postfix,
 		-- require("cmp-rust").deprioritize_borrow,
@@ -145,6 +156,16 @@ return {
 		-- require("cmp-rust").deprioritize_common_traits,
 		local rust_cmp = require("langeoys.utils.rust")
 		cmp.setup({
+			enabled = function()
+				-- disable completion in comments
+				local context = require("cmp.config.context")
+				-- keep command mode completion enabled when cursor is in a comment
+				if vim.api.nvim_get_mode().mode == "c" then
+					return true
+				else
+					return not context.in_treesitter_capture("comment") and not context.in_syntax_group("Comment")
+				end
+			end,
 			---@diagnostic disable-next-line: missing-fields
 			completion = {
 				completeopt = "menu,menuone,preview,noselect",
@@ -174,7 +195,6 @@ return {
 			},
 			window = {
 				completion = cmp.config.window.bordered(),
-				documentation = cmp.config.window.bordered(),
 			},
 			view = {
 				entries = { name = "custom" },
