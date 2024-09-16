@@ -112,3 +112,7 @@ vim.filetype.add({
 		las = "pipescript",
 	},
 })
+
+-- spelling
+vim.opt.spell = true
+vim.opt.spelllang = { "nb", "en" }
