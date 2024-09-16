@@ -23,8 +23,8 @@ sudo -v
 echo "First I will check if you have the required dependencies to run this script"
 echo
 $BIN_DIR/checkDependencies.sh || {
-	echo "I couldn't find or install the requirements, good luck to you :)" >&2
-	exit 1
+    echo "I couldn't find or install the requirements, good luck to you :)" >&2
+    exit 1
 }
 
 echo "------------------"
@@ -94,5 +94,6 @@ I, Pus Philemon, has upgraded and bootstrapped your system.
 EOF
 
 test "$parsed_output" && echo "I have upgraded these packages:"
+sudo -v
 sudo mkdir -p /var/log/upgrade_history
 echo "$parsed_output" | sudo tee /var/log/upgrade_history/"$(date -u +%Y_%m_%dT%H_%M_%S)"
