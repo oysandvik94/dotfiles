@@ -1,3 +1,4 @@
+vim.opt.spellcapcheck = ""
 vim.lsp.set_log_level("debug")
 local root_dir = vim.fs.dirname(vim.fs.find({ ".git" }, { upward = true })[1])
 local client = vim.lsp.start({
