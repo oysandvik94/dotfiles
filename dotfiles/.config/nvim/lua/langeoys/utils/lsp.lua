@@ -1,6 +1,8 @@
 local M = {}
 
 M.on_attach = function(event)
+	vim.lsp.inlay_hint.enable(true)
+
 	local opts = { noremap = true, silent = true }
 	vim.keymap.set("n", "gd", function()
 		require("fzf-lua").lsp_definitions({

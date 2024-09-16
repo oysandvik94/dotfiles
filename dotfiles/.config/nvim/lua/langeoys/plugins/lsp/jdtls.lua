@@ -150,6 +150,13 @@ local function jdtls_setup(event)
 	local spring_path = require("mason-registry").get_package("spring-boot-tools"):get_install_path()
 	require("spring_boot").setup({
 		ls_path = spring_path .. "/extension/language-server",
+		server = {
+			handlers = {
+				["textDocument/inlayHint"] = function(_, _, params, client_id, _)
+					-- ...
+				end,
+			},
+		},
 	})
 
 	local path = get_jdtls_paths()
