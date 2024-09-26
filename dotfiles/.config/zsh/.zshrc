@@ -91,6 +91,7 @@ if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
 
         1) i3
         2) hypr
+        3) sway
         -> "
 
         read option
@@ -102,6 +103,15 @@ if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
 
         if [[ "$option" == "2" ]]; then
                 exec launchHypr.sh
+        fi
+
+        if [[ "$option" == "3" ]]; then
+            export QT_QPA_PLATFORM=wayland
+            export MOZ_ENABLE_WAYLAND=1
+            export MOZ_WEBRENDER=1
+            export XDG_SESSION_TYPE=wayland
+            export XDG_CURRENT_DESKTOP=sway
+            exec sway
         fi
 fi
 
