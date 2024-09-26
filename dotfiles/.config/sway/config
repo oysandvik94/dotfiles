@@ -1,0 +1,34 @@
+# Sway configuration file
+
+# Settings for monitors
+output * bg ~/wallpapers/evening-sky.png fill
+output eDP-1 resolution 1920x1080 position 0,0
+output HDMI-A-1 resolution 1920x1080 position 1920,0
+
+# Environment variables
+set $term kitty
+set $file_manager dolphin
+set $menu rofi -show drun -config ~/.config/rofi/configs/config.rasi -width 420
+set $powermenu ~/.config/rofi/scripts/powermenu
+set $screenshot maim -o --select | xclip -selection clipboard -t image/png
+
+# Input devices
+input "type:keyboard" {
+    xkb_layout no
+    xkb_variant ""
+    xkb_model ""
+    xkb_options ""
+    xkb_rules ""
+}
+
+input "type:touchpad" {
+    natural_scroll enabled
+    tap enabled
+    click_method clickfinger
+    middle_emulation enabled
+}
+
+# Source additional configuration files
+include ~/.config/sway/autostart.conf
+include ~/.config/sway/keybindings.conf
+include ~/.config/sway/styling.conf
