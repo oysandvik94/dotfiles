@@ -150,6 +150,7 @@ local function jdtls_setup(event)
 	local spring_path = require("mason-registry").get_package("spring-boot-tools"):get_install_path()
 	require("spring_boot").setup({
 		ls_path = spring_path .. "/extension/language-server",
+		exploded_ls_jar_data = true,
 		server = {
 			handlers = {
 				["textDocument/inlayHint"] = function(_, _, params, client_id, _)
@@ -180,6 +181,7 @@ local function jdtls_setup(event)
 	local cmd = {
 		"java",
 		"-Declipse.application=org.eclipse.jdt.ls.core.id1",
+		"-XX:+UnlockExperimentalVMOptions",
 		"-Dosgi.bundles.defaultStartLevel=4",
 		"-Declipse.product=org.eclipse.jdt.ls.core.product",
 		"-Dlog.protocol=true",
@@ -295,7 +297,7 @@ local function jdtls_setup(event)
 			["$/progress"] = function(_, result, ctx) end,
 		},
 		capabilities = cache_vars.capabilities,
-		root_dir = vim.fs.dirname(vim.fs.find({ "gradlew", ".git", "mvnw", "pom.xml" }, { path = vim.fn.getcwd() })[1]),
+		root_dir = require("jdtls.setup").find_root({ "gradlew", "pom.xml" }),
 		flags = {
 			allow_incremental_sync = true,
 		},

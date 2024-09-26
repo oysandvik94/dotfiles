@@ -21,7 +21,7 @@ glow
 gnome-keyring
 grim
 htop
-hyprland
+hyprland-git
 i3-wm
 intel-ucode
 keychain

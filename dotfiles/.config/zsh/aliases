@@ -21,12 +21,12 @@ alias ll='ls -alFh --color=auto --time-style=long-iso'
 alias less='less -R'
 
 rgl() {
-	rg -p "$@" | less -XFR
+    rg -p "$@" | less -XFR
 }
 
 alias dockerdelete="docker ps | awk '{ print $1 }' | docker rm -vf"
 docked_delete_tag() {
-	docker images | grep "$1" | awk '{ print $3 }' | xargs -L1 docker rmi
+    docker images | grep "$1" | awk '{ print $3 }' | xargs -L1 docker rmi
 }
 
 alias cal="cal --monday"
@@ -43,17 +43,21 @@ alias szsh="source $HOME/.config/zsh/.zshrc"
 alias aliases="alias | cut -d '=' -f 1 | fzf | xargs -I {} sh -c 'eval "{}"' "
 
 function falias() {
-	local cmd
-	cmd=$(alias | sed 's/alias //g' | cut -d '=' -f 1 | fzf --prompt="Alias: ")
-	[[ -n "$cmd" ]] && BUFFER="$BUFFER $cmd" && zle end-of-line
+    local cmd
+    cmd=$(alias | sed 's/alias //g' | cut -d '=' -f 1 | fzf --prompt="Alias: ")
+    [[ -n "$cmd" ]] && BUFFER="$BUFFER $cmd" && zle end-of-line
 }
 
 function gitreport() {
-	cd "$HOME"/dev/bergen || exit
-	git standup -s
-	cd - || exit
+    cd "$HOME"/dev/bergen || exit
+    git standup -s
+    cd - || exit
 }
 
 kitty-reload() {
-	kill -SIGUSR1 $(pidof kitty)
+    kill -SIGUSR1 $(pidof kitty)
+}
+
+fzfimg() {
+    fd . -e svg | fzf --preview='kitty icat --clear --transfer-mode=memory --stdin=no --place=${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES}@0x0 {}'
 }

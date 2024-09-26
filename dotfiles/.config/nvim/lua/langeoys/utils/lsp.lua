@@ -14,8 +14,9 @@ M.on_attach = function(event)
 		vim.api.nvim_feedkeys("zz", "n", false)
 	end, opts)
 	vim.keymap.set("n", "gi", function()
-		vim.lsp.buf.implementation()
-		vim.api.nvim_feedkeys("zz", "n", false)
+		require("fzf-lua").lsp_implementations({
+			jump_to_single_result = true,
+		})
 	end, opts)
 	vim.keymap.set("n", "K", function()
 		vim.lsp.buf.hover()
