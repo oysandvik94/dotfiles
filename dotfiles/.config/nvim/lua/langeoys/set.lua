@@ -30,7 +30,7 @@ vim.opt.incsearch = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.hlsearch = true
-vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
+vim.keymap.set("n", "<esc>", "<cmd>nohlsearch<CR>")
 
 -- handle unpack deprecation
 table.unpack = table.unpack or unpack
