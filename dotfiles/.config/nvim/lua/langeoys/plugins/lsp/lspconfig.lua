@@ -5,7 +5,6 @@ return {
 		"williamboman/mason.nvim",
 		"jmederosalvarado/roslyn.nvim",
 		"williamboman/mason-lspconfig.nvim",
-		"hrsh7th/nvim-cmp",
 		"b0o/SchemaStore.nvim",
 		-- "nvim-java/nvim-java",
 	},
@@ -14,8 +13,6 @@ return {
 
 		-- experiment with roslyn instead of omnisharp
 		local use_roslyn = true
-
-		local cmp_nvim_lsp = require("cmp_nvim_lsp")
 
 		local on_attach = require("langeoys.utils.lsp").on_attach
 		vim.api.nvim_create_autocmd("LspAttach", {
@@ -29,13 +26,13 @@ return {
 			return vim.fs.dirname(vim.fs.find({ "gradlew", ".git", "mvnw", "pom.xml" }, { path = vim.fn.getcwd() })[1])
 		end
 
-		local capabilities = cmp_nvim_lsp.default_capabilities()
 		local handlers = {
 			function(server_name) -- default handler (optional)
 				require("lspconfig")[server_name].setup({
-					capabilities = capabilities,
+					-- capabilities = capabilities,
 				})
 			end,
+			["ts_ls"] = function() end,
 			["jdtls"] = function()
 				-- require("lspconfig").jdtls.setup({
 				-- capabilities = capabilities,
