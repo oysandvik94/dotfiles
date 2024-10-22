@@ -30,6 +30,8 @@ vim.keymap.set("n", "]q", "<cmd>cnext<CR>zz")
 vim.keymap.set("n", "[q", "<cmd>cprev<CR>zz")
 vim.keymap.set("n", "]t", "<cmd>tabnext<CR>")
 vim.keymap.set("n", "[t", "<cmd>tabprev<CR>")
+vim.keymap.set("n", "]f", "zj")
+vim.keymap.set("n", "[f", "zk")
 
 vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>")
 
