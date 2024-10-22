@@ -21,6 +21,7 @@ vim.filetype.add({
 	extension = {
 		las = "piperscript",
 	},
+	pattern = { [".*/hypr/.*%.conf"] = "hyprlang" },
 })
 
 return plugins
