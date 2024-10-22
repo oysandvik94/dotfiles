@@ -60,7 +60,7 @@ return {
 		-- 	trigger_dap(require("jdtls").test_class())
 		-- end, { desc = "Debug test class" })
 		vim.keymap.set("n", "<leader>dn", function()
-			trigger_dap(require("jdtls").test_nearest_method())
+			trigger_dap(require("jdtls").test_nearest_method)
 		end, { desc = "Debug neartest test method" })
 		-- vim.keymap.set("n", "<leader>dt", function()
 		-- 	trigger_dap(jdtls.test_nearest_method)
