@@ -2,7 +2,16 @@ return {
 	"jackMort/tide.nvim",
 	config = function()
 		require("tide").setup({
-			-- optional configuration
+			keys = {
+				leader = "<leader>h",
+				horizontal = "v",
+				vertical = "s",
+			},
+			hints = {
+				dictionary = "qwfpbjluy",
+			},
+			animation_fps = 60,
+			animation_duration = 150,
 		})
 	end,
 	requires = {
