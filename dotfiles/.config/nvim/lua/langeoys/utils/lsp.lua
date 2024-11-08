@@ -69,16 +69,7 @@ M.on_attach = function(event)
 		})
 	end, { noremap = true, silent = true })
 
-	vim.keymap.set({ "n", "v" }, "<leader>lc", function()
-		require("fzf-lua").lsp_code_actions({
-			-- winopts = {
-			-- 	relative = "cursor",
-			-- 	width = 0.6,
-			-- 	height = 0.3,
-			-- 	row = 1,
-			-- },
-		})
-	end, { noremap = true, silent = true })
+	vim.keymap.set({ "n", "v" }, "<leader>lc", vim.lsp.buf.code_action, { noremap = true, silent = true })
 end
 
 return M
