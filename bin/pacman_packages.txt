@@ -61,6 +61,7 @@ wireplumber
 wl-clipboard
 xclip
 xdg-user-dirs
+xdg-desktop-portal-hyprland-git
 xdg-utils
 xdo
 xdotool
