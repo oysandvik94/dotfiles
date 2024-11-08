@@ -88,10 +88,10 @@ local function get_jdtls_paths()
 			name = "JavaSE-11",
 			path = vim.fn.expand("~/.sdkman/candidates/java/11.0.22-tem"),
 		},
-		-- {
-		-- 	name = "JavaSE-21",
-		-- 	path = vim.fn.expand("/home/oysandvik/.sdkman/candidates/java/21-open"),
-		-- },
+		{
+			name = "JavaSE-21",
+			path = vim.fn.expand("~/.sdkman/candidates/java/21.0.4-tem"),
+		},
 
 		-- {
 		--   name = 'JavaSE-18',
@@ -188,6 +188,7 @@ local function jdtls_setup(event)
 		"-Dlog.level=ALL",
 		"-javaagent:" .. path.java_agent,
 		"-Xms1g",
+		"-Xmx8G",
 		"--add-modules=ALL-SYSTEM",
 		"--add-opens",
 		"java.base/java.util=ALL-UNNAMED",
@@ -209,11 +210,6 @@ local function jdtls_setup(event)
 
 	local lsp_settings = {
 		java = {
-			-- jdt = {
-			--   ls = {
-			--     vmargs = "-XX:+UseParallelGC -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xmx1G -Xms100m"
-			--   }
-			-- },
 			eclipse = {
 				downloadSources = true,
 			},
