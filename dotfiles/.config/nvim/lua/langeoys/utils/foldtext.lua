@@ -104,7 +104,7 @@ function HighlightedFoldtext()
 	end
 
 	local result2 = parse_line(vim.v.foldend)
-	if result2 then
+	if result2 and result2[1] ~= nil then
 		local first = result2[1]
 		result2[1] = { vim.trim(first[1]), first[2] }
 		for _, item in ipairs(result2) do
@@ -127,6 +127,11 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 	callback = set_fold_hl,
 })
 
+vim.cmd([[augroup remember_folds
+  autocmd!
+  autocmd BufWinLeave *.* mkview
+  autocmd BufWinEnter *.* silent! loadview
+augroup END]])
 vim.api.nvim_create_autocmd({ "User" }, {
 	pattern = { "GpDone" },
 	callback = function(event)
