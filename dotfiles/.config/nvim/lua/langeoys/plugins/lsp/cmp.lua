@@ -125,7 +125,7 @@ return {
 			["<C-Space>"] = cmp.mapping.complete(), -- show completion suggestions
 			["<C-e>"] = cmp.mapping.abort(), -- close completion window
 			["<C-y>"] = cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Insert }),
-			["<CR>"] = cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Insert }),
+			["<Tab>"] = cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Insert }),
 			["<C-h>"] = function() end,
 		}
 
