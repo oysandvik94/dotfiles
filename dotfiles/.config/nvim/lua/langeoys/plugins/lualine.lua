@@ -45,7 +45,7 @@ return {
 				theme = custom_theme,
 				component_separators = "",
 				section_separators = { left = "", right = "" },
-				globalstatus = false,
+				globalstatus = true,
 			},
 			sections = {
 				lualine_a = { { "mode", separator = { left = "", right = "" }, right_padding = 4 } },
