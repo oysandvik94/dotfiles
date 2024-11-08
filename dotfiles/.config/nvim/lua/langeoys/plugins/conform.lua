@@ -14,10 +14,9 @@ return {
 
 		require("conform").setup({
 			format_on_save = function(bufnr)
-				if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
-					return
+				if vim.g.autoformat or vim.b[bufnr].autoformat then
+					return { timeout_ms = 500, lsp_fallback = true }
 				end
-				return { timeout_ms = 500, lsp_fallback = true }
 			end,
 			formatters_by_ft = {
 				lua = { "stylua" },
