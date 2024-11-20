@@ -3,8 +3,8 @@ return {
 	lazy = false, -- lazy loading handled internally
 	-- optional: provides snippets for the snippet source
 	dependencies = "rafamadriz/friendly-snippets",
-	version = "v0.*",
-	enabled = false,
+	enabled = true,
+	build = "cargo build --release",
 	opts = {
 		-- nerd_font_variant = "normal",
 
@@ -17,6 +17,11 @@ return {
 		-- 	accept = { "<CR>" },
 		-- 	show_documentation = "<Tab>",
 		-- },
+		keymap = {
+			["<Tab>"] = { "accept" },
+			["<Down>"] = { "select_next", "show" },
+			["<Up>"] = { "select_prev", "show" },
+		},
 		windows = {
 			documentation = {
 				min_width = 10,
