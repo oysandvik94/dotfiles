@@ -2,6 +2,7 @@ return {
 	url = "https://gitlab.com/schrieveslaach/sonarlint.nvim",
 	-- url = "https://gitlab.com/oysandvik94/sonarlint.nvim",
 	-- dir = "$HOME/dev/general/sonarlint.nvim",
+	enabled = false,
 	dependencies = {
 		"mfussenegger/nvim-jdtls",
 		"neovim/nvim-lspconfig",
@@ -9,6 +10,7 @@ return {
 	config = function()
 		require("sonarlint").setup({
 			server = {
+				root_dir = vim.fs.dirname(vim.fs.find({ "gradlew", ".git", "mvnw", "pom.xml" }, { upward = true })[1]),
 				-- cmd = {
 				-- 	"java",
 				-- 	"-jar",

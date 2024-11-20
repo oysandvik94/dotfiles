@@ -90,7 +90,7 @@ return {
 		{ "onsails/lspkind.nvim" },
 		{ "hrsh7th/cmp-nvim-lsp-signature-help" },
 	},
-	enabled = true,
+	enabled = false,
 	config = function()
 		local cmp = require("cmp")
 		local lspkind = require("lspkind")

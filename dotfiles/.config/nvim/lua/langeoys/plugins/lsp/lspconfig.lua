@@ -85,6 +85,12 @@ return {
 				-- },
 				-- })
 			end,
+			-- ["ts_ls"] = function()
+			-- 	require("lspconfig").ts_ls.setup({
+			-- 		capabilities = require("blink.cmp").get_lsp_capabilities(),
+			-- 		on_attach = on_attach,
+			-- 	})
+			-- end,
 			["omnisharp"] = function()
 				if not use_roslyn then
 					vim.api.nvim_create_autocmd("FileType", {
