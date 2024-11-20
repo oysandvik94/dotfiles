@@ -21,6 +21,13 @@ return {
 	},
 	keys = {
 		{
+			"<leader>uH",
+			function()
+				Snacks.notifier.show_history()
+			end,
+			desc = "Dismiss All Notifications",
+		},
+		{
 			"<leader>un",
 			function()
 				Snacks.notifier.hide()
@@ -104,10 +111,10 @@ return {
 					return Snacks.toggle({
 						name = "Auto Format (" .. (buf and "Buffer" or "Global") .. ")",
 						get = function()
-							return vim.g.autoformat == nil or vim.g.autoformat
+							return vim.g.AUTOFORMAT == nil or vim.g.AUTOFORMAT
 						end,
 						set = function(state)
-							vim.g.autoformat = state
+							vim.g.AUTOFORMAT = state
 						end,
 					})
 				end

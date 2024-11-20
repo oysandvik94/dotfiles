@@ -14,7 +14,7 @@ return {
 
 		require("conform").setup({
 			format_on_save = function(bufnr)
-				if vim.g.autoformat or vim.b[bufnr].autoformat then
+				if vim.g.AUTOFORMAT or vim.b[bufnr].AUTOFORMAT then
 					return { timeout_ms = 500, lsp_fallback = true }
 				end
 			end,
