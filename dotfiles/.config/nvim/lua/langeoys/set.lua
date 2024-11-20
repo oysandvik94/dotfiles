@@ -32,13 +32,8 @@ vim.opt.fillchars =
 		end,
 	})
 vim.opt.colorcolumn = "99"
-vim.opt.autoindent = true
-vim.opt.smartindent = true
-vim.opt.tabstop = 4
-vim.opt.softtabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.expandtab = true
 
+require("langeoys.tabs")
 -- Backup stuff
 vim.opt.swapfile = false
 vim.opt.backup = false
