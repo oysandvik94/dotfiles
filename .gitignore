@@ -1,4 +1,5 @@
 .zcompdump
+dotfiles/.config/nvim/spell/
 dotfiles/.config/hypr/monitors.conf
 dotfiles/.config/hypr/workspaces.conf
 .zhistory
