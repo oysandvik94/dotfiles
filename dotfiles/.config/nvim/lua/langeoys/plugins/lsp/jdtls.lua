@@ -294,7 +294,7 @@ local function jdtls_setup(event)
 			["$/progress"] = function(_, result, ctx) end,
 		},
 		capabilities = cache_vars.capabilities,
-		root_dir = vim.fs.dirname(vim.fs.find({ "gradlew", ".git", "mvnw" }, { upward = true })[1]),
+		root_dir = vim.fs.dirname(vim.fs.find({ "pom.xml", "gradlew", ".git", "mvnw" }, { upward = true })[1]),
 		-- root_dir = require("jdtls.setup").find_root({ "gradlew", "pom.xml" }),
 		flags = {
 			allow_incremental_sync = true,
