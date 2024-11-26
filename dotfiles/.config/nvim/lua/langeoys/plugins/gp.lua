@@ -75,6 +75,6 @@ return {
     -- Setup shortcuts here (see Usage > Shortcuts in the Documentation/Readme)
     vim.keymap.set("v", "<leader>ar", ":<C-u>'<,'>GpRewrite<cr>", {})
     vim.keymap.set("v", "<leader>ac", ":<C-u>'<,'>GpChatToggle<cr>", {})
-    vim.keymap.set("v", "<leader>af", ":<C-u>'<,'>GpFixErrorAtCursor<cr>", {})
+    vim.keymap.set("n", "<leader>af", ":GpFixErrorAtCursor<cr>", {})
   end,
 }
