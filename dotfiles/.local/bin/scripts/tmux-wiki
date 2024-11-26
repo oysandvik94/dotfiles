@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
-tmux neww bash -c '
-    rg $HOME/wiki --color=always --line-number --no-heading --smart-case "${*:-}" |
+tmux neww bash -c "
+    rg --color=always --line-number --no-heading --smart-case \"${*:-}\" $HOME/wiki |
         fzf --ansi \
-            --color "hl:-1:underline,hl+:-1:underline:reverse" \
+            --color \"hl:-1:underline,hl+:-1:underline:reverse\" \
             --delimiter : \
-            --preview "bat --color=always {1} --highlight-line {2}" \
-            --preview-window "up,60%,border-bottom,+{2}+3/3,~3" \
-            --bind "enter:become(vim {1} +{2})"
-'
+            --preview \"bat --color=always {1} --highlight-line {2}\" \
+            --preview-window \"up,60%,border-bottom,+{2}+3/3,~3\" \
+            --bind \"enter:become(nvim {1} +{2})\"
+"
