@@ -6,21 +6,15 @@ return {
 	enabled = true,
 	build = "cargo build --release",
 	opts = {
-		-- nerd_font_variant = "normal",
-
 		-- experimental auto-brackets support
 		accept = { auto_brackets = { enabled = true } },
 
 		-- experimental signature help support
 		trigger = { signature_help = { enabled = true } },
-		-- keymap = {
-		-- 	accept = { "<CR>" },
-		-- 	show_documentation = "<Tab>",
-		-- },
 		keymap = {
-			["<Tab>"] = { "accept" },
-			["<Down>"] = { "select_next", "show" },
-			["<Up>"] = { "select_prev", "show" },
+			["<Tab>"] = { "accept", "fallback" },
+			["<Down>"] = { "select_next", "show", "fallback" },
+			["<Up>"] = { "select_prev", "show", "fallback" },
 		},
 		windows = {
 			documentation = {
