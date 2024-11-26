@@ -17,20 +17,20 @@ vim.opt.foldlevelstart = 0
 vim.opt.foldnestmax = 4
 vim.opt.foldtext = require("langeoys.utils.foldtext")
 vim.opt.fillchars =
-	{
-		eob = " ",
-		fold = " ",
-		foldopen = "",
-		foldclose = "",
-		foldsep = " ", -- or "│" to use bar for show fold area
-	},
-	-- Indenting
-	vim.api.nvim_create_autocmd("FileType", {
-		pattern = "*",
-		callback = function()
-			vim.opt_local.formatoptions:remove({ "o" })
-		end,
-	})
+  {
+    eob = " ",
+    fold = " ",
+    foldopen = "",
+    foldclose = "",
+    foldsep = " ", -- or "│" to use bar for show fold area
+  },
+  -- Indenting
+  vim.api.nvim_create_autocmd("FileType", {
+    pattern = "*",
+    callback = function()
+      vim.opt_local.formatoptions:remove({ "o" })
+    end,
+  })
 vim.opt.colorcolumn = "99"
 
 require("langeoys.tabs")
@@ -50,17 +50,17 @@ vim.keymap.set("n", "<esc>", "<cmd>nohlsearch<CR>")
 -- handle unpack deprecation
 table.unpack = table.unpack or unpack
 local function get_visual()
-	local _, ls, cs = table.unpack(vim.fn.getpos("v"))
-	local _, le, ce = table.unpack(vim.fn.getpos("."))
-	return vim.api.nvim_buf_get_text(0, ls - 1, cs - 1, le - 1, ce, {})
+  local _, ls, cs = table.unpack(vim.fn.getpos("v"))
+  local _, le, ce = table.unpack(vim.fn.getpos("."))
+  return vim.api.nvim_buf_get_text(0, ls - 1, cs - 1, le - 1, ce, {})
 end
 
 vim.keymap.set("v", "<C-r>", function()
-	local pattern = table.concat(get_visual())
-	-- escape regex and line endings
-	pattern = vim.fn.substitute(vim.fn.escape(pattern, "^$.*\\/~[]"), "\n", "\\n", "g")
-	-- send substitute command to vim command line
-	vim.api.nvim_input("<Esc>:%s/" .. pattern .. "//g<Left><Left>")
+  local pattern = table.concat(get_visual())
+  -- escape regex and line endings
+  pattern = vim.fn.substitute(vim.fn.escape(pattern, "^$.*\\/~[]"), "\n", "\\n", "g")
+  -- send substitute command to vim command line
+  vim.api.nvim_input("<Esc>:%s/" .. pattern .. "//g<Left><Left>")
 end)
 
 -- Colors?
@@ -80,11 +80,11 @@ vim.g.mapleader = " "
 -- See `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
 vim.api.nvim_create_autocmd("TextYankPost", {
-	callback = function()
-		vim.highlight.on_yank()
-	end,
-	group = highlight_group,
-	pattern = "*",
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+  group = highlight_group,
+  pattern = "*",
 })
 
 -- wrap
@@ -123,9 +123,9 @@ vim.opt.switchbuf = "usetab"
 require("langeoys.utils.marks").init()
 
 vim.filetype.add({
-	extension = {
-		las = "pipescript",
-	},
+  extension = {
+    las = "pipescript",
+  },
 })
 
 -- spelling
