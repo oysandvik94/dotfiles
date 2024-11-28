@@ -115,7 +115,7 @@ return {
   ms({
     common = { snippetType = "autosnippet" },
     {
-      trig = "if",
+      trig = "if ",
       condition = function()
         local ignored_nodes = { "string_fragment", "block_comment", "line_comment" }
 

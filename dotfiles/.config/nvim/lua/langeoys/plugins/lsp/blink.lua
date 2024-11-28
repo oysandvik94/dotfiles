@@ -11,7 +11,7 @@ return {
       expand_snippet = function(snippet)
         require("luasnip").lsp_expand(snippet)
       end,
-      auto_brackets = { enabled = true },
+      auto_brackets = { enabled = false },
     },
 
     -- experimental signature help support
