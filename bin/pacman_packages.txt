@@ -1,5 +1,4 @@
 alsa-utils
-autorandr
 bat
 bluez
 bluez-utils
@@ -13,7 +12,6 @@ docker
 docker-compose
 dunst
 fd
-feh
 firefox
 fzf
 gcc
@@ -21,8 +19,6 @@ glow
 gnome-keyring
 grim
 htop
-hyprland-git
-i3-wm
 intel-ucode
 keychain
 kitty
@@ -41,7 +37,6 @@ picom
 pipewire-alsa
 pipewire-pulse
 polkit-gnome
-polybar
 ripgrep
 sl
 slurp
@@ -61,13 +56,9 @@ wireplumber
 wl-clipboard
 xclip
 xdg-user-dirs
-xdg-desktop-portal-hyprland-git
 xdg-utils
 xdo
 xdotool
-xorg-server
-xorg-xinit
-xorg-xrandr
 xss-lock
 zip
 zk

@@ -11,8 +11,7 @@ fi
 get_fzf_find_binding() {
 	local dirs=(
 		"$HOME/dev/general"
-		"$HOME/.local/bin"
-		"$HOME/dev/bergen"
+		"$HOME/dev/tieto"
 	)
 
 	local find_cmd="find"

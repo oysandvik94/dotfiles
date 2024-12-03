@@ -1,6 +1,8 @@
 cava
-pyprland
-kanshi
+pyprland-git
+hyprland-git
 rofi-lbonn-wayland
 slides
+hyprland-git
+xdg-desktop-portal-hyprland-git
 uuid

@@ -14,6 +14,7 @@ source $HOME/.zshenv
 path+=("$HOME/.local/bin/scripts")
 path+=("$HOME/.local/bin")
 path+=("$HOME/.local/share/nvim/mason/bin")
+path+=("$HOME/dotfiles/dotfiles/scripts")
 path+=("/usr/local/go/bin")
 path+=("$HOME/go/bin")
 

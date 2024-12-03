@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-alias fztmux='~/.local/bin/scripts/tmux-sessionizer'
 alias mvndebug='mvn spring-boot:run -Dspring-boot.run.jvmArguments="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"'
 alias mvntest='mvn clean test -Dsurefire.trimStackTrace=false'
 alias buildnvim='
