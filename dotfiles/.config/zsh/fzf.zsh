@@ -1,10 +1,16 @@
 # Auto-completion
 # ---------------
-source "/usr/share/fzf/key-bindings.zsh"
+KEY_BINDINGS_FILE="/usr/share/fzf/key-bindings.zsh"
+test -f $KEY_BINDINGS_FILE && source $KEY_BINDINGS_FILE
+KEY_BINDINGS_FILE="/usr/share/doc/fzf/examples/key-bindings.zsh"
+test -f $KEY_BINDINGS_FILE && source $KEY_BINDINGS_FILE
 
 # Key bindings
 # ------------
-source "/usr/share/fzf/completion.zsh"
+# COMPLETION_FILE="/usr/share/fzf/completion.zsh"
+# test -f $COMPLETION_FILE && source $COMPLETION_FILE
+# COMPLETION_FILE="/usr/share/bash-completion/completions/fzf"
+# test -f $COMPLETION_FILE && source $COMPLETION_FILE
 
 export FZF_DEFAULT_OPTS="
 --color=fg:$COLOR_FOREGROUND,bg:$COLOR_BACKGROUND,hl:$COLOR_PRIMARY
