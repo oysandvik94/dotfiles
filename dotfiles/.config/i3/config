@@ -20,6 +20,6 @@ exec_always --no-startup-id "picom"
 exec --no-startup-id "dunst"
 exec --no-startup-id "brightnessctl set 100%"
 exec_always --no-startup-id "autotiling"
-exec_always --no-startup-id "feh --bg-scale ~/wallpapers/gran.jpg"
+exec_always --no-startup-id "feh --bg-scale ~/wallpapers/evening-sky.png"
 exec --no-startup-id "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &"
 
