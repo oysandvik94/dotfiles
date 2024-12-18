@@ -1,11 +1,23 @@
 #!/usr/bin/env bash
 
+# Use the first argument as the directory, default to $HOME/wiki if no argument is given
+dir="${1:-$HOME/wiki}"
+
+if [ ! -d "$dir" ]; then
+    echo "Error: Directory '$dir' does not exist."
+    exit 1
+fi
+
+# Start tmux session with the directory provided or default
 tmux neww bash -c "
-    rg --color=always --line-number --no-heading --smart-case \"${*:-}\" $HOME/wiki |
-        fzf --ansi \
-            --color \"hl:-1:underline,hl+:-1:underline:reverse\" \
-            --delimiter : \
-            --preview \"bat --color=always {1} --highlight-line {2}\" \
-            --preview-window \"up,60%,border-bottom,+{2}+3/3,~3\" \
-            --bind \"enter:become(nvim {1} +{2})\"
+(RELOAD='reload:rg --column --color=always --smart-case {q} || :'
+OPENER='nvim {1} +{2}'
+ fzf --disabled --ansi --multi \
+        --bind \"enter:become:$OPENER\" \
+     --bind \"start:$RELOAD\" --bind \"change:$RELOAD\" \
+     --bind 'ctrl-/:toggle-preview' \
+     --delimiter : \
+     --preview 'if [ {2} -gt 0 ]; then bat --style=full --color=always --highlight-line {2} {1}; else bat --style=full --color=always {1}; fi' \
+     --preview-window '~4,+{2}+4/3,<80(up)')
 "
+

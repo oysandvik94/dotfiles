@@ -3,12 +3,16 @@
 eval "$(starship init zsh)"
 
 source $ZDOTDIR/plugins.zsh
+source $ZDOTDIR/copilot.zsh
 source $ZDOTDIR/aliases
+test -f $ZDOTDIR/jobbaliases && source $ZDOTDIR/jobbaliases
 source $ZDOTDIR/vim.zsh
 source $ZDOTDIR/fzf.zsh
 source $ZDOTDIR/colors.zsh
 source $ZDOTDIR/zbell.sh
 source $HOME/.zshenv
+# source <(ng completion script) # This is slow, figure out how to make it fast
+
 
 
 path+=("$HOME/.local/bin/scripts")
@@ -17,6 +21,7 @@ path+=("$HOME/.local/share/nvim/mason/bin")
 path+=("$HOME/dotfiles/dotfiles/scripts")
 path+=("/usr/local/go/bin")
 path+=("$HOME/go/bin")
+path+=("$HOME/jobbscript/")
 
 
 # Completion
@@ -93,6 +98,7 @@ if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
         1) i3
         2) hypr
         3) sway
+        4) gnome
         -> "
 
         read option
@@ -114,5 +120,8 @@ if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
             export XDG_CURRENT_DESKTOP=sway
             exec sway
         fi
-fi
 
+        if [[ "$option" == "4" ]]; then
+            exec gnome-session
+        fi
+fi

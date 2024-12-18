@@ -1,8 +1,10 @@
 .zcompdump
 dotfiles/.config/nvim/spell/
+dotfiles/.config/autorandr
 dotfiles/.config/hypr/monitors.conf
 dotfiles/.config/hypr/workspaces.conf
 .zhistory
 .zsh_plugins
 secret_git_config.lua
 secret/
+jobbaliases

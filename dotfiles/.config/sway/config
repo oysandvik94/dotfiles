@@ -5,6 +5,11 @@ output * bg ~/wallpapers/evening-sky.png fill
 output eDP-1 resolution 1920x1080 position 0,0
 output HDMI-A-1 resolution 1920x1080 position 1920,0
 
+
+set $laptop eDP-1
+bindswitch --reload --locked lid:on output $laptop disable
+bindswitch --reload --locked lid:off output $laptop enable
+
 # Environment variables
 set $term kitty
 set $file_manager dolphin

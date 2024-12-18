@@ -30,7 +30,9 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.api.nvim_create_autocmd("VimEnter", {
   group = vim.api.nvim_create_augroup("persistence", { clear = true }),
   callback = function()
-    require("persistence").load()
+    if vim.fn.argc() == 0 and vim.bo.filetype ~= "man" then
+      require("persistence").load()
+    end
   end,
   nested = true,
 })

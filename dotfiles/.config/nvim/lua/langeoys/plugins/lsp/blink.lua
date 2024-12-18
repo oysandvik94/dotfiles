@@ -7,38 +7,54 @@ return {
   enabled = true,
   build = "cargo build --release",
   opts = {
-    accept = {
-      expand_snippet = function(snippet)
+    snippets = {
+      expand = function(snippet)
         require("luasnip").lsp_expand(snippet)
       end,
-      auto_brackets = { enabled = false },
+    },
+    completion = {
+
+      accept = {
+        auto_brackets = { enabled = true },
+      },
+      documentation = {
+        -- Controls whether the documentation window will automatically show when selecting a completion item
+        auto_show = true,
+        -- Delay before showing the documentation window
+        auto_show_delay_ms = 100,
+        -- Delay before updating the documentation window when selecting a new item,
+        -- while an existing item is still visible
+        update_delay_ms = 50,
+        -- Whether to use treesitter highlighting, disable if you run into performance issues
+        treesitter_highlighting = true,
+        window = {
+          min_width = 10,
+          max_width = 60,
+          max_height = 20,
+          border = 'padded',
+          winblend = 0,
+          winhighlight = 'Normal:BlinkCmpDoc,FloatBorder:BlinkCmpDocBorder,CursorLine:BlinkCmpDocCursorLine,Search:None',
+          -- Note that the gutter will be disabled when border ~= 'none'
+          scrollbar = true,
+          -- Which directions to show the documentation window,
+          -- for each of the possible menu window directions,
+          -- falling back to the next direction when there's not enough space
+          direction_priority = {
+            menu_north = { 'e', 'w', 'n', 's' },
+            menu_south = { 'e', 'w', 's', 'n' },
+          },
+        },
+      },
     },
 
-    -- experimental signature help support
-    trigger = { signature_help = { enabled = true } },
+    signature = {
+      enabled = true
+    },
     keymap = {
       ["<Tab>"] = { "accept", "fallback" },
       ["<Down>"] = { "select_next", "show", "fallback" },
-      ["<Up>"] = { "select_prev", "show", "fallback" },
-    },
-    windows = {
-      documentation = {
-        min_width = 10,
-        max_width = 60,
-        max_height = 20,
-        border = "padded",
-        winhighlight = "Normal:BlinkCmpDoc,FloatBorder:BlinkCmpDocBorder,CursorLine:BlinkCmpDocCursorLine,Search:None",
-        -- which directions to show the documentation window,
-        -- for each of the possible autocomplete window directions,
-        -- falling back to the next direction when there's not enough space
-        direction_priority = {
-          autocomplete_north = { "e", "w", "n", "s" },
-          autocomplete_south = { "e", "w", "s", "n" },
-        },
-        auto_show = true,
-        auto_show_delay_ms = 200,
-        update_delay_ms = 50,
-      },
+      ["<Up>"] = { "select_prev", "fallback" },
+      ['<C-b>'] = { 'show', 'show_documentation', 'hide_documentation' },
     },
   },
 }

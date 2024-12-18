@@ -87,6 +87,9 @@ return {
 	config = function()
 		-- calling `setup` is optional for customization
 		require("fzf-lua").setup({
+			lsp = {
+				async_or_timeout = 10000,
+			},
 			files = {
 				formatter = "path.filename_first",
 			},

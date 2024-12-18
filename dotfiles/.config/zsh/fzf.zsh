@@ -1,9 +1,6 @@
 # Auto-completion
 # ---------------
-KEY_BINDINGS_FILE="/usr/share/fzf/key-bindings.zsh"
-test -f $KEY_BINDINGS_FILE && source $KEY_BINDINGS_FILE
-KEY_BINDINGS_FILE="/usr/share/doc/fzf/examples/key-bindings.zsh"
-test -f $KEY_BINDINGS_FILE && source $KEY_BINDINGS_FILE
+source <(fzf --zsh)
 
 # Key bindings
 # ------------

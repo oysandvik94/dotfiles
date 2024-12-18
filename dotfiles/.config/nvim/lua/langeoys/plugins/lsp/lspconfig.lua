@@ -1,297 +1,302 @@
 return {
-	"neovim/nvim-lspconfig",
-	event = { "BufReadPre", "BufNewFile" },
-	dependencies = {
-		"williamboman/mason.nvim",
-		"jmederosalvarado/roslyn.nvim",
-		"williamboman/mason-lspconfig.nvim",
-		"b0o/SchemaStore.nvim",
-		-- "nvim-java/nvim-java",
-	},
-	config = function()
-		-- require("java").setup()
+  "neovim/nvim-lspconfig",
+  event = { "BufReadPre", "BufNewFile" },
+  dependencies = {
+    "williamboman/mason.nvim",
+    "jmederosalvarado/roslyn.nvim",
+    "williamboman/mason-lspconfig.nvim",
+    "b0o/SchemaStore.nvim",
+    -- "nvim-java/nvim-java",
+  },
+  config = function()
+    -- require("java").setup()
 
-		-- experiment with roslyn instead of omnisharp
-		local use_roslyn = true
+    -- experiment with roslyn instead of omnisharp
+    local use_roslyn = true
 
-		local on_attach = require("langeoys.utils.lsp").on_attach
-		vim.api.nvim_create_autocmd("LspAttach", {
-			group = vim.api.nvim_create_augroup("langeoys-lsp-attach", { clear = true }),
-			callback = function(event)
-				on_attach(event)
-			end,
-		})
+    local on_attach = require("langeoys.utils.lsp").on_attach
+    vim.api.nvim_create_autocmd("LspAttach", {
+      group = vim.api.nvim_create_augroup("langeoys-lsp-attach", { clear = true }),
+      callback = function(event)
+        local client = vim.lsp.get_client_by_id(event.data.client_id)  -- Get the client using its ID
+        local bufnr = event.buf                                        -- The buffer number
+        on_attach(client, bufnr)                                       -- Call your custom on_attach with these arguments
+      end,
+    })
 
-		local java_rootdir = function()
-			return vim.fs.dirname(vim.fs.find({ "gradlew", ".git", "mvnw", "pom.xml" }, { path = vim.fn.getcwd() })[1])
-		end
+    local java_rootdir = function()
+      return vim.fs.dirname(vim.fs.find({ "gradlew", ".git", "mvnw", "pom.xml" }, { path = vim.fn.getcwd() })[1])
+    end
 
-		local handlers = {
-			function(server_name) -- default handler (optional)
-				require("lspconfig")[server_name].setup({
-					-- capabilities = capabilities,
-				})
-			end,
-			["ts_ls"] = function() end,
-			["jdtls"] = function()
-				-- require("lspconfig").jdtls.setup({
-				-- capabilities = capabilities,
-				-- root_dir = java_rootdir,
-				-- settings = {
-				-- 	java = {
-				-- 		signatureHelp = {
-				-- 			enabled = true,
-				-- 		},
-				-- 		eclipse = {
-				-- 			downloadSources = true,
-				-- 		},
-				-- 		maven = {
-				-- 			downloadSources = true,
-				-- 		},
-				-- 		implementationsCodeLens = {
-				-- 			enabled = true,
-				-- 		},
-				-- 		referencesCodeLens = {
-				-- 			enabled = true,
-				-- 		},
-				-- 		inlayHints = {
-				-- 			parameterNames = {
-				-- 				enabled = "all", -- literals, all, none
-				-- 			},
-				-- 		},
-				-- 		completion = {
-				-- 			favoriteStaticMembers = {
-				-- 				"org.hamcrest.MatcherAssert.assertThat",
-				-- 				"org.hamcrest.Matchers.*",
-				-- 				"org.hamcrest.CoreMatchers.*",
-				-- 				"org.junit.jupiter.api.Assertions.*",
-				-- 				"java.util.Objects.requireNonNull",
-				-- 				"java.util.Objects.requireNonNullElse",
-				-- 				"org.mockito.Mockito.*",
-				-- 			},
-				-- 			filteredTypes = {
-				-- 				"com.sun.*",
-				-- 				"io.micrometer.shaded.*",
-				-- 				"java.awt.*",
-				-- 				"jdk.*",
-				-- 				"sun.*",
-				-- 			},
-				-- 			guessMethodArguments = true,
-				-- 		},
-				-- 		contentProvider = {
-				-- 			preferred = "fernflower",
-				-- 		},
-				-- 	},
-				-- },
-				-- })
-			end,
-			-- ["ts_ls"] = function()
-			-- 	require("lspconfig").ts_ls.setup({
-			-- 		capabilities = require("blink.cmp").get_lsp_capabilities(),
-			-- 		on_attach = on_attach,
-			-- 	})
-			-- end,
-			["omnisharp"] = function()
-				if not use_roslyn then
-					vim.api.nvim_create_autocmd("FileType", {
-						pattern = { "cs" },
-						desc = "Set dotnet compiler",
-						callback = function()
-							vim.cmd("compiler dotnet")
-						end,
-					})
+    local handlers = {
+      function(server_name) -- default handler (optional)
+        require("lspconfig")[server_name].setup({
+          -- capabilities = capabilities,
+        })
+      end,
+      ["ts_ls"] = function() end,
+      ["jdtls"] = function()
+        -- require("lspconfig").jdtls.setup({
+        -- capabilities = capabilities,
+        -- root_dir = java_rootdir,
+        -- settings = {
+        -- 	java = {
+        -- 		signatureHelp = {
+        -- 			enabled = true,
+        -- 		},
+        -- 		eclipse = {
+        -- 			downloadSources = true,
+        -- 		},
+        -- 		maven = {
+        -- 			downloadSources = true,
+        -- 		},
+        -- 		implementationsCodeLens = {
+        -- 			enabled = true,
+        -- 		},
+        -- 		referencesCodeLens = {
+        -- 			enabled = true,
+        -- 		},
+        -- 		inlayHints = {
+        -- 			parameterNames = {
+        -- 				enabled = "all", -- literals, all, none
+        -- 			},
+        -- 		},
+        -- 		completion = {
+        -- 			favoriteStaticMembers = {
+        -- 				"org.hamcrest.MatcherAssert.assertThat",
+        -- 				"org.hamcrest.Matchers.*",
+        -- 				"org.hamcrest.CoreMatchers.*",
+        -- 				"org.junit.jupiter.api.Assertions.*",
+        -- 				"java.util.Objects.requireNonNull",
+        -- 				"java.util.Objects.requireNonNullElse",
+        -- 				"org.mockito.Mockito.*",
+        -- 			},
+        -- 			filteredTypes = {
+        -- 				"com.sun.*",
+        -- 				"io.micrometer.shaded.*",
+        -- 				"java.awt.*",
+        -- 				"jdk.*",
+        -- 				"sun.*",
+        -- 			},
+        -- 			guessMethodArguments = true,
+        -- 		},
+        -- 		contentProvider = {
+        -- 			preferred = "fernflower",
+        -- 		},
+        -- 	},
+        -- },
+        -- })
+      end,
+      -- ["ts_ls"] = function()
+      -- 	require("lspconfig").ts_ls.setup({
+      -- 		capabilities = require("blink.cmp").get_lsp_capabilities(),
+      -- 		on_attach = on_attach,
+      -- 	})
+      -- end,
+      ["omnisharp"] = function()
+        if not use_roslyn then
+          vim.api.nvim_create_autocmd("FileType", {
+            pattern = { "cs" },
+            desc = "Set dotnet compiler",
+            callback = function()
+              vim.cmd("compiler dotnet")
+            end,
+          })
 
-					require("lspconfig").omnisharp.setup({
-						capabilities = capabilities,
-						on_attach = on_attach,
-						settings = {
-							solution_first = true,
-							enable_editorconfig_support = true,
-						},
-					})
-				end
-			end,
-			["lua_ls"] = function()
-				require("lspconfig").lua_ls.setup({
-					capabilities = capabilities,
-					on_attach = on_attach,
-					settings = {
-						Lua = {
-							misc = {
-								-- parameters = { "--loglevel=trace" },
-							},
-							-- hover = { expandAlias = false },
-							type = {
-								castNumberToInteger = true,
-							},
-							diagnostics = {
-								disable = { "incomplete-signature-doc", "trailing-space" },
-								-- enable = false,
-								groupSeverity = {
-									strong = "Warning",
-									strict = "Warning",
-								},
-								groupFileStatus = {
-									["ambiguity"] = "Opened",
-									["await"] = "Opened",
-									["codestyle"] = "None",
-									["duplicate"] = "Opened",
-									["global"] = "Opened",
-									["luadoc"] = "Opened",
-									["redefined"] = "Opened",
-									["strict"] = "Opened",
-									["strong"] = "Opened",
-									["type-check"] = "Opened",
-									["unbalanced"] = "Opened",
-									["unused"] = "Opened",
-								},
-								unusedLocalExclude = { "_*" },
-							},
-						},
-					},
-				})
-			end,
-			["kotlin_language_server"] = function()
-				require("lspconfig").kotlin_language_server.setup({
-					capabilities = capabilities,
-					settings = { kotlin = { compiler = { jvm = { target = "20" } } } },
-				})
-			end,
-			-- no-op, configured in seperate plugins
-			-- ["jdtls"] = function() end,
-			["yamlls"] = function()
-				require("lspconfig").yamlls.setup({
-					capabilities = capabilities,
-					settings = {
-						["yamlls"] = {
-							schemaStore = {
-								enable = false,
-								url = "",
-							},
-							schemas = require("schemastore").yaml.schemas(),
-						},
-					},
-				})
-			end,
-			["rust_analyzer"] = function()
-				require("lspconfig").rust_analyzer.setup({
-					capabilities = capabilities,
-					settings = {
-						["rust-analyzer"] = {
-							cargo = {
-								allFeatures = true,
-								loadOutDirsFromCheck = true,
-								buildScripts = {
-									enable = true,
-								},
-							},
-							-- Add clippy lints for Rust.
-							checkOnSave = {
-								allFeatures = true,
-								command = "clippy",
-								extraArgs = { "--no-deps" },
-							},
-							procMacro = {
-								enable = true,
-								ignored = {
-									["async-trait"] = { "async_trait" },
-									["napi-derive"] = { "napi" },
-									["async-recursion"] = { "async_recursion" },
-								},
-							},
-						},
-					},
-				})
-			end,
-		}
+          require("lspconfig").omnisharp.setup({
+            capabilities = capabilities,
+            on_attach = on_attach,
+            settings = {
+              solution_first = true,
+              enable_editorconfig_support = true,
+            },
+          })
+        end
+      end,
+      ["lua_ls"] = function()
+        require("lspconfig").lua_ls.setup({
+          capabilities = capabilities,
+          on_attach = on_attach,
+          settings = {
+            Lua = {
+              misc = {
+                -- parameters = { "--loglevel=trace" },
+              },
+              -- hover = { expandAlias = false },
+              type = {
+                castNumberToInteger = true,
+              },
+              diagnostics = {
+                disable = { "incomplete-signature-doc", "trailing-space" },
+                -- enable = false,
+                groupSeverity = {
+                  strong = "Warning",
+                  strict = "Warning",
+                },
+                groupFileStatus = {
+                  ["ambiguity"] = "Opened",
+                  ["await"] = "Opened",
+                  ["codestyle"] = "None",
+                  ["duplicate"] = "Opened",
+                  ["global"] = "Opened",
+                  ["luadoc"] = "Opened",
+                  ["redefined"] = "Opened",
+                  ["strict"] = "Opened",
+                  ["strong"] = "Opened",
+                  ["type-check"] = "Opened",
+                  ["unbalanced"] = "Opened",
+                  ["unused"] = "Opened",
+                },
+                unusedLocalExclude = { "_*" },
+              },
+            },
+          },
+        })
+      end,
+      ["kotlin_language_server"] = function()
+        require("lspconfig").kotlin_language_server.setup({
+          cmd = {
+            os.getenv("HOME") .. "/bin/kotlin-language-server/server/build/install/server/bin/kotlin-language-server",
+          },
+          capabilities = capabilities,
+          settings = { kotlin = { compiler = { jvm = { target = "20" } } } },
+        })
+      end,
+      -- no-op, configured in seperate plugins
+      -- ["jdtls"] = function() end,
+      ["yamlls"] = function()
+        require("lspconfig").yamlls.setup({
+          capabilities = capabilities,
+          settings = {
+            ["yamlls"] = {
+              schemaStore = {
+                enable = false,
+                url = "",
+              },
+              schemas = require("schemastore").yaml.schemas(),
+            },
+          },
+        })
+      end,
+      ["rust_analyzer"] = function()
+        require("lspconfig").rust_analyzer.setup({
+          capabilities = capabilities,
+          settings = {
+            ["rust-analyzer"] = {
+              cargo = {
+                allFeatures = true,
+                loadOutDirsFromCheck = true,
+                buildScripts = {
+                  enable = true,
+                },
+              },
+              -- Add clippy lints for Rust.
+              checkOnSave = {
+                allFeatures = true,
+                command = "clippy",
+                extraArgs = { "--no-deps" },
+              },
+              procMacro = {
+                enable = true,
+                ignored = {
+                  ["async-trait"] = { "async_trait" },
+                  ["napi-derive"] = { "napi" },
+                  ["async-recursion"] = { "async_recursion" },
+                },
+              },
+            },
+          },
+        })
+      end,
+    }
 
-		if use_roslyn then
-			require("roslyn").setup({
-				roslyn_version = "4.8.0-3.23475.7", -- this is the default
-				capabilities = capabilities, -- required
-				on_attach = on_attach,
-			})
-		end
+    if use_roslyn then
+      require("roslyn").setup({
+        roslyn_version = "4.8.0-3.23475.7", -- this is the default
+        capabilities = capabilities,        -- required
+        on_attach = on_attach,
+      })
+    end
 
-		-- Får rar feil med at lsp feiler etter save, se https://github.com/neovim/neovim/issues/12970
-		vim.lsp.util.apply_text_document_edit = function(text_document_edit, index, offset_encoding)
-			local text_document = text_document_edit.textDocument
-			local bufnr = vim.uri_to_bufnr(text_document.uri)
-			if offset_encoding == nil then
-				vim.notify_once(
-					"apply_text_document_edit must be called with valid offset encoding",
-					vim.log.levels.WARN
-				)
-			end
+    -- Får rar feil med at lsp feiler etter save, se https://github.com/neovim/neovim/issues/12970
+    vim.lsp.util.apply_text_document_edit = function(text_document_edit, index, offset_encoding)
+      local text_document = text_document_edit.textDocument
+      local bufnr = vim.uri_to_bufnr(text_document.uri)
+      if offset_encoding == nil then
+        vim.notify_once(
+          "apply_text_document_edit must be called with valid offset encoding",
+          vim.log.levels.WARN
+        )
+      end
 
-			vim.lsp.util.apply_text_edits(text_document_edit.edits, bufnr, offset_encoding)
-		end
+      vim.lsp.util.apply_text_edits(text_document_edit.edits, bufnr, offset_encoding)
+    end
 
-		require("mason").setup({
-			registries = {
-				"github:mason-org/mason-registry",
-				"github:nvim-java/mason-registry",
-			},
-		})
-		local mason_lspconfig = require("mason-lspconfig")
-		mason_lspconfig.setup({
-			ensure_installed = {
-				"eslint",
-				"lua_ls",
-				"jdtls",
-				"bashls",
-				"kotlin_language_server",
-				"pyright",
-				"clangd",
-			},
+    require("mason").setup({
+      registries = {
+        "github:mason-org/mason-registry",
+        "github:nvim-java/mason-registry",
+      },
+    })
+    local mason_lspconfig = require("mason-lspconfig")
+    mason_lspconfig.setup({
+      ensure_installed = {
+        "eslint",
+        "lua_ls",
+        "jdtls",
+        "bashls",
+        "kotlin_language_server",
+        "pyright",
+        "clangd",
+      },
 
-			automatic_installation = true,
-		})
-		mason_lspconfig.setup_handlers(handlers)
+      automatic_installation = true,
+    })
+    mason_lspconfig.setup_handlers(handlers)
 
-		local config = {
-			virtual_text = {
-				prefix = "●",
-				format = function(diagnostic)
-					require("langeoys.utils.lua")
-					return Split(diagnostic.message, "\n")[1]
-				end,
-			},
-			update_in_insert = false,
-			underline = true,
-			severity_sort = true,
-			signs = {
-				text = {
-					[vim.diagnostic.severity.ERROR] = "",
-					[vim.diagnostic.severity.WARN] = "",
-					[vim.diagnostic.severity.HINT] = "󰌵",
-					[vim.diagnostic.severity.INFO] = "",
-				},
-			},
-			float = {
-				focusable = false,
-				style = "minimal",
-				border = "single",
-				source = "always",
-				header = "",
-				prefix = "",
-			},
-		}
-		vim.diagnostic.config(config)
-		vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-			border = "single",
-		})
+    local config = {
+      virtual_text = {
+        prefix = "●",
+        format = function(diagnostic)
+          require("langeoys.utils.lua")
+          return Split(diagnostic.message, "\n")[1]
+        end,
+      },
+      update_in_insert = false,
+      underline = true,
+      severity_sort = true,
+      signs = {
+        text = {
+          [vim.diagnostic.severity.ERROR] = "",
+          [vim.diagnostic.severity.WARN] = "",
+          [vim.diagnostic.severity.HINT] = "󰌵",
+          [vim.diagnostic.severity.INFO] = "",
+        },
+      },
+      float = {
+        focusable = false,
+        style = "minimal",
+        border = "single",
+        source = "always",
+        header = "",
+        prefix = "",
+      },
+    }
+    vim.diagnostic.config(config)
+    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+      border = "single",
+    })
 
-		vim.lsp.util.stylize_markdown = function(bufnr, contents, opts)
-			contents = vim.lsp.util._normalize_markdown(contents, {
-				width = vim.lsp.util._make_floating_popup_size(contents, opts),
-			})
+    vim.lsp.util.stylize_markdown = function(bufnr, contents, opts)
+      contents = vim.lsp.util._normalize_markdown(contents, {
+        width = vim.lsp.util._make_floating_popup_size(contents, opts),
+      })
 
-			vim.bo[bufnr].filetype = "markdown"
-			vim.treesitter.start(bufnr)
-			vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, contents)
+      vim.bo[bufnr].filetype = "markdown"
+      vim.treesitter.start(bufnr)
+      vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, contents)
 
-			return contents
-		end
-	end,
+      return contents
+    end
+  end,
 }

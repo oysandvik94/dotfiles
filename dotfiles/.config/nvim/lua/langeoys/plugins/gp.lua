@@ -35,13 +35,13 @@ local FixErrorAtCursor = function(gp, params)
   local selection = table.concat(selected_text, "\n")
 
   local template = "Having following from {{filename}}:\n\n"
-    .. "```lua\n"
-    .. selection
-    .. "\n```\n\n"
-    .. "Error found at the cursor:\n"
-    .. error_message
-    .. "Please respond by fixing the error above."
-    .. "\n\nRespond exclusively with the snippet that should replace the selection above."
+      .. "```lua\n"
+      .. selection
+      .. "\n```\n\n"
+      .. "Error found at the cursor:\n"
+      .. error_message
+      .. "Please respond by fixing the error above."
+      .. "\n\nRespond exclusively with the snippet that should replace the selection above."
 
   local agent = gp.get_command_agent()
   gp.logger.info("Fixing error at cursor with agent: " .. agent.name)
@@ -52,7 +52,7 @@ local FixErrorAtCursor = function(gp, params)
     agent,
     template,
     nil, -- command will run directly without any prompting for user input
-    nil -- no predefined instructions
+    nil  -- no predefined instructions
   )
 end
 
@@ -65,10 +65,18 @@ return {
       },
       providers = {
         openai = {},
-        anthropic = {
-          endpoint = "https://api.anthropic.com/v1/messages",
-          secret = { "secret-tool", "lookup", "ai", "key" },
+        copilot = {
+          endpoint = "https://api.githubcopilot.com/chat/completions",
+          secret = {
+            "bash",
+            "-c",
+            "cat ~/.config/github-copilot/apps.json | sed -e 's/.*oauth_token...//;s/\".*//'",
+          },
         },
+        -- anthropic = {
+        --   endpoint = "https://api.anthropic.com/v1/messages",
+        --   secret = { "secret-tool", "lookup", "ai", "key" },
+        -- },
       },
     })
 

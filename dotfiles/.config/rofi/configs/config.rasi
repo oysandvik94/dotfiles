@@ -1,7 +1,3 @@
-// vim: fdm=marker
-
-@import "~/.config/rofi/themes/colors.rasi"
-
 configuration {
   modes: "window,drun,run,ssh";
   font: "JetBrainsMono Nerd Font 18";
@@ -123,3 +119,4 @@ textbox-prompt-sep {
     margin:     0 0.3em 0 0;
 }
 // }}}
+@import "~/.config/rofi/themes/colors.rasi"

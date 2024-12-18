@@ -1,7 +1,7 @@
 {
 		"layer": "top",
-		"modules-left": ["custom/playerctl", "custom/cava","hyprland/workspaces"],
-		"modules-center": ["clock", "custom/task"],
+		"modules-left": ["custom/playerctl", "custom/cava","sway/workspaces"],
+		"modules-center": ["clock" ],
 		"modules-right": ["tray", "cpu", "temperature", "memory", "pulseaudio", "bluetooth", "backlight", "battery"],
 
 		"battery": {
@@ -63,9 +63,9 @@
 			"exec": "waybar_task",
 			"tooltip": false
 		},
-		"hyprland/workspaces": {
+		"sway/workspaces": {
 			"format": "{name}",
-			"active-only": false,
+			"active-nly": false,
 			"sort-by-number": true,
 			"on-click": "activate",
 			"all-outputs": false
@@ -85,42 +85,27 @@
 			"on-click-left": "pavucontrol",
 			"input": true
 
-  },
-  "custom/cava": {
-	  "format": "{}",
-	  "exec": "cava_waybar",
-  },
-  "custom/playerctl": {
-	  "format": "{icon}  <span>{}</span>",
-	  "return-type": "json",
-	  "max-length": 333,
-	  "exec": "playerctl -a metadata --format '{\"text\": \"{{artist}} ~ {{markup_escape(title)}}\", \"tooltip\": \"{{playerName}} : {{markup_escape(title)}}\", \"alt\": \"{{status}}\", \"class\": \"{{status}}\"}' -F",
-	  "on-click-middle": "playerctl play-pause",
-	  "on-click": "playerctl previous",
-	  "on-click-right": "playerctl next",
-	  "format-icons": {
+		},
+		// "custom/cava": {
+		//  "format": "{}",
+		//  "exec": "cava_waybar",
+		// },
+		"custom/playerctl": {
+		 "format": "{icon}  <span>{}</span>",
+		 "return-type": "json",
+		 "max-length": 333,
+		 "exec": "playerctl -a metadata --format '{\"text\": \"{{artist}} ~ {{markup_escape(title)}}\", \"tooltip\": \"{{playerName}} : {{markup_escape(title)}}\", \"alt\": \"{{status}}\", \"class\": \"{{status}}\"}' -F",
+		 "on-click-middle": "playerctl play-pause",
+		 "on-click": "playerctl previous",
+		 "on-click-right": "playerctl next",
+		 "format-icons": {
 		  "Playing": "<span foreground='#98BB6C'></span>",
 		  "Paused": "<span foreground='#E46876'></span>"
-	  }
-  },
-  "tray": {
-	  "format": "<span foreground='#D3C6AA'>{icon}</span>",
-	  "icon-size": 14,
-	  "spacing": 5
-  },
-
-  "bluetooth": {
-		  "on-click": "./scripts/bluetooth-control",
-		  "on-click-right": "./scripts/rofi-bluetooth",
-		  "on-click-middle": "./scripts/rofi-bluetooth",
-		  "format": "{icon}",
-		  "interval": 15,
-		  "format-icons": {
-				  "on": "<span foreground='#43242B'></span>",
-				  "off": "<span foreground='#76946A'>󰂲</span>",
-				  "disabled": "󰂲",
-				  "connected": ""
-		  },
-		  "tooltip-format": "{device_alias} {status}"
-  }
+		 }
+		},
+		"tray": {
+		 "format": "<span foreground='#D3C6AA'>{icon}</span>",
+		 "icon-size": 14,
+		 "spacing": 5
+		}
 }
