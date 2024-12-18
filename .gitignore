@@ -7,4 +7,4 @@ dotfiles/.config/hypr/workspaces.conf
 .zsh_plugins
 secret_git_config.lua
 secret/
-jobbaliases
+dotfiles/.config/zsh/jobbaliases
