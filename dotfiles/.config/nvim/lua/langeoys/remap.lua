@@ -11,10 +11,6 @@ vim.keymap.set("n", "J", "mzJ`z")
 vim.keymap.set("n", "<up>", "v:count == 0 ? 'gk' : 'k'", { noremap = true, expr = true, silent = true })
 vim.keymap.set("n", "<down>", "v:count == 0 ? 'gj' : 'j'", { noremap = true, expr = true, silent = true })
 
--- Keep cursor in middle when paging
-vim.keymap.set("n", "<C-d>", "<C-d>zz")
-vim.keymap.set("n", "<C-u>", "<C-u>zz")
-
 -- Dont replace register when wasting over selection
 vim.keymap.set("x", "<leader>p", "p")
 vim.keymap.set("x", "p", [["_dP]])

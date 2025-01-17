@@ -31,6 +31,7 @@ return {
     notifier = { enabled = true, timeout = 3000 },
     statuscolumn = { enabled = true },
     words = { enabled = true },
+    scroll = { enabled = true },
     picker = {
       enabled = true,
       formatters = {
