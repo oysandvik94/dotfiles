@@ -4,6 +4,11 @@
 NAME=$1
 SHOW_NAME="$(tmux show -gqv '@tmux-nerd-font-window-name-show-name')"
 
+# If $NAME is empty or something we consider "not a real command," do nothing.
+if [ -z "$NAME" ] || [[ "$NAME" =~ ^(login|bash|zsh|fish)$ ]]; then
+	exit 0
+fi
+
 function get_shell_icon() {
 	local default_shell_icon=""
 	local shell_icon
@@ -55,13 +60,13 @@ get_icon() {
 	rustc | rustup)
 		echo ""
 		;;
-	Python|python|python3)
+	Python | python | python3)
 		echo ""
 		;;
-    java)
+	java)
 		echo ""
 		;;
-    docker)
+	docker)
 		echo ""
 		;;
 	*)

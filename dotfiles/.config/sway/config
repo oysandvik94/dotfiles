@@ -37,3 +37,4 @@ input "type:touchpad" {
 include ~/.config/sway/autostart.conf
 include ~/.config/sway/keybindings.conf
 include ~/.config/sway/styling.conf
+include ~/.config/sway/dropdown.conf

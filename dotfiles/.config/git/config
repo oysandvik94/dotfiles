@@ -44,3 +44,4 @@
     lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
     yeet = push --force
     amend = commit --amend --no-edit
+    wtc = "!f() { git worktree add $PWD/$1 $1; }; f"

@@ -7,13 +7,25 @@ rofi_cmd() {
 
 chosen=$(printf "  \n  \n  \n 󰤄 " | rofi_cmd)
 
+suspen() {
+    swayidle -w \
+        before-sleep 'loginctl lock-session $XDG_SESSION_ID' \
+        lock 'swaylock'
+}
 lock() {
-    i3lock --image ~/wallpapers/evening-sky.png
+    if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
+        swaylock --image ~/wallpapers/evening-sky.png
+    else
+        i3lock --image ~/wallpapers/evening-sky.png
+    fi
 }
 case "$chosen" in
 "  ") poweroff ;;
 "  ") reboot ;;
 "  ") lock ;;
-" 󰤄 ") systemctl suspend ;;
+" 󰤄 ")
+    lock
+    systemctl suspend
+    ;;
 *) exit 1 ;;
 esac

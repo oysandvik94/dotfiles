@@ -53,10 +53,10 @@ local function get_jdtls_paths()
     vim.list_extend(path.bundles, java_test_bundle)
   end
   -- vim.list_extend(path.bundles, require("spring_boot").java_extensions())
-  local spring_path = require("mason-registry").get_package("spring-boot-tools"):get_install_path()
-      .. "/extension/jars/*.jar"
-  local spring = vim.split(vim.fn.glob(spring_path), "\n", {})
-  vim.list_extend(path.bundles, spring)
+  -- local spring_path = require("mason-registry").get_package("spring-boot-tools"):get_install_path()
+  -- .. "/extension/jars/*.jar"
+  -- local spring = vim.split(vim.fn.glob(spring_path), "\n", {})
+  -- vim.list_extend(path.bundles, spring)
 
   ---
   -- Include java-debug-adapter bundle if present
@@ -147,18 +147,18 @@ end
 
 local function jdtls_setup(event)
   local jdtls = require("jdtls")
-  local spring_path = require("mason-registry").get_package("spring-boot-tools"):get_install_path()
-  require("spring_boot").setup({
-    ls_path = spring_path .. "/extension/language-server",
-    exploded_ls_jar_data = true,
-    server = {
-      handlers = {
-        ["textDocument/inlayHint"] = function(_, _, params, client_id, _)
-          -- ...
-        end,
-      },
-    },
-  })
+  -- local spring_path = require("mason-registry").get_package("spring-boot-tools"):get_install_path()
+  -- require("spring_boot").setup({
+  --   ls_path = spring_path .. "/extension/language-server",
+  --   exploded_ls_jar_data = true,
+  --   server = {
+  --     handlers = {
+  --       ["textDocument/inlayHint"] = function(_, _, params, client_id, _)
+  --         -- ...
+  --       end,
+  --     },
+  --   },
+  -- })
 
   local path = get_jdtls_paths()
   local data_dir = path.data_dir .. "/" .. string.gsub(vim.fn.getcwd(), "/", "_")
@@ -185,11 +185,14 @@ local function jdtls_setup(event)
     "-XX:+UnlockExperimentalVMOptions",
     "-Dosgi.bundles.defaultStartLevel=4",
     "-Declipse.product=org.eclipse.jdt.ls.core.product",
+    "-Djava.import.generatesMetadataFilesAtProjectRoot=true",
     "-Dlog.protocol=true",
     "-Dlog.level=ALL",
     "-javaagent:" .. path.java_agent,
+    "-XX:+UseTransparentHugePages",
+    "-XX:+AlwaysPreTouch",
     "-Xms1g",
-    "-Xmx8G",
+    "-Xmx12G",
     "--add-modules=ALL-SYSTEM",
     "--add-opens",
     "java.base/java.util=ALL-UNNAMED",
@@ -285,7 +288,7 @@ local function jdtls_setup(event)
 
   -- This starts a new client & server,
   -- or attaches to an existing client & server depending on the `root_dir`.
-  require("spring_boot").init_lsp_commands()
+  -- require("spring_boot").init_lsp_commands()
   require('jdtls').settings.jdt_uri_timeout_ms = 20000
   jdtls.start_or_attach({
     cmd = cmd,

@@ -1,0 +1,13 @@
+#!/bin/bash
+VPN_STATUS=$(/opt/cisco/anyconnect/bin/vpn status | grep -q Connected && echo "connected" || echo "disconnected")
+TUNNEL_STATUS=$(lsof -i :12345 -sTCP:LISTEN >/dev/null 2>&1 && echo "active" || echo "inactive")
+
+if [[ $VPN_STATUS == "connected" && $TUNNEL_STATUS == "active" ]]; then
+    echo "vpn & tunnel active"
+elif [[ $VPN_STATUS == "connected" ]]; then
+    echo "vpn active, tunnel inactive"
+elif [[ $TUNNEL_STATUS == "active" ]]; then
+    echo "tunnel active, vpn inactive"
+else
+    echo "vpn & tunnel inactive"
+fi
