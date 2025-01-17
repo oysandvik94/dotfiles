@@ -60,8 +60,7 @@ return {
     { "<leader>fw", function() Snacks.picker.grep_word({ hidden = true }) end, desc = "Visual selection or word", mode = { "n", "x" } },
     { "<leader>fh", function() Snacks.picker.help() end,                       desc = "Help Pages" },
     { "<leader>fl", function() Snacks.picker.resume() end,                     desc = "Help Pages" },
-    { "<leader>z",  function() Snacks.zen() end,                               desc = "Toggle Zen Mode" },
-    { "<leader>Z",  function() Snacks.zen.zoom() end,                          desc = "Toggle Zoom" },
+    { "<leader>zm", function() Snacks.zen() end,                               desc = "Toggle Zen Mode" },
     {
       "<leader>uH",
       function()
