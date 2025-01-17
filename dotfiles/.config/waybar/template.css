@@ -71,7 +71,7 @@ window#waybar {
   color: @fg;
 }
 
-#workspaces button.active {
+#workspaces button.focused {
   background-color: @peach;
   color: @bg;
   /*color: @bg;*/

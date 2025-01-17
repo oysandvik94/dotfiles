@@ -4,6 +4,7 @@ return {
 	dependencies = {
 		"theHamsta/nvim-dap-virtual-text",
 		"rcarriga/nvim-dap-ui",
+		"nvim-neotest/nvim-nio",
 		"Mgenuit/nvim-dap-kotlin",
 	},
 	config = function()
@@ -157,6 +158,7 @@ return {
 				type = "java",
 				request = "attach",
 				name = "Debug (Attach) - Remote",
+				projectName = "",
 				hostName = function()
 					return vim.fn.input("Hostname: ", "localhost")
 				end,

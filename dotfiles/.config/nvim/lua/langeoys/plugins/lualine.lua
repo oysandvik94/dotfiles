@@ -24,7 +24,6 @@ return {
 	"nvim-lualine/lualine.nvim",
 	dependencies = {
 		{ "nvim-tree/nvim-web-devicons", lazy = true },
-		{ "letieu/harpoon-lualine" },
 	},
 	config = function()
 		local custom_theme = require("lualine.themes.auto")
@@ -75,19 +74,19 @@ return {
 				lualine_c = {
 					{
 						"active-global-marks",
-						fmt = marks.lualine_global,
+						fmt = require('arrow.statusline').text_for_statusline_with_icons
 					},
 				},
 				lualine_x = { "diagnostics" },
 				lualine_y = {
-					{ "seach-count", fmt = search_count },
-					{ "active-marks", fmt = marks.lualine },
+					{ "seach-count",     fmt = search_count },
+					{ "active-marks",    fmt = marks.lualine },
 					{ "macro-recording", fmt = show_macro_recording },
 				}, -- Tmp objects
 				-- lualine_z = { "branch", "diff" }, -- git
 				lualine_z = {
-					{ "diff" },
-					{ "branch", separator = { right = "" }, left_padding = 2 },
+					-- { "diff" },
+					{ "diff", separator = { left = "", right = "" }, left_padding = 2 },
 				},
 			},
 		})

@@ -19,7 +19,7 @@ plug "zsh-users/zsh-syntax-highlighting"
 plug "zsh-users/zsh-autosuggestions"
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 plug "zsh-users/zsh-completions"
-export NVM_LAZY_LOAD=true
+export NVM_LAZY_LOAD=false
 plug "lukechilds/zsh-nvm"
 
 

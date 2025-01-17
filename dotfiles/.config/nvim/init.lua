@@ -1,3 +1,4 @@
+---@module 'snacks'
 require("langeoys.global")
 require("langeoys")
 local ui = require("langeoys.utils.ui")

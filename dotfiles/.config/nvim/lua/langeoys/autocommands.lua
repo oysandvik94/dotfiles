@@ -36,3 +36,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
   end,
   nested = true,
 })
+
+vim.api.nvim_create_autocmd("VimResized", {
+  command = "wincmd ="
+})

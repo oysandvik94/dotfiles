@@ -1,3 +1,24 @@
+---@module 'snacks'
+local function folders()
+  local cmd = string.format([[fd --color always --hidden --exclude .git --type directory --max-depth 8]])
+  local has_exa = vim.fn.executable("eza") == 1
+
+  local output = vim.fn.systemlist(cmd)
+  if not output or #output == 0 then
+    vim.notify("No folders found", vim.log.levels.WARN)
+    return
+  end
+
+  vim.ui.select(output, {
+    prompt = "󰥨  Folders❯ ",
+    format_item = function(item)
+      return item
+    end
+  }, function(choice)
+    if not choice then return end
+    require("oil").open(choice)
+  end)
+end
 return {
   "folke/snacks.nvim",
   dependencies = {
@@ -10,6 +31,14 @@ return {
     notifier = { enabled = true, timeout = 3000 },
     statuscolumn = { enabled = true },
     words = { enabled = true },
+    picker = {
+      enabled = true,
+      formatters = {
+        file = {
+          filename_first = true, -- display filename before the file path
+        },
+      },
+    },
     styles = {
       notification = {
         wo = { wrap = true }, -- Wrap notifications
@@ -20,8 +49,18 @@ return {
     },
   },
   keys = {
-    { "<leader>z", function() Snacks.zen() end,      desc = "Toggle Zen Mode" },
-    { "<leader>Z", function() Snacks.zen.zoom() end, desc = "Toggle Zoom" },
+    { "<leader>/",  function() Snacks.picker.smart({ hidden = true }) end,     desc = "picker files" },
+    { "<leader>fp", function() Snacks.picker() end,                            desc = "picker files" },
+    { "<leader>f:", function() Snacks.picker.command_history() end,            desc = "Command history" },
+    { "<leader>fc", function() Snacks.picker.commands() end,                   desc = "Command history" },
+    { "<leader>fr", function() Snacks.picker.recent() end,                     desc = "Recent" },
+    { "<leader>fg", function() Snacks.picker.grep({ hidden = true }) end,      desc = "Grep" },
+    { "<leader>fm", function() folders() end,                                  desc = "Search folders" },
+    { "<leader>fw", function() Snacks.picker.grep_word({ hidden = true }) end, desc = "Visual selection or word", mode = { "n", "x" } },
+    { "<leader>fh", function() Snacks.picker.help() end,                       desc = "Help Pages" },
+    { "<leader>fl", function() Snacks.picker.resume() end,                     desc = "Help Pages" },
+    { "<leader>z",  function() Snacks.zen() end,                               desc = "Toggle Zen Mode" },
+    { "<leader>Z",  function() Snacks.zen.zoom() end,                          desc = "Toggle Zoom" },
     {
       "<leader>uH",
       function()
@@ -35,6 +74,13 @@ return {
         Snacks.notifier.hide()
       end,
       desc = "Dismiss All Notifications",
+    },
+    {
+      "<leader>bo",
+      function()
+        Snacks.bufdelete.other(opts)
+      end,
+      desc = "Delete all buffers except the current one",
     },
     {
       "<leader>bd",

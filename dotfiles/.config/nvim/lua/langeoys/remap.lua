@@ -58,7 +58,6 @@ end, { nargs = 0 })
 vim.keymap.set("n", "<leader>mf", require("langeoys.utils.marks").select_mark, { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>mc", require("langeoys.utils.marks").clear_global_marks, { noremap = true, silent = true })
 
-vim.keymap.set("n", "<leader>bo", "<cmd>%bd|e#<cr>", {desc = "Close all buffers but the current one"})
 vim.keymap.set(
 	"n",
 	"<leader><leader>d",

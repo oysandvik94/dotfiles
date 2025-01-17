@@ -8,16 +8,20 @@ if [ ! -d "$dir" ]; then
     exit 1
 fi
 
-# Start tmux session with the directory provided or default
 tmux neww bash -c "
-(RELOAD='reload:rg --column --color=always --smart-case {q} || :'
-OPENER='nvim {1} +{2}'
- fzf --disabled --ansi --multi \
-        --bind \"enter:become:$OPENER\" \
-     --bind \"start:$RELOAD\" --bind \"change:$RELOAD\" \
-     --bind 'ctrl-/:toggle-preview' \
-     --delimiter : \
-     --preview 'if [ {2} -gt 0 ]; then bat --style=full --color=always --highlight-line {2} {1}; else bat --style=full --color=always {1}; fi' \
-     --preview-window '~4,+{2}+4/3,<80(up)')
-"
+cd \"$dir\"
 
+RELOAD='reload:rg --column --color=always --smart-case {q} || :'
+OPENER='nvim {1} +{2}'
+
+fzf --disabled --ansi --multi \
+    --header 'Enter: open file | Ctrl-n: create file from current query | Ctrl-/ toggle preview' \
+    --bind \"enter:become(\$OPENER)\" \
+    --bind \"start:\$RELOAD\" \
+    --bind \"change:\$RELOAD\" \
+    --bind 'ctrl-/:toggle-preview' \
+    --bind \"ctrl-n:execute(nvim {q}.md > /dev/tty)\" \
+    --delimiter : \
+    --preview 'if [ {2} -gt 0 ]; then bat --style=full --color=always --highlight-line {2} {1}; else bat --style=full --color=always {1}; fi' \
+    --preview-window '~4,+{2}+4/3,<80(up)'
+"

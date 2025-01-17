@@ -1,6 +1,5 @@
 return {
 	"nvim-treesitter/nvim-treesitter-context",
-	enabled = false,
 	config = function()
 		require("nvim-treesitter.configs").setup({
 			context = {
@@ -9,5 +8,6 @@ return {
 				multiline_threshold = 3,
 			},
 		})
+		vim.api.nvim_set_keymap('n', '<leader>uc', ':TSContextToggle<CR>', { noremap = true, silent = true })
 	end,
 }

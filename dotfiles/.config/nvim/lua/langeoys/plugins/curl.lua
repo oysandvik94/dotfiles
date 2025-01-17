@@ -9,6 +9,7 @@ return {
     local curl = require("curl")
     curl.setup({
       open_with = "split",
+      curl_binary = "proxychains curl",
     })
 
     vim.keymap.set("n", "<leader>hh", function()

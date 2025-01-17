@@ -38,12 +38,6 @@ return {
     }
     dashboard.section.header.val = header
     dashboard.section.buttons.val = {
-      dashboard.button("f", " " .. " Find file", "<cmd>lua require('fzf-lua').files()<CR>"),
-      dashboard.button(
-        "g",
-        " " .. " Find text",
-        "<cmd>lua require('fzf-lua').live_grep_glob({rg_opts = \"--column --hidden --line-number --no-heading --color=always --smart-case --max-columns=4096 -e\"})<CR>"
-      ),
       dashboard.button("l", "󰒲 " .. " Lazy", ":Lazy<CR>"),
       dashboard.button(
         "s",

@@ -9,8 +9,11 @@ M.on_attach = function(client, bufnr)
 
   local opts = { noremap = true, silent = true }
   vim.keymap.set("n", "gd", function()
-    require("fzf-lua").lsp_definitions({
-      jump_to_single_result = true,
+    Snacks.picker.lsp_definitions({
+      finder = "lsp_definitions",
+      format = "file",
+      include_current = false,
+      auto_confirm = true,
     })
   end, opts)
   vim.keymap.set("n", "gD", function()
@@ -18,9 +21,7 @@ M.on_attach = function(client, bufnr)
     vim.api.nvim_feedkeys("zz", "n", false)
   end, opts)
   vim.keymap.set("n", "gi", function()
-    require("fzf-lua").lsp_implementations({
-      jump_to_single_result = true,
-    })
+    Snacks.picker.lsp_implementations({})
   end, opts)
   vim.keymap.set("n", "K", function()
     vim.lsp.buf.hover()
@@ -36,17 +37,15 @@ M.on_attach = function(client, bufnr)
   -- end, opts)
 
   vim.keymap.set("n", "grr", function()
-    require("fzf-lua").lsp_references({
-      jump_to_single_result = true,
-      ignore_current_line = true,
-      ignoreDecleration = true,
+    Snacks.picker.lsp_references({
+      finder = "lsp_references",
+      format = "file",
+      include_current = false,
+      auto_confirm = true,
     })
   end, {})
-  vim.keymap.set("n", "<leader>fs", function()
-    require("fzf-lua").lsp_workspace_symbols({})
-  end, {})
   vim.keymap.set("n", "<leader>fd", function()
-    require("fzf-lua").lsp_document_symbols({})
+    Snacks.picker.lsp_symbols()
   end, {})
   vim.keymap.set("n", "<leader>lit", function()
     vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
@@ -55,23 +54,6 @@ M.on_attach = function(client, bufnr)
   vim.keymap.set("n", "<leader>ge", function()
     require("langeoys.utils.rust").go_to_error()
   end)
-
-  vim.keymap.set("n", "<leader>lq", function()
-    require("fzf-lua").lsp_code_actions({
-      -- winopts = {
-      -- 	relative = "cursor",
-      -- 	width = 0.6,
-      -- 	height = 0.3,
-      -- 	row = 1,
-      -- },
-      filter = function(action)
-        return action.kind == vim.lsp.protocol.CodeActionKind.QuickFix or action.isPreferred
-      end,
-      context = {
-        diagnostics = vim.lsp.diagnostic.get_line_diagnostics(),
-      },
-    })
-  end, { noremap = true, silent = true })
 
   vim.keymap.set({ "n", "v" }, "<leader>lc", vim.lsp.buf.code_action, { noremap = true, silent = true })
 end

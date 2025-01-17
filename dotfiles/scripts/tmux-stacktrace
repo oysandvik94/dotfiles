@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+# $1 = user input from tmux command-prompt
+user_input="$1"
+
+# Capture the current pane
+pane_id="$(tmux display-message -p '#{pane_id}')"
+tmux capture-pane -p -t "$pane_id" >/tmp/buffer.log
+
+RELEVANT_TRACE=$(grep '^[[:space:]]*at' /tmp/buffer.log | grep "$user_input" | head -n 1)
+PAREN_CONTENT=$(echo "$RELEVANT_TRACE" | grep -oP '\(.*?\)' | tr -d '()')
+
+# THIS hangs
+echo "$PAREN_CONTENT" | wl-copy
+tmux send -X copy-pipe-and-cancel "$(clipboard_copy_command)"
+
+tmux display-message -d 5000 "Copied $PAREN_CONTENT"
