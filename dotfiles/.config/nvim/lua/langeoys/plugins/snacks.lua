@@ -29,7 +29,13 @@ return {
   opts = {
     bigfile = { enabled = true },
     notifier = { enabled = true, timeout = 3000 },
-    statuscolumn = { enabled = true },
+    statuscolumn = {
+      enabled = true,
+      folds = {
+        open = true,   -- show open fold icons
+        git_hl = true, -- use Git Signs hl for fold icons
+      },
+    },
     words = { enabled = true },
     scroll = { enabled = true },
     picker = {
