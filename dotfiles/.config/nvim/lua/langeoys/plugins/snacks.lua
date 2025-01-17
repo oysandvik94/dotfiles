@@ -36,6 +36,12 @@ return {
         git_hl = true, -- use Git Signs hl for fold icons
       },
     },
+    scope = {
+      enabled = true
+    },
+    indent = {
+      enabled = true
+    },
     words = { enabled = true },
     scroll = { enabled = true },
     picker = {
