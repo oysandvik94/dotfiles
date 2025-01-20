@@ -60,6 +60,9 @@ return {
     toggle = {
       which_key = true,
     },
+    quickfile = {
+      enabled = true
+    }
   },
   keys = {
     { "<leader>/",  function() Snacks.picker.smart({ hidden = true }) end,     desc = "picker files" },
