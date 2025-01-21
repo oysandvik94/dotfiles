@@ -1,17 +1,30 @@
-@define-color bg BACKGROUND_PLACEHOLDER;
-@define-color sky SECONDARY_PLACEHOLDER;
-@define-color red BAD_PLACEHOLDER;
-@define-color lavender TERTIARY_PLACEHOLDER;
-@define-color fg FOREGROUND_PLACEHOLDER;
-@define-color green OK_PLACEHOLDER;
-@define-color peach PRIMARY_PLACEHOLDER;
+@define-color bg-hover #f28668;
+@define-color lbg #131721;
+@define-color bg #0b0e14;
+@define-color blue #73b8ff;
+@define-color sky #95e6cb;
+@define-color red #f07178;
+@define-color pink #f28779;
+@define-color lavender #d2a6ff;
+@define-color rosewater #f07178;
+@define-color flamingo #f07178;
+@define-color fg #bfbdb6;
+@define-color green #7fd962;
+@define-color active-green #aad94c;
+@define-color dark-fg #787bb0;
+@define-color peach #f2966b;
 @define-color border @lavender;
+@define-color gray2 #cccac2;
+@define-color black4 #0d1017;
+@define-color black3 #131721;
+@define-color maroon #d95757;
+@define-color yellow #FF8F40;
 
 * {
   min-height: 0;
   margin: 0;
   padding: 0;
-  /* border-radius: 7px; */
+  border-radius: 7px;
   font-family: "JetBrains Mono Nerd Font";
   font-size: 10pt;
   font-weight: 700;
@@ -20,45 +33,45 @@
 
 tooltip {
   background: @bg;
-  border-radius: 10px;
+  border-radius: 7px;
   border: 2px solid @border;
 }
 
-/* window#waybar.empty #window { */
-/*   background-color: transparent; */
-/*   border-bottom: none; */
-/*   border-right: none; */
-/* } */
+#window {
+	margin: 5px 5px 2px 5px;
+	padding-left: 10px;
+	padding-right: 7px;
+	border-radius: 7px;
+	border-bottom: 2px solid @bg;
+	border-right: 2px solid @bg;
+	background-color: @yellow;
+	color: @bg;
+}
+
+window#waybar.empty #window {
+	background-color: transparent;
+	border-bottom: none;
+	border-right: none;
+}
 
 window#waybar {
-  background-color: @bg;
+  background-color:transparent;
   color: @lavender;
 }
 
 /* Workspaces */
 @keyframes button_activate {
-  from {
-    opacity: 0.3;
-  }
-  to {
-    opacity: 1;
-  }
+	from { opacity: .3 }
+	to { opacity: 1.; }
 }
-
-/* .modules-left > * > *, */
-/* .modules-center > * > *, */
-/* .modules-right > * > * { */
-/*   border: 1px solid @peach; */
-/*   border-radius: 4px; */
-/*   border-width: 2px; */
-/* } */
 
 #workspaces {
   margin: 5px 5px 2px 5px;
-  border-radius: 9px;
+  border-radius: 7px;
   padding: 1px;
   background-color: @bg;
   color: @bg;
+
 }
 
 #workspaces button {
@@ -66,19 +79,19 @@ window#waybar {
   border-radius: 5px;
   padding-left: 1px;
   padding-right: 1px;
-  padding-top: 3px;
   background-color: @bg;
   color: @fg;
 }
 
-#workspaces button.focused {
-  background-color: @peach;
-  color: @bg;
-  /*color: @bg;*/
+#workspaces button.active {
+    background-color:@yellow;
+    color: @bg;
+    /*color: @bg;*/
+
 }
 
 #workspaces button.urgent {
-  color: #f38ba8;
+	color: #F38BA8;
 }
 
 #workspaces button:hover {
@@ -100,7 +113,7 @@ window#waybar {
   padding-left: 10px;
   padding-right: 10px;
   background-color: @bg;
-  color: @fg;
+  color: @fg; 
 }
 
 #idle_inhibitor {
@@ -111,6 +124,7 @@ window#waybar {
   background-color: @bg;
   color: @fg;
 }
+
 
 #network {
   margin: 5px 5px 2px 5px;
@@ -130,23 +144,24 @@ window#waybar {
 }
 
 #custom-subs {
-  color: @bg;
-  margin: 5px 5px 2px 5px;
-  padding-left: 10px;
-  padding-right: 12px;
-  border-radius: 7px;
-  border-bottom: 2px solid @bg;
-  border-right: 2px solid @bg;
-  background-color: @red;
+	color: @bg;
+	margin: 5px 5px 2px 5px;
+    padding-left: 10px;
+    padding-right: 12px;
+    border-radius: 7px;
+    background-color: @rosewater;
+
 }
 
+
 #custom-cliphist {
-  color: @peach;
-  margin: 5px 5px 2px 5px;
-  padding-left: 10px;
-  padding-right: 12px;
-  border-radius: 7px;
-  background-color: @bg;
+	color: @peach;
+	margin: 5px 5px 2px 5px;
+    padding-left: 10px;
+    padding-right: 12px;
+    border-radius: 7px;
+    background-color: @bg;
+
 }
 
 #custom-gpu-temp,
@@ -162,7 +177,6 @@ window#waybar {
   background-color: @bg;
 }
 
-#custom-task,
 #custom-playerctl {
   margin: 5px 5px 2px 5px;
   padding-left: 10px;
@@ -184,32 +198,31 @@ window#waybar {
   border-bottom-right-radius: 0px;
   border-top-left-radius: 7px;
   border-bottom-left-radius: 7px;
+
 }
 
 #battery,
 #bluetooth {
-  margin-left: 0px;
-  margin-right: 5px;
-  padding-left: 7.5px;
-  padding-right: 10px;
-  border-left-width: 0px;
-  border-top-left-radius: 0px;
-  border-bottom-left-radius: 0px;
-  border-top-right-radius: 7px;
-  border-bottom-right-radius: 7px;
+	margin-left: 0px;
+	margin-right: 5px;
+	padding-left: 7.5px;
+	padding-right: 10px;
+	border-top-left-radius: 0px;
+	border-bottom-left-radius: 0px;
+	border-top-right-radius: 7px;
+	border-bottom-right-radius: 7px;
 }
 
 #backlight,
 #pulseaudio {
-  border-right-width: 0px;
-  margin-right: 0px;
-  margin-left: 5px;
-  padding-left: 10px;
-  padding-right: 7.5px;
-  border-top-right-radius: 0px;
-  border-bottom-right-radius: 0px;
-  border-top-left-radius: 7px;
-  border-bottom-left-radius: 7px;
+	margin-right: 0px;
+	margin-left: 5px;
+	padding-left: 10px;
+  	padding-right: 7.5px;
+	border-top-right-radius: 0px;
+	border-bottom-right-radius: 0px;
+	border-top-left-radius: 7px;
+	border-bottom-left-radius: 7px;
 }
 
 #clock {
@@ -228,13 +241,4 @@ window#waybar {
   border-radius: 7px;
   background-color: @bg;
   color: @peach;
-}
-#custom-cava {
-  color: @peach;
-  background-color: @bg;
-  font-family: "bargraph";
-  margin: 5px 5px 2px 5px;
-  padding-left: 10px;
-  padding-right: 10px;
-  border-radius: 7px;
 }

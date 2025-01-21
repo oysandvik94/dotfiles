@@ -1,5 +1,5 @@
 {
-		// "layer": "top",
+		"layer": "top",
 		"modules-left": ["custom/playerctl", "custom/cava","sway/workspaces"],
 		"modules-center": ["clock" ],
 		"modules-right": ["tray", "cpu", "temperature", "memory", "pulseaudio", "bluetooth", "backlight", "battery"],

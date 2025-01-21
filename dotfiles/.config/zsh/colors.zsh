@@ -23,7 +23,7 @@ export COLOR_BAD=#d2788c         # error color
 
 # Base colors
 export COLOR_FOREGROUND=#cdcdcd  # foreground color
-export COLOR_BACKGROUND=#18191a  # background color
+export COLOR_BACKGROUND=#222436  # background color
 
 # Additional colors you might find useful
 export COLOR_HINT=#8ca0dc        # hint color

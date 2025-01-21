@@ -1,0 +1,86 @@
+configuration{
+    display-drun: "➤";
+    font: "JetBrainsMono Nerd Font 18";
+    show-icons: false;
+    terminal: "kitty";
+    drun-display-format: "{name}";
+    location: 0;
+    disable-history: false;
+    sidebar-mode: false;
+    normalize-match: true;
+}
+
+* { 
+  bg: #222436; 
+  accent: #cba6f7;
+
+  fg: #cdd6f4;
+  fg-alt: #1e1e2e;
+
+  background-color: @bg;
+  text-color: @fg;
+} 
+
+/** Put this in your theme.rasi file **/
+
+window {
+      border: 0 0 0 0;
+  location: north west;
+  width: 100%;
+  padding: 8;
+  background-color: @bg;
+}
+
+entry {
+  // padding: 100px;
+  border: 0 0 0 0;
+}
+
+element-text {
+      border: 0 0 0 0;
+  bg: #222436; 
+  background-color: inherit;
+  text-color: inherit;
+  highlight: bold;
+}
+
+listview {
+      border: 0 0 0 0;
+  lines: 8;
+  enabled: true;
+}
+
+element {
+  background-color: @bg;
+  text-color: @fg;
+  highlight: bold;
+}
+
+element.normal.normal {
+	background-color: @bg;
+  text-color: @fg;
+}
+element.alternate.normal {
+	background-color: @bg;
+  text-color: @fg;
+}
+element.selected.normal {
+	background-color: @bg;
+	text-color: @accent;
+}
+
+case-indicator,
+entry,
+prompt,
+button {
+    spacing:    0;
+    text-color: @fg;
+}
+
+scrollbar {
+    width:        4px;
+    border:       0;
+    handle-color: @accent;
+    handle-width: 8px;
+    padding:      0 5;
+}
