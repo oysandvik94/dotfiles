@@ -1,6 +1,6 @@
 return {
-  "saghen/blink.cmp",
-  -- dir = "~/dev/general/blink.cmp/",
+  -- "saghen/blink.cmp",
+  dir = "~/dev/general/blink.cmp/",
   lazy = false, -- lazy loading handled internally
   -- optional: provides snippets for the snippet source
   dependencies = "rafamadriz/friendly-snippets",
@@ -13,26 +13,9 @@ return {
       end,
     },
     completion = {
-      menu = {
-        draw = {
-          columns = { { 'item_idx' }, { 'kind_icon' }, { 'label', 'label_description', gap = 1 } },
-          components = {
-            item_idx = {
-              text = function(ctx) return ctx.idx == 10 and '0' or ctx.idx >= 10 and ' ' or tostring(ctx.idx) end,
-              highlight = 'BlinkCmpItemIdx' -- optional, only if you want to change its color
-            }
-          }
-        }
-      },
       accept = {
         auto_brackets = {
           enabled = true,
-          kind_resolution = {
-            -- blocked_filetypes = { 'java' }
-          },
-          semantic_token_resolution = {
-            blocked_filetypes = { 'java' }
-          }
         },
       },
       documentation = {
