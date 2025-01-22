@@ -20,7 +20,7 @@ else
     >/tmp/buffer.log
 fi
 
-RELEVANT_TRACE=$(grep '^[[:space:]]*at' /tmp/buffer.log | grep "$user_input" | head -n 1)
+RELEVANT_TRACE=$(grep -E '^[[:space:]]*(at|-> at)' /tmp/buffer.log | grep "$user_input" | head -n 1)
 PAREN_CONTENT=$(echo "$RELEVANT_TRACE" | grep -oP '\(.*?\)' | tr -d '()')
 
 # THIS hangs
