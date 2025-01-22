@@ -10,11 +10,12 @@ return {
 				-- "LazyVim",
 				-- When relative, you can also provide a path to the library in the plugin dir
 				"luvit-meta/library", -- see below
+				{ path = "snacks.nvim", words = { "Snacks" } },
 			},
 		},
 	},
 	{ "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
-	{ -- optional completion source for require statements and module annotations
+	{                                       -- optional completion source for require statements and module annotations
 		"hrsh7th/nvim-cmp",
 		opts = function(_, opts)
 			opts.sources = opts.sources or {}

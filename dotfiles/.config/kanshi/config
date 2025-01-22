@@ -6,6 +6,10 @@ profile tietowide {
     output eDP-1 disable
     output DP-2 enable
 }
+profile tietowide2 {
+    output eDP-1 disable
+    output DP-1 enable
+}
 profile {
     output eDP-1 enable scale 1
 }

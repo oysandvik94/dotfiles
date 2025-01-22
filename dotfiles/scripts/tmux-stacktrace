@@ -4,8 +4,21 @@
 user_input="$1"
 
 # Capture the current pane
-pane_id="$(tmux display-message -p '#{pane_id}')"
-tmux capture-pane -p -t "$pane_id" >/tmp/buffer.log
+scroll_position=$(tmux display -p -F "#{scroll_position}")
+pane_height=$(tmux display -p -F "#{pane_height}")
+if [ -z "$scroll_position" ] || [ -z "$pane_height" ]; then
+  tmux capture-pane -p >/tmp/buffer.log
+else
+  start_line="$((scroll_position))"
+  end_line="$((scroll_position - pane_height))"
+  echo $start_line >>/tmp/buffer.log.log
+  echo $end_line >>/tmp/buffer.log.log
+
+  tmux capture-pane -p \
+    -S "-$start_line" \
+    -E "-$end_line" \
+    >/tmp/buffer.log
+fi
 
 RELEVANT_TRACE=$(grep '^[[:space:]]*at' /tmp/buffer.log | grep "$user_input" | head -n 1)
 PAREN_CONTENT=$(echo "$RELEVANT_TRACE" | grep -oP '\(.*?\)' | tr -d '()')
