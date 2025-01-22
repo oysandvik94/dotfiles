@@ -83,6 +83,7 @@ autoautorandr() {
 #     source "$XDG_RUNTIME_DIR/ssh-agent.env" >/dev/null
 # fi
 
+eval $(keychain --eval --quiet id_ed25519)
 
 # export NVM_LAZY=1
 # export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
