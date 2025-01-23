@@ -16,35 +16,39 @@ local function find_file(partial_name)
 	end
 end
 
+M.navigate_to_given_input = function(location)
+	if location then
+		-- Split the input into file and line
+		local file, line = location:match("([^:]+):(%d+)")
+
+		if file and line then
+			-- Convert line to number
+			line = tonumber(line)
+
+			-- Extract just the filename part (before the first dot)
+			local file_name = file:match("([^.]+)")
+
+			-- Find the full path of the file
+			local full_path = find_file(file_name .. ".java")
+
+			if full_path then
+				-- Edit the file
+				vim.cmd("edit " .. vim.fn.fnameescape(full_path))
+
+				-- Move cursor to specified line
+				vim.api.nvim_win_set_cursor(0, { line, 0 })
+			else
+				print("File not found: " .. file_name .. ".java")
+			end
+		else
+			print("Invalid input format. Please use 'File.method:line'.")
+		end
+	end
+end
+
 M.navigate_to_input = function()
 	vim.ui.input({ prompt = "Enter location (File.method:line): " }, function(input)
-		if input then
-			-- Split the input into file and line
-			local file, line = input:match("([^:]+):(%d+)")
-
-			if file and line then
-				-- Convert line to number
-				line = tonumber(line)
-
-				-- Extract just the filename part (before the first dot)
-				local file_name = file:match("([^.]+)")
-
-				-- Find the full path of the file
-				local full_path = find_file(file_name .. ".java")
-
-				if full_path then
-					-- Edit the file
-					vim.cmd("edit " .. vim.fn.fnameescape(full_path))
-
-					-- Move cursor to specified line
-					vim.api.nvim_win_set_cursor(0, { line, 0 })
-				else
-					print("File not found: " .. file_name .. ".java")
-				end
-			else
-				print("Invalid input format. Please use 'File.method:line'.")
-			end
-		end
+		M.navigate_to_given_input(input)
 	end)
 end
 

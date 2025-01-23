@@ -23,8 +23,28 @@ fi
 RELEVANT_TRACE=$(grep -E '^[[:space:]]*(at|-> at)' /tmp/buffer.log | grep "$user_input" | head -n 1)
 PAREN_CONTENT=$(echo "$RELEVANT_TRACE" | grep -oP '\(.*?\)' | tr -d '()')
 
-# THIS hangs
-echo "$PAREN_CONTENT" | wl-copy
-tmux send -X copy-pipe-and-cancel "$(clipboard_copy_command)"
+# Get the current tmux session ID
+SESSION_ID=$(tmux display-message -p '#S')
 
-tmux display-message -d 5000 "Copied $PAREN_CONTENT"
+# Find the tmux pane running Neovim in the current session
+PANE_INFO=$(tmux list-panes -s -t "$SESSION_ID" -F '#{window_index} #{pane_index} #{pane_current_command}' | grep 'nvim' | head -n 1 | awk '{print $1, $2}')
+
+# Check if a Neovim pane was found
+if [ -n "$PANE_INFO" ]; then
+  WINDOW_INDEX=$(echo "$PANE_INFO" | awk '{print $1}')
+  PANE_INDEX=$(echo "$PANE_INFO" | awk '{print $2}')
+  # Send the command to open the file in the found Neovim pane
+
+  # Focus the window and pane running Neovim
+  tmux select-window -t "$SESSION_ID:$WINDOW_INDEX"
+  tmux select-pane -t "$PANE_INDEX"
+  tmux send-keys -t "$SESSION_ID:$WINDOW_INDEX.$PANE_INDEX" ":JavaGo $PAREN_CONTENT"
+  # sleep 1
+  tmux send-keys -t "$SESSION_ID:$WINDOW_INDEX.$PANE_INDEX" Enter
+  tmux display-message -d 5000 "Sent to $SESSION_ID and $PANE_INDEX and $WINDOW_INDEX"
+else
+  echo "$PAREN_CONTENT" | wl-copy
+  tmux send -X copy-pipe-and-cancel "$(clipboard_copy_command)"
+  tmux display-message -d 5000 "Copied $SESSION_ID and $PANE_INDEX"
+  # tmux display-message -d 5000 "Copied $PAREN_CONTENT"
+fi
