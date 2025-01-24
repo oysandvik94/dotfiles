@@ -65,7 +65,7 @@ return {
     }
   },
   keys = {
-    { "<leader>/",  function() Snacks.picker.smart({ hidden = true }) end,     desc = "picker files" },
+    { "<leader>/",  function() Snacks.picker.files({ hidden = true }) end,     desc = "picker files" },
     { "<leader>fp", function() Snacks.picker() end,                            desc = "picker files" },
     { "<leader>f:", function() Snacks.picker.command_history() end,            desc = "Command history" },
     { "<leader>fc", function() Snacks.picker.commands() end,                   desc = "Command history" },
