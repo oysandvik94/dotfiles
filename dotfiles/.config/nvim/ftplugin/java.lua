@@ -42,8 +42,9 @@ local config = {
 	-- The command that starts the language server
 	-- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
 	on_attach = jdtls_on_attach,
-	cmd = {
+	capabilities = require("blink.cmp").get_lsp_capabilities(),
 
+	cmd = {
 		-- 💀
 		'java', -- or '/path/to/java17_or_newer/bin/java'
 		-- depends on if `java` is in your $PATH env variable and if it points to the right version.
@@ -57,8 +58,10 @@ local config = {
 		'-Xmx1g',
 		"-Xmx12G",
 		'--add-modules=ALL-SYSTEM',
-		'--add-opens', 'java.base/java.util=ALL-UNNAMED',
-		'--add-opens', 'java.base/java.lang=ALL-UNNAMED',
+		'--add-opens',
+		'java.base/java.util=ALL-UNNAMED',
+		'--add-opens',
+		'java.base/java.lang=ALL-UNNAMED',
 
 		-- 💀
 		"-jar",
@@ -69,7 +72,8 @@ local config = {
 
 
 		-- 💀
-		'-configuration', get_platform_config(),
+		'-configuration',
+		get_platform_config(),
 		-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^        ^^^^^^
 		-- Must point to the                      Change to one of `linux`, `win` or `mac`
 		-- eclipse.jdt.ls installation            Depending on your system.
@@ -77,7 +81,8 @@ local config = {
 
 		-- 💀
 		-- See `data directory configuration` section in the README
-		'-data', get_data_dir(),
+		'-data',
+		get_data_dir(),
 	},
 
 	-- 💀
