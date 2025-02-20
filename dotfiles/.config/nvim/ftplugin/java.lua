@@ -1,15 +1,13 @@
 local jdtls_install = require("mason-registry").get_package("jdtls"):get_install_path()
+local lombok_path = jdtls_install .. "/lombok.jar"
 
 local function jdtls_on_attach(client, bufnr)
-	local _, _ = pcall(vim.lsp.codelens.refresh)
 	vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 		pattern = { "*.java" },
 		callback = function()
 			local _, _ = pcall(vim.lsp.codelens.refresh)
 		end,
 	})
-	-- The following mappings are based on the suggested usage of nvim-jdtls
-	-- https://github.com/mfussenegger/nvim-jdtls#usage
 
 	local opts = { buffer = bufnr }
 	vim.keymap.set("n", "<leader>lo", "<cmd>lua require('jdtls').organize_imports()<cr>", opts)
@@ -56,6 +54,10 @@ local config = {
 		'-Dlog.protocol=true',
 		'-Dlog.level=ALL',
 		'-Xmx1g',
+		"-XX:+UnlockExperimentalVMOptions",
+		"-XX:+UseTransparentHugePages",
+		"-XX:+AlwaysPreTouch",
+		"-javaagent:" .. lombok_path,
 		"-Xmx12G",
 		'--add-modules=ALL-SYSTEM',
 		'--add-opens',
@@ -96,8 +98,27 @@ local config = {
 	-- Here you can configure eclipse.jdt.ls specific settings
 	-- See https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
 	-- for a list of options
+	handlers = {
+		["$/progress"] = function(_, result, ctx) end,
+	},
+	flags = {
+		allow_incremental_sync = true,
+	},
 	settings = {
 		java = {
+			eclipse = {
+				downloadSources = true,
+			},
+			configuration = {
+				updateBuildConfiguration = "interactive",
+				runtimes = path.runtimes,
+			},
+			maven = {
+				downloadSources = true,
+			},
+			signatureHelp = {
+				enabled = true,
+			},
 			completion = {
 				favoriteStaticMembers = {
 					"org.hamcrest.MatcherAssert.assertThat",
@@ -121,6 +142,9 @@ local config = {
 				parameterNames = {
 					enabled = "all", -- literals, all, none
 				},
+			},
+			contentProvider = {
+				preferred = "fernflower",
 			},
 			referencesCodeLens = {
 				enabled = true,
