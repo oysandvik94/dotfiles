@@ -18,9 +18,9 @@ return {
     vim.api.nvim_create_autocmd("LspAttach", {
       group = vim.api.nvim_create_augroup("langeoys-lsp-attach", { clear = true }),
       callback = function(event)
-        local client = vim.lsp.get_client_by_id(event.data.client_id)  -- Get the client using its ID
-        local bufnr = event.buf                                        -- The buffer number
-        on_attach(client, bufnr)                                       -- Call your custom on_attach with these arguments
+        local client = vim.lsp.get_client_by_id(event.data.client_id) -- Get the client using its ID
+        local bufnr = event.buf                                       -- The buffer number
+        on_attach(client, bufnr)                                      -- Call your custom on_attach with these arguments
       end,
     })
 

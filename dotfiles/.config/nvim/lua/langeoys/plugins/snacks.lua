@@ -1,7 +1,6 @@
 ---@module 'snacks'
 local function folders()
   local cmd = string.format([[fd --color always --hidden --exclude .git --type directory --max-depth 8]])
-  local has_exa = vim.fn.executable("eza") == 1
 
   local output = vim.fn.systemlist(cmd)
   if not output or #output == 0 then

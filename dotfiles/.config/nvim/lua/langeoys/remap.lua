@@ -60,6 +60,3 @@ vim.keymap.set(
 	"<cmd>!/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME add %<CR>",
 	{ silent = true }
 )
-
--- map leadercf to close :fc!
-vim.keymap.set("n", "<leader>cf", "<cmd>fc!<CR>", { desc = "Close all floats" })

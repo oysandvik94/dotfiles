@@ -10,5 +10,7 @@ return {
                 }
             }
         })
+
+        vim.keymap.set("n", "<leader>cf", ":DiffviewFileHistory %<CR>")
     end
 }
