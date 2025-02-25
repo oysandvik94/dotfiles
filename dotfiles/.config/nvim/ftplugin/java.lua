@@ -111,7 +111,6 @@ local config = {
 			},
 			configuration = {
 				updateBuildConfiguration = "interactive",
-				runtimes = path.runtimes,
 			},
 			maven = {
 				downloadSources = true,

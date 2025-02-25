@@ -20,6 +20,7 @@ local function folders()
 end
 return {
   "folke/snacks.nvim",
+  -- dir = "~/dev/general/snacks.nvim",
   dependencies = {
     "folke/which-key.nvim",
   },
@@ -35,12 +36,10 @@ return {
         git_hl = true, -- use Git Signs hl for fold icons
       },
     },
-    scope = {
-      enabled = true
-    },
-    indent = {
-      enabled = true
-    },
+    scope = { enabled = true },
+    image = { enabled = true },
+    input = { enabled = true },
+    indent = { enabled = true },
     words = { enabled = true },
     scroll = { enabled = true },
     picker = {
@@ -74,6 +73,7 @@ return {
     { "<leader>fw", function() Snacks.picker.grep_word({ hidden = true }) end, desc = "Visual selection or word", mode = { "n", "x" } },
     { "<leader>fh", function() Snacks.picker.help() end,                       desc = "Help Pages" },
     { "<leader>fl", function() Snacks.picker.resume() end,                     desc = "Help Pages" },
+    { "<leader>fe", function() Snacks.picker.explorer() end,                   desc = "Help Pages" },
     { "<leader>zm", function() Snacks.zen() end,                               desc = "Toggle Zen Mode" },
     {
       "<leader>uH",

@@ -21,6 +21,10 @@ vim.keymap.set("n", "<leader>Y", [["+Y]])
 vim.keymap.set({ "n", "v" }, "<leader>p", [["+p]])
 vim.keymap.set("n", "<leader>p", [["+P]])
 
+-- Spelling
+vim.keymap.set("i", "<c-z>", "<c-g>u<Esc>[s1z=`]a<c-g>u",
+	{ noremap = true, desc = "Fix last spelling mistake in insert mode" })
+
 -- Back and forths
 vim.keymap.set("n", "]q", "<cmd>cnext<CR>zz")
 vim.keymap.set("n", "[q", "<cmd>cprev<CR>zz")
