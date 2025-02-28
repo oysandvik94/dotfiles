@@ -123,7 +123,7 @@ return {
 			["<C-d>"] = cmp.mapping.scroll_docs(-4),
 			["<C-u>"] = cmp.mapping.scroll_docs(4),
 			["<C-Space>"] = cmp.mapping.complete(), -- show completion suggestions
-			["<C-e>"] = cmp.mapping.abort(), -- close completion window
+			["<C-e>"] = cmp.mapping.abort(),     -- close completion window
 			["<C-y>"] = cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Insert }),
 			["<Tab>"] = cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Insert }),
 			["<C-h>"] = function() end,
@@ -220,7 +220,7 @@ return {
 					end,
 				},
 				{ name = "nvim_lua" },
-				{ name = "buffer", keyword_length = 5 },
+				{ name = "buffer",  keyword_length = 5 },
 				{ name = "path" },
 			},
 			mapping = keys,
@@ -269,7 +269,7 @@ return {
 		require("cmp").setup({
 			enabled = function()
 				return vim.api.nvim_get_option_value("buftype", { buf = 0 }) ~= "prompt"
-					or require("cmp_dap").is_dap_buffer()
+						or require("cmp_dap").is_dap_buffer()
 			end,
 		})
 

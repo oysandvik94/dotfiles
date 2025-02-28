@@ -13,5 +13,6 @@ return {
         })
 
         vim.keymap.set("n", "<leader>cf", ":DiffviewFileHistory %<CR>")
+        vim.keymap.set("n", "<leader>cx", ":DiffviewClose<CR>")
     end
 }

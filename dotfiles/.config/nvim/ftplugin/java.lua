@@ -47,7 +47,7 @@ local config = {
 		'java', -- or '/path/to/java17_or_newer/bin/java'
 		-- depends on if `java` is in your $PATH env variable and if it points to the right version.
 
-		"-Djava.import.generatesMetadataFilesAtProjectRoot=true",
+		-- "-Djava.import.generatesMetadataFilesAtProjectRoot=true",
 		'-Declipse.application=org.eclipse.jdt.ls.core.id1',
 		'-Dosgi.bundles.defaultStartLevel=4',
 		'-Declipse.product=org.eclipse.jdt.ls.core.product',
@@ -98,14 +98,21 @@ local config = {
 	-- Here you can configure eclipse.jdt.ls specific settings
 	-- See https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
 	-- for a list of options
-	handlers = {
-		["$/progress"] = function(_, result, ctx) end,
-	},
-	flags = {
-		allow_incremental_sync = true,
-	},
+	-- handlers = {
+	-- 	["$/progress"] = function(_, result, ctx) end,
+	-- },
 	settings = {
 		java = {
+			autobuild = {
+				enabled = false
+			},
+			-- jdt = {
+			-- 	ls = {
+			-- 		javac = {
+			-- 			enabled = "on",
+			-- 		}
+			-- 	}
+			-- },
 			eclipse = {
 				downloadSources = true,
 			},
@@ -119,6 +126,7 @@ local config = {
 				enabled = true,
 			},
 			completion = {
+				maxResults = 20,
 				favoriteStaticMembers = {
 					"org.hamcrest.MatcherAssert.assertThat",
 					"org.hamcrest.Matchers.*",
