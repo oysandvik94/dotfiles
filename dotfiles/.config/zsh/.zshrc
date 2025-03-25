@@ -8,11 +8,16 @@ source $ZDOTDIR/aliases
 test -f $ZDOTDIR/jobbaliases && source $ZDOTDIR/jobbaliases
 source $ZDOTDIR/vim.zsh
 source $ZDOTDIR/fzf.zsh
-source $ZDOTDIR/colors.zsh
 source $ZDOTDIR/zbell.sh
 source $HOME/.zshenv
 # source <(ng completion script) # This is slow, figure out how to make it fast
 
+current_theme=$(gsettings get org.gnome.desktop.interface gtk-theme)
+if [[ $current_theme == *"dark"* ]]; then
+    source ~/dotfiles/dotfiles/.config/zsh/colors.zsh
+else
+    source ~/dotfiles/dotfiles/.config/zsh/colors_light.zsh
+fi
 
 
 path+=("$HOME/.local/bin/scripts")
