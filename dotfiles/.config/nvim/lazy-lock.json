@@ -1,5 +1,4 @@
 {
-  "CopilotChat.nvim": { "branch": "main", "commit": "cd82b6b9c4cfb254218f5782cc3339e05cbb9989" },
   "LuaSnip": { "branch": "master", "commit": "c9b9a22904c97d0eb69ccb9bab76037838326817" },
   "SchemaStore.nvim": { "branch": "main", "commit": "e659e0c6ca06727ed898aaaeea3850f528898684" },
   "alpha-nvim": { "branch": "main", "commit": "de72250e054e5e691b9736ee30db72c65d560771" },
@@ -10,7 +9,6 @@
   "clasp.nvim": { "branch": "master", "commit": "25442429aae1b1de0627f358740613f77ec57410" },
   "codecompanion.nvim": { "branch": "main", "commit": "fc9509884b23adbd26938611d6ba53464b7c8d0c" },
   "conform.nvim": { "branch": "master", "commit": "b1a75324ddf96b7bb84963a297b1ed334db087c0" },
-  "copilot.lua": { "branch": "master", "commit": "d661d65b4cab20a5c164f6d9081d91ed324fe4d8" },
   "csharpls-extended-lsp.nvim": { "branch": "master", "commit": "8420ee6a9fe0bfc9a37920fd572b0ae5a2348967" },
   "curl.nvim": { "branch": "main", "commit": "fe07677a2a24bc8793b90fa2c0da626ea6c9e47d" },
   "dial.nvim": { "branch": "master", "commit": "2c7e2750372918f072a20f3cf754d845e143d7c9" },
@@ -18,7 +16,6 @@
   "fidget.nvim": { "branch": "main", "commit": "d9ba6b7bfe29b3119a610892af67602641da778e" },
   "friendly-snippets": { "branch": "main", "commit": "efff286dd74c22f731cdec26a70b46e5b203c619" },
   "gitsigns.nvim": { "branch": "main", "commit": "3c76f7fabac723aa682365ef782f88a83ccdb4ac" },
-  "gp.nvim": { "branch": "main", "commit": "2372d5323c6feaa2e9c19f7ccb537c615d878e18" },
   "guess-indent.nvim": { "branch": "main", "commit": "84a4987ff36798c2fc1169cbaff67960aed9776f" },
   "hyprland-vim-syntax": { "branch": "main", "commit": "71760fe0cad972070657b0528f48456f7e0027b2" },
   "img-clip.nvim": { "branch": "main", "commit": "24c13df08e3fe66624bed5350a2a780f77f1f65b" },
