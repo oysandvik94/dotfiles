@@ -1,10 +1,10 @@
-@define-color bg #f6f2ee;
-@define-color sky #e7d2be;
+@define-color bg #222436;
+@define-color sky #b4b4ce;
 @define-color red #d2788c;
-@define-color lavender #ac5402;
-@define-color fg #3d2b5a;
+@define-color lavender #be8c8c;
+@define-color fg #cdcdcd;
 @define-color green #8faf77;
-@define-color peach #2848a9;
+@define-color peach #7894ab;
 @define-color border @lavender;
 
 * {

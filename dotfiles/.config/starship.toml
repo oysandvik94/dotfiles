@@ -1,6 +1,6 @@
 # Use custom format:
 format="┌ $directory$git_branch$git_status\n└ $character"
-palette = 'base16'
+palette = 'dayfox'
 add_newline = false
 
 # Prompt symbols 
@@ -13,7 +13,7 @@ error_symbol = "[>>>](fg:base08)"
 vicmd_symbol = "[<<<](fg:base09)"
 
 [directory]
-format = "[$read_only]($read_only_style)[$path](base13)"
+format = "[$read_only]($read_only_style)[$path](base08)"
 truncation_length = 4
 home_symbol= " "
 read_only="󰌾 "
@@ -34,6 +34,20 @@ staged = "+$count"
 # Start flavours
 # base16 Catppuccin Mocha colorscheme for starship
 # Author: https://github.com/catppuccin/catppuccin
+[palettes.dayfox]
+base00 = "#a5222f"
+base01 = "#396847"
+base02 = "#6e33ce"
+base03 = "#ac5402"
+base04 = "#825d5b"
+base05 = "#e4dcd4"
+base06 = "#396848"
+base07 = "#f6f2ee"
+base08 = "#ac5402"
+base09 = "#dbd1dd"
+base10 = "#2848a9"
+base11 = "#d3c7bb"
+
 [palettes.base16]
 base00 = '#1e1d2e'
 base01 = '#11111b'
@@ -51,7 +65,6 @@ base12 = '#94e2d5'
 base13 = '#89b4fa'
 base14 = '#cba6f7'
 base15 = '#f2cdcd'
-# End flavours
 
 [palettes.catppuccin_mocha]
 rosewater = "#f5e0dc"
@@ -80,3 +93,31 @@ surface0 = "#313244"
 base = "#1e1e2e"
 mantle = "#181825"
 crust = "#11111b"
+
+[palettes.catppuccin_latte]
+rosewater = "#dc8a78"
+flamingo = "#dd7878"
+pink = "#ea76cb"
+mauve = "#8839ef"
+red = "#d20f39"
+maroon = "#e64553"
+peach = "#fe640b"
+yellow = "#df8e1d"
+green = "#40a02b"
+teal = "#179299"
+sky = "#04a5e5"
+sapphire = "#209fb5"
+blue = "#1e66f5"
+lavender = "#7287fd"
+text = "#4c4f69"
+subtext1 = "#5c5f77"
+subtext0 = "#6c6f85"
+overlay2 = "#7c7f93"
+overlay1 = "#8c8fa1"
+overlay0 = "#9ca0b0"
+surface2 = "#acb0be"
+surface1 = "#bcc0cc"
+surface0 = "#ccd0da"
+base = "#eff1f5"
+mantle = "#e6e9ef"
+crust = "#dce0e8"

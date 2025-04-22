@@ -143,7 +143,8 @@ local config = {
 					"jdk.*",
 					"sun.*",
 				},
-				guessMethodArguments = true,
+				matchCase = "off",
+				guessMethodArguments = "insertBestGuessedArguments",
 			},
 			inlayHints = {
 				parameterNames = {

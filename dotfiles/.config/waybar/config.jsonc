@@ -3,7 +3,7 @@
 		"mode": "dock",
 		"modules-left": ["custom/playerctl", "custom/cava","sway/workspaces"],
 		"modules-center": ["clock" ],
-		"modules-right": ["tray", "cpu", "temperature", "memory", "pulseaudio", "bluetooth", "backlight", "battery"],
+		"modules-right": ["tray", "cpu", "temperature", "memory", "wireplumber", "bluetooth", "backlight", "battery"],
 
 		"battery": {
 			"interval": 60,
@@ -91,6 +91,12 @@
 		//  "format": "{}",
 		//  "exec": "cava_waybar",
 		// },
+		"wireplumber": {
+    "format": "{volume}% {icon}",
+    "format-muted": "",
+    "on-click": "helvum",
+    "format-icons": ["", "", ""]
+},
 		"custom/playerctl": {
 		 "format": "{icon}  <span>{}</span>",
 		 "return-type": "json",
