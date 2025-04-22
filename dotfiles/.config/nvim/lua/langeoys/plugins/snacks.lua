@@ -1,6 +1,6 @@
 ---@module 'snacks'
 local function folders()
-  local cmd = string.format([[fd --color always --hidden --exclude .git --type directory --max-depth 8]])
+  local cmd = string.format([[fd --color never --hidden --exclude .git --type directory --max-depth 8]])
 
   local output = vim.fn.systemlist(cmd)
   if not output or #output == 0 then
@@ -99,12 +99,18 @@ return {
       desc = "Dismiss All Notifications",
     },
     {
-      "<leader>bo",
+      "<leader>bO",
       function()
-        Snacks.bufdelete.other(opts)
+        Snacks.bufdelete.other({ force = true })
       end,
       desc = "Delete all buffers except the current one",
-    },
+    }, {
+    "<leader>bo",
+    function()
+      Snacks.bufdelete.other({})
+    end,
+    desc = "Delete all buffers except the current one",
+  },
     {
       "<leader>bd",
       function()

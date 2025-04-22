@@ -2,6 +2,7 @@ local M = {}
 
 M.on_attach = function(client, bufnr)
   if client.name == "angularls" then
+    client.server_capabilities.referencesProvider = vim.bo.filetype == 'html'
     client.server_capabilities.renameProvider = false
   end
 

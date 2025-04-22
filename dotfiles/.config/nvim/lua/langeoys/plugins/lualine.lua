@@ -34,7 +34,8 @@ return {
 		custom_theme.normal.c.bg = "None"
 		custom_theme.insert.c.bg = "None"
 		custom_theme.visual.c.bg = "None"
-		custom_theme.normal.c.fg = "#E6E1CF"
+		custom_theme.normal.c.fg = os.getenv("COLOR_FOREGROUND")
+		-- custom_theme.normal.c.fg = "#3d2b5a"
 
 		local marks = require("langeoys.utils.marks")
 
@@ -74,10 +75,10 @@ return {
 				lualine_c = {
 					{
 						"active-global-marks",
-						fmt = require('arrow.statusline').text_for_statusline_with_icons
+						fmt = marks.lualine_global,
 					},
 				},
-				lualine_x = { "diagnostics" },
+				lualine_x = { "lsp_status", "diagnostics" },
 				lualine_y = {
 					{ "seach-count",     fmt = search_count },
 					{ "active-marks",    fmt = marks.lualine },

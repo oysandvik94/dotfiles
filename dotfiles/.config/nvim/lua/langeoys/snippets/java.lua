@@ -61,7 +61,7 @@ local function type_name()
 end
 
 return {
-  s("logger", fmt("Logger logger = LoggerFactory.getLogger({}.class);", { getClassName() })),
+  s("logger", fmt("private static final Logger LOGGER = LoggerFactory.getLogger({}.class);", { getClassName() })),
   s("ctor", {
     t({ "public " }),
     type_name(),
@@ -126,10 +126,10 @@ return {
         local row, col = pos[1] - 1, pos[2] - 1
 
         local node_type = vim.treesitter
-          .get_node({
-            pos = { row, col },
-          })
-          :type()
+            .get_node({
+              pos = { row, col },
+            })
+            :type()
         P(node_type)
 
         return not vim.tbl_contains(ignored_nodes, node_type)

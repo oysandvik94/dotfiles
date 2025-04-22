@@ -6,7 +6,7 @@ return {
   config = function()
     require("typescript-tools").setup({
       settings = {
-        separate_diagnostic_server = false,
+        separate_diagnostic_server = true,
         complete_function_calls = true,
       },
       on_attach = function()
