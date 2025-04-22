@@ -38,7 +38,7 @@ inoremap <C-y> :action EditorChooseLookupItem<CR>
 nnoremap <leader>lr :action RenameElement<CR>
 nnoremap <leader>= :action ReformatCode<CR>
 nnoremap <leader>lh :action QuickJavaDoc<CR>
-nnoremap gr :action ShowUsages<CR>
+nnoremap grr :action ShowUsages<CR>
 nnoremap gi :action GotoImplementation<CR>
 nnoremap gt :action GotoTest<CR>
 nnoremap gD :action GotoTypeDeclaration<CR>
