@@ -1,8 +1,8 @@
-local jdtls_install = require("mason-registry").get_package("jdtls"):get_install_path()
+local jdtls_install = vim.fn.expand("$MASON/packages/jdtls")
 local lombok_path = jdtls_install .. "/lombok.jar"
 
 local function jdtls_on_attach(client, bufnr)
-	vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+	vim.api.nvim_create_autocmd({ "BufWritePost", "LspAttach" }, {
 		pattern = { "*.java" },
 		callback = function()
 			local _, _ = pcall(vim.lsp.codelens.refresh)
@@ -157,6 +157,9 @@ local config = {
 			referencesCodeLens = {
 				enabled = true,
 			},
+			implementationsCodeLens = {
+				enabled = true
+			}
 		}
 	},
 

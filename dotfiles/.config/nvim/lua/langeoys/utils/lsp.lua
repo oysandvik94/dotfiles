@@ -57,6 +57,14 @@ M.on_attach = function(client, bufnr)
   end)
 
   vim.keymap.set({ "n", "v" }, "<leader>lc", vim.lsp.buf.code_action, { noremap = true, silent = true })
+
+  vim.keymap.set("n", "<leader>lq", function()
+    vim.lsp.buf.code_action({
+      filter = function(action)
+        return action.kind and action.kind:match("^quickfix")
+      end
+    })
+  end, { desc = "Quickfix Code Action" })
 end
 
 return M
