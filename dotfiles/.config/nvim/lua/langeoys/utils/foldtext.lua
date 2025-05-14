@@ -127,16 +127,4 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 	callback = set_fold_hl,
 })
 
-vim.cmd([[augroup remember_folds
-  autocmd!
-  autocmd BufWinLeave *.* mkview
-  autocmd BufWinEnter *.* silent! loadview
-augroup END]])
-vim.api.nvim_create_autocmd({ "User" }, {
-	pattern = { "GpDone" },
-	callback = function(event)
-		vim.g.enablefoldtext = 1
-	end,
-})
-
 return 'luaeval("HighlightedFoldtext")()'
