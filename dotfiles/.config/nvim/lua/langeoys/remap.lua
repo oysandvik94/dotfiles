@@ -64,3 +64,5 @@ vim.keymap.set(
 	"<cmd>!/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME add %<CR>",
 	{ silent = true }
 )
+
+vim.keymap.set("n", "ycc", "yygccp", { remap = true })
