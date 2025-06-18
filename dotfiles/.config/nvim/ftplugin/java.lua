@@ -40,7 +40,9 @@ local config = {
 	-- The command that starts the language server
 	-- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
 	on_attach = jdtls_on_attach,
-	capabilities = require("blink.cmp").get_lsp_capabilities(),
+	capabilities = require('blink.cmp').get_lsp_capabilities({
+		textDocument = { completion = { completionItem = { snippetSupport = true } } },
+	}),
 
 	cmd = {
 		-- 💀

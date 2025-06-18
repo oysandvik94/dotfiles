@@ -51,7 +51,7 @@ return {
       enabled = true
     },
     keymap = {
-      ["<Tab>"] = { "accept", "fallback" },
+      -- ["<Tab>"] = { "accept", "fallback" },
       ["<Down>"] = { "select_next", "show", "fallback" },
       ["<Up>"] = { "select_prev", "fallback" },
       ['<C-b>'] = { 'show', 'show_documentation', 'hide_documentation' },

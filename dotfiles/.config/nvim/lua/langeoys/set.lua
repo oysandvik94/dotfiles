@@ -101,7 +101,7 @@ local shadafile = cache_dir .. "/myshada/" .. unique_id .. ".shada"
 
 vim.opt.shadafile = shadafile
 
-vim.opt.switchbuf = "usetab,vsplit"
+-- vim.opt.switchbuf = "usetab,uselast"
 require("langeoys.utils.marks").init()
 
 vim.filetype.add({

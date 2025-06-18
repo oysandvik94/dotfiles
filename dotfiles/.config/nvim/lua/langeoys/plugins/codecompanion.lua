@@ -1,5 +1,10 @@
 return {
   "olimorris/codecompanion.nvim",
+  dependencies = {
+    "nvim-lua/plenary.nvim",
+    "nvim-treesitter/nvim-treesitter",
+    "j-hui/fidget.nvim",
+  },
   config = true,
   opts = {
     chat = {
@@ -11,27 +16,26 @@ return {
     cmd = {
       adapter = "copilot",
     },
+    display = {
+      diff = {
+        enabled = false,
+      }
+    },
     adapters = {
-      anthropic = function()
-        return require("codecompanion.adapters").extend("anthropic", {
-          env = {
-            api_key = "MY_OTHER_ANTHROPIC_KEY",
+      copilot = function()
+        return require("codecompanion.adapters").extend("copilot", {
+          schema = {
+            model = {
+              default = "claude-3.5-sonnet",
+            },
           },
         })
-      end,
+      end
     },
   },
-  -- init = {
-  --   require("langeoys.utils.fidget-spinner"):init()
-  -- },
   init = function()
     require("langeoys.utils.fidget-spinner"):init()
   end,
-  dependencies = {
-    "nvim-lua/plenary.nvim",
-    "nvim-treesitter/nvim-treesitter",
-    "j-hui/fidget.nvim"
-  },
   keys = {
     { "<leader>aa", "<cmd>CodeCompanionChat Add<cr>",    desc = "Add to AI chat", mode = { "v" } },
     { "<leader>aa", "<cmd>CodeCompanionChat Toggle<cr>", desc = "Add to AI chat", mode = { "n" } },

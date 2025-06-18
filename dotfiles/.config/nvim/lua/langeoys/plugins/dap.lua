@@ -135,6 +135,7 @@ return {
 			},
 		}
 
+		require("dap").defaults.fallback.switchbuf = 'usetab,uselast'
 		require("dap").defaults.kotlin.auto_continue_if_many_stopped = false
 		dap.configurations.kotlin = {
 			{
