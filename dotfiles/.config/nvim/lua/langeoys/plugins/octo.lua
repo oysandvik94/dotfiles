@@ -7,7 +7,8 @@ return {
   },
   config = function()
     require "octo".setup({
-      picker = "snacks"
+      picker = "snacks",
+      use_local_fs = true
     })
   end
 }
