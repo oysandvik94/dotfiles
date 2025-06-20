@@ -1,5 +1,4 @@
 cava
-pyprland-git
 hyprland-git
 rofi-lbonn-wayland
 slides
