@@ -5,6 +5,7 @@ dotfiles/.config/hypr/monitors.conf
 dotfiles/.config/hypr/workspaces.conf
 .zhistory
 .zsh_plugins
+.zcompdump*
 secret_git_config.lua
 secret/
 dotfiles/.config/zsh/jobbaliases
