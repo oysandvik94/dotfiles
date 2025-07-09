@@ -2,7 +2,7 @@ return {
   -- "copilotlsp-nvim/copilot-lsp",
   dir = "~/dev/general/copilot-lsp",
   init = function()
-    vim.g.copilot_nes_debounce = 200
+    vim.g.copilot_nes_debounce = 400
     vim.lsp.enable("copilot_ls")
     -- Check if copilot has a suggestion before using tab
     vim.keymap.set({ "n", "i" }, "<tab>", function()
