@@ -37,6 +37,7 @@ return {
 				bash = { "shfmt" },
 				sh = { "shfmt" },
 				c = { "clang-format" },
+				sql = { "sqlfmt" },
 			},
 		})
 
