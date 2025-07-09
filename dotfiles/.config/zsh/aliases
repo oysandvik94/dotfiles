@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 alias mvndebug='mvn spring-boot:run -Dspring-boot.run.jvmArguments="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"'
-alias mvntest='mvn clean test -Dsurefire.trimStackTrace=false'
+alias mvntest='mvn clean test -Dsurefire.trimStackTrace=false -Dsurefire.failIfNoSpecifiedTests=false'
 alias buildnvim='
 make distclean
 make CMAKE_BUILD_TYPE=RelWithDebInfo
