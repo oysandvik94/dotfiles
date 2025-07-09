@@ -45,6 +45,17 @@ window#waybar {
   }
 }
 
+#workspaces button.active {
+  color: @lavender;
+}
+
+#workspaces button.urgent {
+  color: @pach;
+  background-color: @red;
+  border-radius: 1em;
+}
+
+
 /* .modules-left > * > *, */
 /* .modules-center > * > *, */
 /* .modules-right > * > * { */

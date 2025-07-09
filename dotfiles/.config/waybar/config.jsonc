@@ -1,7 +1,7 @@
 {
 		"layer": "top",
 		"mode": "dock",
-		"modules-left": ["custom/playerctl", "custom/cava","sway/workspaces"],
+		"modules-left": ["custom/playerctl", "custom/cava","hyprland/workspaces"],
 		"modules-center": ["clock" ],
 		"modules-right": ["tray", "cpu", "temperature", "memory", "wireplumber", "bluetooth", "backlight", "battery"],
 
@@ -64,7 +64,7 @@
 			"exec": "waybar_task",
 			"tooltip": false
 		},
-		"sway/workspaces": {
+		"hyprland/workspaces": {
 			"format": "{name}",
 			"active-nly": false,
 			"sort-by-number": true,
