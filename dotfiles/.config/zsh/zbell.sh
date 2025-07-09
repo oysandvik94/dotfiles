@@ -29,12 +29,15 @@ watch_and_run() {
     echo "Watching files matching pattern: $file_pattern"
     echo "Running command on changes: $command"
 
-    eval "$file_pattern" | entr -r zsh -c '
-    start_time=$(date +%s)
-    '"$command"'
-    exit_status=$?
-    end_time=$(date +%s)
-    duration=$((end_time - start_time))
-    notify-send "Command Finished" "Command took $duration seconds and '"$([[ $exit_status -eq 0 ]] && echo 'succeeded' || echo "failed with status $exit_status")"'"
-  '
+    files=("${(@f)$(print -l $~file_pattern)}")
+print -l -- $files | entr -r zsh -c '
+  start_time=$(date +%s)
+  '"$command"'
+  exit_status=$?
+  end_time=$(date +%s)
+  duration=$((end_time - start_time))
+  notify-send "Command Finished" "Command took $duration seconds and '"$([[ $exit_status -eq 0 ]] && echo succeeded || echo "failed with status $exit_status")"'"
+'
+
+
 }
