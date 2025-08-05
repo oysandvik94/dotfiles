@@ -11,6 +11,13 @@ return {
     strategies = {
       chat = {
         tools = {
+          ["insert_edit_into_file"] = {
+            opts = {
+              requires_approval = { -- Require approval before the tool is executed?
+                file = false,       -- For editing files in the current working directory
+              },
+            }
+          },
           opts = {
             default_tools = {
               "full_stack_dev"
@@ -37,6 +44,13 @@ return {
       },
     },
     adapters = {
+      tavily = function()
+        return require("codecompanion.adapters").extend("tavily", {
+          env = {
+            api_key = "cmd:secret-tool lookup service tavily",
+          }
+        })
+      end,
       copilot_inline = function()
         return require("codecompanion.adapters").extend("copilot", {
           schema = {
