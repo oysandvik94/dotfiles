@@ -36,6 +36,17 @@ local function get_data_dir()
 	return data_dir
 end
 -- See `:help vim.lsp.start_client` for an overview of the supported `config` options.
+
+local function getDebugAndTestBundles()
+	local java_debug_path = vim.fn.expand("$MASON/packages/java-debug-adapter")
+	local java_test_path = vim.fn.expand("$MASON/packages/java-test")
+	local bundles = {
+		vim.fn.glob(java_debug_path .. "/extension/server/com.microsoft.java.debug.plugin-*.jar", 1),
+	}
+	vim.list_extend(bundles, vim.split(vim.fn.glob(java_test_path .. "/extension/server/*.jar", 1), "\n"))
+	return bundles
+end
+
 local config = {
 	-- The command that starts the language server
 	-- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
@@ -173,7 +184,7 @@ local config = {
 	--
 	-- If you don't plan on using the debugger or other eclipse.jdt.ls plugins you can remove this
 	init_options = {
-		bundles = {}
+		bundles = getDebugAndTestBundles(),
 	},
 }
 -- This starts a new client & server,
