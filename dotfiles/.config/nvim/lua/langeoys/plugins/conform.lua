@@ -20,24 +20,24 @@ return {
 				end
 			end,
 			formatters_by_ft = {
-				lua = { "stylua" },
+				lua             = { "stylua" },
 				-- Conform will run multiple formatters sequentially
-				python = { "isort", "black" },
+				python          = { "isort", "black" },
 				-- Use a sub-list to run only the first available formatter
-				-- java            = { "memes" },
-				javascript = { "prettier" },
-				typescript = { "prettier" },
+				-- kotlin          = { "ktlint" },
+				javascript      = { "prettier" },
+				typescript      = { "prettier" },
 				javascriptreact = { "prettier" },
 				typescriptreact = { "prettier" },
-				json = { "fixjson" },
-				css = { "prettier" },
-				xml = { "customxmlformat" },
-				html = { "prettier" },
-				markdown = { "prettier" },
-				bash = { "shfmt" },
-				sh = { "shfmt" },
-				c = { "clang-format" },
-				sql = { "sqlfmt" },
+				json            = { "fixjson" },
+				css             = { "prettier" },
+				xml             = { "customxmlformat" },
+				html            = { "prettier" },
+				markdown        = { "prettier" },
+				bash            = { "shfmt" },
+				sh              = { "shfmt" },
+				c               = { "clang-format" },
+				sql             = { "sqlfmt" },
 			},
 		})
 

@@ -129,7 +129,7 @@ return {
         "eslint",
         "lua_ls",
         "bashls",
-        "kotlin_language_server",
+        "kotlin_lsp",
         "pyright",
         "clangd",
       },
