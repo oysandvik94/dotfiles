@@ -14,7 +14,7 @@ return {
           ["insert_edit_into_file"] = {
             opts = {
               requires_approval = { -- Require approval before the tool is executed?
-                file = false,       -- For editing files in the current working directory
+                file = true,        -- For editing files in the current working directory
               },
             }
           },
@@ -36,9 +36,9 @@ return {
       adapter = "copilot",
     },
     display = {
-      diff = {
-        enabled = false,
-      },
+      -- diff = {
+      --   enabled = false,
+      -- },
       chat = {
         show_settings = true, -- Show LLM settings at the top of the chat buffer?
       },
