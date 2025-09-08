@@ -44,31 +44,33 @@ return {
       },
     },
     adapters = {
-      tavily = function()
-        return require("codecompanion.adapters").extend("tavily", {
-          env = {
-            api_key = "cmd:secret-tool lookup service tavily",
-          }
-        })
-      end,
-      copilot_inline = function()
-        return require("codecompanion.adapters").extend("copilot", {
-          schema = {
-            model = {
-              default = "claude-3.5-sonnet",
+      http = {
+        tavily = function()
+          return require("codecompanion.adapters").extend("tavily", {
+            env = {
+              api_key = "cmd:secret-tool lookup service tavily",
+            }
+          })
+        end,
+        copilot_inline = function()
+          return require("codecompanion.adapters").extend("copilot", {
+            schema = {
+              model = {
+                default = "claude-3.5-sonnet",
+              },
             },
-          },
-        })
-      end,
-      copilot = function()
-        return require("codecompanion.adapters").extend("copilot", {
-          schema = {
-            model = {
-              default = "claude-sonnet-4",
+          })
+        end,
+        copilot = function()
+          return require("codecompanion.adapters").extend("copilot", {
+            schema = {
+              model = {
+                default = "claude-sonnet-4",
+              },
             },
-          },
-        })
-      end
+          })
+        end
+      }
     },
     extensions = {
       history = {
