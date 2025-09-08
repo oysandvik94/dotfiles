@@ -7,9 +7,9 @@ profile tietowide {
     output DP-2 enable
 }
 profile tietowide2 {
-    output eDP-1 disable
+    output eDP-1 enable
     output DP-1 enable
 }
-profile {
-    output eDP-1 enable scale 1
+profile laptoponly {
+    output eDP-1 enable scale 2
 }
