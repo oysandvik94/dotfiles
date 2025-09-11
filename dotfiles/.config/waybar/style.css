@@ -31,8 +31,46 @@ tooltip {
 /* } */
 
 window#waybar {
-  background-color: @bg;
+  background-color: transparent;
   color: @lavender;
+  margin: 3px 5px;
+}
+
+/* General hover effects for all modules */
+#tray:hover,
+#cpu:hover,
+#memory:hover,
+#temperature:hover,
+#battery:hover,
+#backlight:hover,
+#bluetooth:hover,
+#wireplumber:hover,
+#custom-playerctl:hover,
+#custom-cava:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4), 0 0 20px rgba(245, 194, 231, 0.15);
+}
+
+/* Add transitions to all modules */
+#tray,
+#cpu,
+#memory,
+#temperature,
+#battery,
+#backlight,
+#bluetooth,
+#wireplumber,
+#custom-playerctl,
+#custom-cava,
+#custom-gpu-temp,
+#custom-clipboard,
+#custom-task,
+#custom-gpu-util,
+#idle_inhibitor,
+#network,
+#custom-subs,
+#custom-cliphist,
+#mode {
+  transition: all 0.3s ease;
 }
 
 /* Workspaces */
@@ -65,11 +103,17 @@ window#waybar {
 /* } */
 
 #workspaces {
-  margin: 5px 5px 2px 5px;
-  border-radius: 9px;
+  margin: 5px 6px 5px 6px;
+  border-radius: 20px;
   padding: 1px;
   background-color: @bg;
   color: @bg;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 0 15px rgba(245, 194, 231, 0.1);
+  transition: all 0.3s ease;
+}
+
+#workspaces:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4), 0 0 20px rgba(245, 194, 231, 0.2);
 }
 
 #workspaces button {
@@ -78,12 +122,12 @@ window#waybar {
   padding-left: 1px;
   padding-right: 1px;
   padding-top: 3px;
-  background-color: @bg;
+  background-color: transparent;
   color: @fg;
 }
 
 #workspaces button.focused {
-  background-color: @peach;
+  background-color: rgba(245, 194, 231, 0.3);
   color: @bg;
   /*color: @bg;*/
 }
@@ -97,39 +141,63 @@ window#waybar {
 }
 
 #custom-gpu-util {
-  margin: 5px 5px 2px 5px;
+  margin: 5px 6px 5px 6px;
   padding-left: 10px;
   padding-right: 10px;
-  border-radius: 7px;
+  border-radius: 20px;
   background-color: @bg;
   color: @fg;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.modules-left {
+  margin: 5px 6px 5px 6px;
+  border-radius: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: @bg;
+  color: @fg;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.modules-right {
+  margin: 5px 6px 5px 6px;
+  border-radius: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: @bg;
+  color: @fg;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 #tray {
-  margin: 5px 5px 2px 5px;
-  border-radius: 7px;
+  margin: 5px 6px 5px 6px;
+  border-radius: 20px;
   padding-left: 10px;
   padding-right: 10px;
   background-color: @bg;
   color: @fg;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 #idle_inhibitor {
-  margin: 5px 5px 2px 5px;
+  margin: 5px 6px 5px 6px;
   padding-left: 10px;
   padding-right: 12px;
-  border-radius: 7px;
+  border-radius: 20px;
   background-color: @bg;
   color: @fg;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 #network {
-  margin: 5px 5px 2px 5px;
+  margin: 5px 6px 5px 6px;
   padding-left: 10px;
   padding-right: 12px;
-  border-radius: 7px;
+  border-radius: 20px;
   background-color: @bg;
   color: @lavender;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 #network.linked {
@@ -142,110 +210,107 @@ window#waybar {
 
 #custom-subs {
   color: @bg;
-  margin: 5px 5px 2px 5px;
+  margin: 5px 6px 5px 6px;
   padding-left: 10px;
   padding-right: 12px;
-  border-radius: 7px;
+  border-radius: 20px;
   border-bottom: 2px solid @bg;
   border-right: 2px solid @bg;
   background-color: @red;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 #custom-cliphist {
   color: @peach;
-  margin: 5px 5px 2px 5px;
+  margin: 5px 6px 5px 6px;
   padding-left: 10px;
   padding-right: 12px;
-  border-radius: 7px;
+  border-radius: 20px;
   background-color: @bg;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-#custom-gpu-temp,
+#tray,
 #cpu,
 #memory,
-#custom-clipboard,
 #temperature {
-  margin: 5px 5px 2px 5px;
+  margin: 5px 6px 5px 6px;
   padding-left: 10px;
   padding-right: 10px;
-  border-radius: 7px;
+  border-radius: 20px;
   color: @fg;
   background-color: @bg;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Keep custom modules that aren't in the right group */
+#custom-gpu-temp,
+#custom-clipboard {
+  margin: 5px 6px 5px 6px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 20px;
+  color: @fg;
+  background-color: @bg;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 #custom-task,
 #custom-playerctl {
-  margin: 5px 5px 2px 5px;
+  margin: 5px 6px 5px 6px;
   padding-left: 10px;
   padding-right: 10px;
-  border-radius: 7px;
+  border-radius: 20px;
   color: @fg;
   background-color: @bg;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 #battery,
 #backlight,
 #bluetooth,
-#pulseaudio {
-  margin-top: 5px;
-  margin-bottom: 2px;
+#pulseaudio,
+#wireplumber {
+  margin: 5px 6px 5px 6px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 20px;
   color: @fg;
   background-color: @bg;
-  border-top-right-radius: 0px;
-  border-bottom-right-radius: 0px;
-  border-top-left-radius: 7px;
-  border-bottom-left-radius: 7px;
-}
-
-#battery,
-#bluetooth {
-  margin-left: 0px;
-  margin-right: 5px;
-  padding-left: 7.5px;
-  padding-right: 10px;
-  border-left-width: 0px;
-  border-top-left-radius: 0px;
-  border-bottom-left-radius: 0px;
-  border-top-right-radius: 7px;
-  border-bottom-right-radius: 7px;
-}
-
-#backlight,
-#pulseaudio {
-  border-right-width: 0px;
-  margin-right: 0px;
-  margin-left: 5px;
-  padding-left: 10px;
-  padding-right: 7.5px;
-  border-top-right-radius: 0px;
-  border-bottom-right-radius: 0px;
-  border-top-left-radius: 7px;
-  border-bottom-left-radius: 7px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 #clock {
-  margin: 5px 5px 2px 5px;
+  margin: 5px 6px 5px 6px;
   padding-left: 10px;
   padding-right: 10px;
-  border-radius: 7px;
+  border-radius: 20px;
   color: @fg;
   background-color: @bg;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 0 15px rgba(245, 194, 231, 0.1);
+  transition: all 0.3s ease;
+}
+
+#clock:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4), 0 0 20px rgba(245, 194, 231, 0.2);
 }
 
 #mode {
-  margin: 5px 5px 2px 5px;
+  margin: 5px 6px 5px 6px;
   padding-left: 10px;
   padding-right: 10px;
-  border-radius: 7px;
+  border-radius: 20px;
   background-color: @bg;
   color: @peach;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 #custom-cava {
   color: @peach;
   background-color: @bg;
   font-family: "bargraph";
-  margin: 5px 5px 2px 5px;
+  margin: 5px 6px 5px 6px;
   padding-left: 10px;
   padding-right: 10px;
-  border-radius: 7px;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }

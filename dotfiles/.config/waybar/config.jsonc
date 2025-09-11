@@ -1,6 +1,9 @@
 {
 		"layer": "top",
 		"mode": "dock",
+		"margin-top": 3,
+		"margin-left": 6,
+		"margin-right": 6,
 		"modules-left": ["custom/playerctl", "custom/cava","hyprland/workspaces"],
 		"modules-center": ["clock" ],
 		"modules-right": ["tray", "cpu", "temperature", "memory", "wireplumber", "bluetooth", "backlight", "battery"],
@@ -98,7 +101,7 @@
     "format-icons": ["", "", ""]
 },
 		"custom/playerctl": {
-		 "format": "{icon}  <span>{}</span>",
+		 "format": "{icon}  <span>{text}</span>",
 		 "return-type": "json",
 		 "max-length": 333,
 		 "exec": "playerctl -a metadata --format '{\"text\": \"{{artist}} ~ {{markup_escape(title)}}\", \"tooltip\": \"{{playerName}} : {{markup_escape(title)}}\", \"alt\": \"{{status}}\", \"class\": \"{{status}}\"}' -F",
