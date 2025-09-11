@@ -1,7 +1,8 @@
 cava
+cliphist
 hyprland-git
-rofi-lbonn-wayland
+hyprland-git
+rofi
 slides
-hyprland-git
-xdg-desktop-portal-hyprland-git
 uuid
+xdg-desktop-portal-hyprland-git

@@ -21,14 +21,13 @@ grim
 htop
 intel-ucode
 keychain
-kitty
+ghostty
 less
 libnotify
 maim
 man-db
 man-pages
 maven
-neofetch
 network-manager-applet
 npm
 openssh
@@ -63,3 +62,4 @@ xss-lock
 zip
 zk
 zsh
+rofi
