@@ -107,6 +107,73 @@ M.is_marked = function(filename)
 	return false
 end
 
+M.tabline_global_marks = function()
+	local marks = M.get_mark_table()
+	if vim.tbl_isempty(marks) then
+		return ""
+	end
+
+	local tabline_marks = "󰐷 Marks: "
+	local mark_items = {}
+
+	for mark, fileinfo in pairs(marks) do
+		local filename = fileinfo[4]
+		local current_filename = vim.api.nvim_buf_get_name(0)
+		local filename_only = vim.fn.fnamemodify(filename, ":t")
+
+		-- Highlight current file's mark differently
+		if current_filename == vim.fn.expand(filename) then
+			table.insert(mark_items, string.format("%%#TabLineSel#%s:%s%%#TabLine#", mark, filename_only))
+		else
+			table.insert(mark_items, string.format("%s:%s", mark, filename_only))
+		end
+	end
+
+	tabline_marks = tabline_marks .. table.concat(mark_items, " | ")
+	return tabline_marks
+end
+
+M.setup_tabline = function()
+	-- Custom tabline function that shows marks on the left and tabs on the right
+	local function custom_tabline()
+		local tabline = ""
+
+		-- Left side: Global marks
+		local marks_line = M.tabline_global_marks()
+		if marks_line ~= "" then
+			tabline = "%#TabLine# " .. marks_line .. " %#TabLineFill#"
+		end
+
+		-- Right side: Regular tabs (if any exist)
+		local tab_count = vim.fn.tabpagenr('$')
+		if tab_count > 1 then
+			tabline = tabline .. "%="
+			for i = 1, tab_count do
+				local is_current = i == vim.fn.tabpagenr()
+				local highlight = is_current and "%#TabLineSel#" or "%#TabLine#"
+				local buf_name = vim.fn.bufname(vim.fn.tabpagebuflist(i)[1])
+				local tab_name = buf_name ~= "" and vim.fn.fnamemodify(buf_name, ":t") or "[No Name]"
+
+				tabline = tabline .. highlight .. string.format(" %d:%s ", i, tab_name)
+			end
+			tabline = tabline .. "%#TabLineFill#"
+		else
+			tabline = tabline .. "%="
+		end
+
+		return tabline
+	end
+
+	-- Set the tabline
+	vim.o.tabline = "%!v:lua.require('langeoys.utils.marks').custom_tabline()"
+
+	-- Store the custom tabline function globally so it can be called
+	_G.custom_marks_tabline = custom_tabline
+
+	-- Make custom_tabline available as a module function
+	M.custom_tabline = custom_tabline
+end
+
 M.lualine = function()
 	local marks = vim.fn.execute("marks")
 	marks = vim.split(marks, "\n")

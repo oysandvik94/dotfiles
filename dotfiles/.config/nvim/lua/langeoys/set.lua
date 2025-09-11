@@ -103,6 +103,7 @@ vim.opt.shadafile = shadafile
 
 -- vim.opt.switchbuf = "usetab,uselast"
 require("langeoys.utils.marks").init()
+require('langeoys.utils.marks').setup_tabline()
 
 vim.filetype.add({
   extension = {
