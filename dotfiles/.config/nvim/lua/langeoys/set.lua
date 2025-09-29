@@ -54,6 +54,7 @@ vim.opt.isfname:append("@-@")
 
 -- Performance
 vim.opt.updatetime = 50
+vim.opt.maxmempattern = 2000
 
 vim.g.mapleader = " "
 
