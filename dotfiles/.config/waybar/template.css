@@ -33,7 +33,7 @@ tooltip {
 window#waybar {
   background-color: transparent;
   color: @lavender;
-  margin: 3px 5px;
+  margin: 1px 5px;
 }
 
 /* General hover effects for all modules */
@@ -103,7 +103,7 @@ window#waybar {
 /* } */
 
 #workspaces {
-  margin: 5px 6px 5px 6px;
+  margin: 2px 6px 2px 6px;
   border-radius: 20px;
   padding: 1px;
   background-color: @bg;
@@ -117,11 +117,11 @@ window#waybar {
 }
 
 #workspaces button {
-  margin: 5px 2px 5px 2px;
+  margin: 2px 2px 2px 2px;
   border-radius: 5px;
   padding-left: 1px;
   padding-right: 1px;
-  padding-top: 3px;
+  padding-top: 1px;
   background-color: transparent;
   color: @fg;
 }
@@ -141,7 +141,7 @@ window#waybar {
 }
 
 #custom-gpu-util {
-  margin: 5px 6px 5px 6px;
+  margin: 2px 6px 2px 6px;
   padding-left: 10px;
   padding-right: 10px;
   border-radius: 20px;
@@ -151,7 +151,7 @@ window#waybar {
 }
 
 .modules-left {
-  margin: 5px 6px 5px 6px;
+  margin: 2px 6px 2px 6px;
   border-radius: 20px;
   padding-left: 10px;
   padding-right: 10px;
@@ -161,7 +161,7 @@ window#waybar {
 }
 
 .modules-right {
-  margin: 5px 6px 5px 6px;
+  margin: 2px 6px 2px 6px;
   border-radius: 20px;
   padding-left: 10px;
   padding-right: 10px;
@@ -171,7 +171,7 @@ window#waybar {
 }
 
 #tray {
-  margin: 5px 6px 5px 6px;
+  margin: 2px 6px 2px 6px;
   border-radius: 20px;
   padding-left: 10px;
   padding-right: 10px;
@@ -181,7 +181,7 @@ window#waybar {
 }
 
 #idle_inhibitor {
-  margin: 5px 6px 5px 6px;
+  margin: 2px 6px 2px 6px;
   padding-left: 10px;
   padding-right: 12px;
   border-radius: 20px;
@@ -191,7 +191,7 @@ window#waybar {
 }
 
 #network {
-  margin: 5px 6px 5px 6px;
+  margin: 2px 6px 2px 6px;
   padding-left: 10px;
   padding-right: 12px;
   border-radius: 20px;
@@ -210,7 +210,7 @@ window#waybar {
 
 #custom-subs {
   color: @bg;
-  margin: 5px 6px 5px 6px;
+  margin: 2px 6px 2px 6px;
   padding-left: 10px;
   padding-right: 12px;
   border-radius: 20px;
@@ -222,7 +222,7 @@ window#waybar {
 
 #custom-cliphist {
   color: @peach;
-  margin: 5px 6px 5px 6px;
+  margin: 2px 6px 2px 6px;
   padding-left: 10px;
   padding-right: 12px;
   border-radius: 20px;
@@ -234,7 +234,7 @@ window#waybar {
 #cpu,
 #memory,
 #temperature {
-  margin: 5px 6px 5px 6px;
+  margin: 2px 6px 2px 6px;
   padding-left: 10px;
   padding-right: 10px;
   border-radius: 20px;
@@ -246,7 +246,7 @@ window#waybar {
 /* Keep custom modules that aren't in the right group */
 #custom-gpu-temp,
 #custom-clipboard {
-  margin: 5px 6px 5px 6px;
+  margin: 2px 6px 2px 6px;
   padding-left: 10px;
   padding-right: 10px;
   border-radius: 20px;
@@ -257,7 +257,7 @@ window#waybar {
 
 #custom-task,
 #custom-playerctl {
-  margin: 5px 6px 5px 6px;
+  margin: 2px 6px 2px 6px;
   padding-left: 10px;
   padding-right: 10px;
   border-radius: 20px;
@@ -271,7 +271,7 @@ window#waybar {
 #bluetooth,
 #pulseaudio,
 #wireplumber {
-  margin: 5px 6px 5px 6px;
+  margin: 2px 6px 2px 6px;
   padding-left: 10px;
   padding-right: 10px;
   border-radius: 20px;
@@ -281,7 +281,7 @@ window#waybar {
 }
 
 #clock {
-  margin: 5px 6px 5px 6px;
+  margin: 2px 6px 2px 6px;
   padding-left: 10px;
   padding-right: 10px;
   border-radius: 20px;
@@ -296,7 +296,7 @@ window#waybar {
 }
 
 #mode {
-  margin: 5px 6px 5px 6px;
+  margin: 2px 6px 2px 6px;
   padding-left: 10px;
   padding-right: 10px;
   border-radius: 20px;
@@ -308,7 +308,7 @@ window#waybar {
   color: @peach;
   background-color: @bg;
   font-family: "bargraph";
-  margin: 5px 6px 5px 6px;
+  margin: 2px 6px 2px 6px;
   padding-left: 10px;
   padding-right: 10px;
   border-radius: 20px;
