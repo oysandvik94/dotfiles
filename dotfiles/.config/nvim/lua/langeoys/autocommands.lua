@@ -41,6 +41,6 @@ vim.api.nvim_create_autocmd("VimResized", {
   command = "wincmd ="
 })
 
-vim.api.nvim_create_autocmd("FocusGained", {
-  callback = require("langeoys.utils.theme").update,
-})
+-- vim.api.nvim_create_autocmd("FocusGained", {
+--   callback = require("langeoys.utils.theme").update,
+-- })
