@@ -1,5 +1,6 @@
-theme = light:dayfox,dark:tokyonight_moon
+theme = light:Dayfox,dark:TokyoNight Moon
 keybind = alt+r=reload_config
 font-size = 17
 font-family = Liga SFMono Nerd Font
 window-decoration = false
+
