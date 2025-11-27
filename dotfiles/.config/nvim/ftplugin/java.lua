@@ -2,12 +2,12 @@ local jdtls_install = vim.fn.expand("$MASON/packages/jdtls")
 local lombok_path = jdtls_install .. "/lombok.jar"
 
 local function jdtls_on_attach(client, bufnr)
-	vim.api.nvim_create_autocmd({ "BufWritePost", "LspAttach" }, {
-		pattern = { "*.java" },
-		callback = function()
-			local _, _ = pcall(vim.lsp.codelens.refresh)
-		end,
-	})
+	-- vim.api.nvim_create_autocmd({ "BufWritePost", "LspAttach" }, {
+	-- 	pattern = { "*.java" },
+	-- 	callback = function()
+	-- 		local _, _ = pcall(vim.lsp.codelens.refresh)
+	-- 	end,
+	-- })
 
 	local opts = { buffer = bufnr }
 	vim.keymap.set("n", "<leader>lo", "<cmd>lua require('jdtls').organize_imports()<cr>", opts)
@@ -135,11 +135,28 @@ local config = {
 			maven = {
 				downloadSources = true,
 			},
+			maxConcurrentBuilds = 2,
+			jdt = {
+				ls = {
+					javac = {
+						enabled = "on"
+					}
+				}
+			},
 			signatureHelp = {
 				enabled = true,
 			},
+			edit = {
+				smartSemicolonDetection = {
+					enabled = true,
+				}
+			},
+			saveActions = {
+				cleanup = false
+			},
 			completion = {
 				maxResults = 20,
+				engine = "dom",
 				favoriteStaticMembers = {
 					"org.hamcrest.MatcherAssert.assertThat",
 					"org.hamcrest.Matchers.*",
