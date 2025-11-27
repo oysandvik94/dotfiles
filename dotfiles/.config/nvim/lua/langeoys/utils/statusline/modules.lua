@@ -58,4 +58,27 @@ M.filename = function()
   return text(fname)
 end
 
+M.search = function()
+  if vim.v.hlsearch == 0 then
+    return text("")
+  end
+
+  local res = vim.fn.searchcount({ maxcount = 999, timeout = 500 })
+  if res.total and res.total > 0 then
+    return text("[") ..
+        icon(" ") .. text(string.format("%s/%d %s", res.current, res.total, vim.fn.getreg("/"))) .. text("]")
+  end
+
+  return text("")
+end
+
+M.macro = function()
+  local recording_register = vim.fn.reg_recording()
+  if recording_register == "" then
+    return ""
+  else
+    return text("[") .. icon("󰑋 ") .. text("Recording @" .. recording_register) .. text("]")
+  end
+end
+
 return M

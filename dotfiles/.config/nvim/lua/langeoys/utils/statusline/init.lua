@@ -25,6 +25,8 @@ function Statusline.active()
     "[", modules.filepath(), modules.filename(), "]%m%r ",
     modules.git(),
     "%=",
+    modules.macro() .. " ",
+    modules.search() .. " ",
     "%y [%P %l:%c]"
   }
 end
