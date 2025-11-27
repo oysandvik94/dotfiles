@@ -66,3 +66,6 @@ vim.keymap.set(
 )
 
 vim.keymap.set("n", "ycc", "yygccp", { remap = true })
+
+vim.keymap.set("n", "<leader>xf", ":%! base64 --decode | xml fo<CR>")
+vim.keymap.set("n", "<leader>;", "A;<Esc>")

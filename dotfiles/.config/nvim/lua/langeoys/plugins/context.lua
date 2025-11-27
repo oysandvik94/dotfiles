@@ -8,6 +8,6 @@ return {
 				multiline_threshold = 3,
 			},
 		})
-		vim.api.nvim_set_keymap('n', '<leader>uc', ':TSContextToggle<CR>', { noremap = true, silent = true })
+		vim.api.nvim_set_keymap('n', '<leader>uc', ':TSContext toggle<CR>', { noremap = true, silent = true })
 	end,
 }
