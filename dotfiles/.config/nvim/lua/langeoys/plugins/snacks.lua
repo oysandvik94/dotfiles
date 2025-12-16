@@ -20,7 +20,6 @@ local function folders()
 end
 return {
   "folke/snacks.nvim",
-  -- dir = "~/dev/general/snacks.nvim",
   dependencies = {
     "folke/which-key.nvim",
   },
@@ -184,14 +183,15 @@ return {
         Snacks.toggle.diagnostics():map("<leader>ud")
         Snacks.toggle.inlay_hints():map("<leader>uh")
 
-        local format_toggle = function(buf)
+        local state = require("langeoys.utils.state")
+        local format_toggle = function()
           return Snacks.toggle({
-            name = "Auto Format (" .. (buf and "Buffer" or "Global") .. ")",
+            name = "Auto Format",
             get = function()
-              return vim.g.AUTOFORMAT == nil or vim.g.AUTOFORMAT
+              return state.get_state(state.FORMAT_STATE, true)
             end,
-            set = function(state)
-              vim.g.AUTOFORMAT = state
+            set = function(new_state)
+              state.save_state(state.FORMAT_STATE, new_state, true)
             end,
           })
         end
