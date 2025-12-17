@@ -144,6 +144,7 @@ return {
     -- mason_lspconfig.setup_handlers(handlers)
 
     local config = {
+      capabilities = require("blink.cmp").get_lsp_capabilities(),
       virtual_text = {
         prefix = "●",
         format = function(diagnostic)

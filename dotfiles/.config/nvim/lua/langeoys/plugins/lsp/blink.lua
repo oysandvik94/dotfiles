@@ -3,10 +3,24 @@ return {
   -- dir = "~/dev/general/blink.cmp/",
   lazy = false, -- lazy loading handled internally
   -- optional: provides snippets for the snippet source
-  dependencies = "rafamadriz/friendly-snippets",
+  dependencies = {
+    "giuxtaposition/blink-cmp-copilot",
+    "rafamadriz/friendly-snippets",
+  },
   enabled = true,
   build = "cargo build --release",
   opts = {
+    sources = {
+      default = { "lsp", "path", "snippets", "buffer", "copilot" },
+      providers = {
+        copilot = {
+          name = "copilot",
+          module = "blink-cmp-copilot",
+          score_offset = 100,
+          async = true,
+        },
+      },
+    },
     snippets = {
       expand = function(snippet)
         require("luasnip").lsp_expand(snippet)
@@ -15,7 +29,7 @@ return {
     completion = {
       accept = {
         auto_brackets = {
-          enabled = true,
+          enabled = false,
         },
       },
       documentation = {
@@ -48,7 +62,10 @@ return {
       },
     },
     signature = {
-      enabled = true
+      enabled = true,
+      window = {
+        show_documentation = true,
+      }
     },
     keymap = {
       -- ["<Tab>"] = { "accept", "fallback" },

@@ -12,11 +12,17 @@ return {
 			args = { "--indent", "4", "--overwrite", "-" },
 		}
 
+		require("conform").formatters.ktfmt = {
+			command = "ktfmt",
+			args = { "--kotlinlang-style", "-" },
+		}
+
+		local state = require("langeoys.utils.state")
 		require("conform").setup({
 			timeout_ms = 2000,
 			format_on_save = function(bufnr)
-				if vim.g.AUTOFORMAT or vim.b[bufnr].AUTOFORMAT then
-					return { timeout_ms = 500, lsp_fallback = true }
+				if state.get_state(state.FORMAT_STATE, true) then
+					return { timeout_ms = 2000, lsp_fallback = true }
 				end
 			end,
 			formatters_by_ft = {
@@ -24,7 +30,7 @@ return {
 				-- Conform will run multiple formatters sequentially
 				python          = { "isort", "black" },
 				-- Use a sub-list to run only the first available formatter
-				-- kotlin          = { "ktlint" },
+				kotlin          = { "ktfmt", stop_after_first = true },
 				javascript      = { "prettier" },
 				typescript      = { "prettier" },
 				javascriptreact = { "prettier" },
@@ -43,7 +49,7 @@ return {
 
 		vim.keymap.set({ "n" }, "<leader>gq", "gggqG<C-o>", { desc = "Format file according to formatter" })
 		vim.keymap.set({ "x", "v" }, "<leader>lf", ":'<,'>Format<CR>", { desc = "Format file according to formatter" })
-		vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
+		vim.o.formatexpr = "v:lua.require'conform'.formatexpr({'timeout_ms':2000})"
 
 		vim.api.nvim_create_user_command("FormatDisable", function(args)
 			if args.bang then
