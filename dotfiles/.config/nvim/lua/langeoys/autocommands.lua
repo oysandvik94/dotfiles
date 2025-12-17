@@ -44,3 +44,15 @@ vim.api.nvim_create_autocmd("VimResized", {
 -- vim.api.nvim_create_autocmd("FocusGained", {
 --   callback = require("langeoys.utils.theme").update,
 -- })
+
+-- Yank ring
+vim.api.nvim_create_autocmd('TextYankPost', {
+  group = augroup,
+  callback = function()
+    if vim.v.event.operator == 'y' then
+      for i = 9, 1, -1 do -- Shift all numbered registers.
+        vim.fn.setreg(tostring(i), vim.fn.getreg(tostring(i - 1)))
+      end
+    end
+  end,
+})
