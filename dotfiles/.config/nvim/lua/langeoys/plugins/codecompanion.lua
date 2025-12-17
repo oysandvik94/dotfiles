@@ -1,5 +1,6 @@
 return {
   "olimorris/codecompanion.nvim",
+  enable = false,
   dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-treesitter/nvim-treesitter",
@@ -56,7 +57,7 @@ return {
           return require("codecompanion.adapters").extend("copilot", {
             schema = {
               model = {
-                default = "claude-3.5-sonnet",
+                default = "claude-haiku-4",
               },
             },
           })
