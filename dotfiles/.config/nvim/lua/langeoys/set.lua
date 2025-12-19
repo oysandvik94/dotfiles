@@ -119,3 +119,5 @@ vim.opt.spelllang = { "nb", "en" }
 
 -- test-word test
 vim.opt.iskeyword = '@,48-57,_,192-255,-' -- Treat dash as `word` textobject
+
+vim.o.winborder = 'rounded'

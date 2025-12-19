@@ -4,7 +4,7 @@ return {
   lazy = false, -- lazy loading handled internally
   -- optional: provides snippets for the snippet source
   dependencies = {
-    "giuxtaposition/blink-cmp-copilot",
+    "fang2hou/blink-copilot",
     "rafamadriz/friendly-snippets",
   },
   enabled = true,
@@ -13,9 +13,15 @@ return {
     sources = {
       default = { "lsp", "path", "snippets", "buffer", "copilot" },
       providers = {
+        lazydev = {
+          name = "LazyDev",
+          module = "lazydev.integrations.blink",
+          -- make lazydev completions top priority (see `:h blink.cmp`)
+          score_offset = 100,
+        },
         copilot = {
           name = "copilot",
-          module = "blink-cmp-copilot",
+          module = "blink-copilot",
           score_offset = 100,
           async = true,
         },
@@ -32,6 +38,9 @@ return {
           enabled = false,
         },
       },
+      -- menu = {
+      --   border = 'single'
+      -- },
       documentation = {
         -- Controls whether the documentation window will automatically show when selecting a completion item
         auto_show = true,
@@ -46,7 +55,6 @@ return {
           min_width = 10,
           max_width = 60,
           max_height = 20,
-          border = 'padded',
           winblend = 0,
           winhighlight = 'Normal:BlinkCmpDoc,FloatBorder:BlinkCmpDocBorder,CursorLine:BlinkCmpDocCursorLine,Search:None',
           -- Note that the gutter will be disabled when border ~= 'none'
