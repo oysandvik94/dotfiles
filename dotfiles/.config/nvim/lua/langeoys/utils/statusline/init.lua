@@ -1,3 +1,5 @@
+-- Based on this: https://vieitesss.github.io/posts/Neovim-custom-status-line/
+
 Statusline = {}
 
 local modules = require("langeoys.utils.statusline.modules")
