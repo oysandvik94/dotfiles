@@ -1,5 +1,6 @@
 return {
   "goolord/alpha-nvim",
+  enabled = false,
   dependencies = { "nvim-tree/nvim-web-devicons" },
   config = function(_, dashboard)
     require("alpha").setup(dashboard.opts)

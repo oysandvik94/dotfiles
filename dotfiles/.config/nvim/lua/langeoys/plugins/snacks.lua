@@ -43,6 +43,9 @@ return {
     scroll = { enabled = true },
     picker = {
       enabled = true,
+      layout = {
+        preset = "vertical",
+      },
       formatters = {
         file = {
           filename_first = true, -- display filename before the file path

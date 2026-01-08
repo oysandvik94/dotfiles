@@ -1,6 +1,6 @@
 return {
   "olimorris/codecompanion.nvim",
-  enable = false,
+  enabled = false,
   dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-treesitter/nvim-treesitter",
@@ -41,7 +41,7 @@ return {
       --   enabled = false,
       -- },
       chat = {
-        show_settings = true, -- Show LLM settings at the top of the chat buffer?
+        show_settings = false, -- Show LLM settings at the top of the chat buffer?
       },
     },
     adapters = {
@@ -57,7 +57,7 @@ return {
           return require("codecompanion.adapters").extend("copilot", {
             schema = {
               model = {
-                default = "claude-haiku-4",
+                default = "gpt-5.1-codex",
               },
             },
           })
@@ -122,7 +122,7 @@ return {
     { "<leader>aa", "<cmd>CodeCompanionChat Add<cr>",    desc = "Add to AI chat", mode = { "v" } },
     { "<leader>aa", "<cmd>CodeCompanionChat Toggle<cr>", desc = "Add to AI chat", mode = { "n" } },
     {
-      "<leader>ar",
+      "<leader>ap",
       function()
         vim.ui.input({ prompt = "Prompt" }, function(prompt)
           vim.cmd("'<,'>CodeCompanion #buffer " .. prompt)
