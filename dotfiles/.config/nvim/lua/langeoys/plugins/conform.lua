@@ -44,6 +44,7 @@ return {
 				sh              = { "shfmt" },
 				c               = { "clang-format" },
 				sql             = { "sqlfmt" },
+				java            = { "memes" }
 			},
 		})
 

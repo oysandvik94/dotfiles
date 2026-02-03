@@ -4,7 +4,7 @@ return {
     -- add any options here
     cli = {
       mux = {
-        backend = "trmuxx",
+        backend = "tmux",
         enabled = false,
       },
     },
@@ -15,6 +15,12 @@ return {
       function()
         -- if there is a next edit, jump to it, otherwise apply it if any
         if not require("sidekick").nes_jump_or_apply() then
+          -- Check if sidekick has any pending suggestions to apply
+          -- Wrapped in pcall to handle potential errors gracefully
+          local ok, has_suggestions = pcall(require("sidekick").have)
+          if ok and has_suggestions then
+            require("sidekick").apply()
+          end
           return "<Tab>" -- fallback to normal tab
         end
       end,

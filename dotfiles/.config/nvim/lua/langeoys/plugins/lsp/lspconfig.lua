@@ -28,42 +28,6 @@ return {
       return vim.fs.dirname(vim.fs.find({ "gradlew", ".git", "mvnw", "pom.xml" }, { path = vim.fn.getcwd() })[1])
     end
 
-    vim.lsp.config("lua_ls", {
-      settings = {
-        Lua = {
-          misc = {
-            -- parameters = { "--loglevel=trace" },
-          },
-          -- hover = { expandAlias = false },
-          type = {
-            castNumberToInteger = true,
-          },
-          diagnostics = {
-            disable = { "incomplete-signature-doc", "trailing-space" },
-            -- enable = false,
-            groupSeverity = {
-              strong = "Warning",
-              strict = "Warning",
-            },
-            groupFileStatus = {
-              ["ambiguity"] = "Opened",
-              ["await"] = "Opened",
-              ["codestyle"] = "None",
-              ["duplicate"] = "Opened",
-              ["global"] = "Opened",
-              ["luadoc"] = "Opened",
-              ["redefined"] = "Opened",
-              ["strict"] = "Opened",
-              ["strong"] = "Opened",
-              ["type-check"] = "Opened",
-              ["unbalanced"] = "Opened",
-              ["unused"] = "Opened",
-            },
-            unusedLocalExclude = { "_*" },
-          },
-        },
-      },
-    })
     vim.lsp.config("yamlls", {
       settings = {
         ["yamlls"] = {

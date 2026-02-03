@@ -16,11 +16,14 @@ local function get_jira_ticket()
     -- Remove trailing newline
     branch = branch:gsub("\n$", "")
 
-    -- Extract JIRA ticket (everything before first underscore)
-    local jira_ticket = branch:match("^([^_]+)")
+    -- Consider only the branch segment after the last slash (if any)
+    local branch_suffix = branch:match("([^/]+)$") or branch
 
-    if jira_ticket and jira_ticket ~= "" then
-      return jira_ticket .. ": "
+    -- Extract numeric portion and build SECURITYSOLUTIONS ticket id
+    local jira_number = branch_suffix:match("(%d+)")
+
+    if jira_number and jira_number ~= "" then
+      return "SECURITYSOLUTIONS-" .. jira_number .. ": "
     else
       return ""
     end

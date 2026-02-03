@@ -5,6 +5,7 @@ M.use_terminal_background = function(should_use)
 		return
 	end
 
+	vim.api.nvim_set_hl(0, "TabLine", { bg = "none" })
 	vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
 	vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
 	vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
