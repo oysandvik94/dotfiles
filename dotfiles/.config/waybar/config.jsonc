@@ -1,18 +1,15 @@
 {
 	"layer": "top",
-	"output": [
-		"eDP-1"
-	],
 	"mode": "dock",
 	"margin-top": 3,
 	"margin-left": 6,
 	"margin-right": 6,
 	"modules-left": [
 		"custom/playerctl",
-		"custom/cava",
 		"hyprland/workspaces"
 	],
 	"modules-center": [
+		"custom/ai",
 		"clock"
 	],
 	"modules-right": [
@@ -100,6 +97,12 @@
 		"exec": "waybar_task",
 		"tooltip": false
 	},
+	"custom/ai": {
+		"escape": false,
+		"return-type": "json",
+		"interval": 60,
+		"exec": "~/.config/waybar/scripts/ai_panel.sh"
+	},
 	"hyprland/workspaces": {
 		"format": "{name}",
 		"active-nly": false,
@@ -126,10 +129,6 @@
 		"on-click-left": "pavucontrol",
 		"input": true
 	},
-	// "custom/cava": {
-	//  "format": "{}",
-	//  "exec": "cava_waybar",
-	// },
 	"wireplumber": {
 		"format": "{volume}% {icon}",
 		"format-muted": "",

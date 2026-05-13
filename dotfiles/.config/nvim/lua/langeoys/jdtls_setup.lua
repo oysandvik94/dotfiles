@@ -133,7 +133,17 @@ function M:setup()
           downloadSources = true,
         },
         configuration = {
-          updateBuildConfiguration = "interactive",
+          updateBuildConfiguration = "disabled",
+        },
+        import = {
+          exclusions = {
+            "**/esign-model",
+            "**/esign-model/**",
+            "**/esign-service",
+            "**/esign-service/**",
+            "**/esign-repository",
+            "**/esign-repository/**",
+          },
         },
         maven = {
           downloadSources = true,
@@ -142,7 +152,7 @@ function M:setup()
         jdt = {
           ls = {
             javac = {
-              enabled = "on"
+              enabled = "false"
             }
           }
         },

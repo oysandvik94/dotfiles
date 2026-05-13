@@ -105,6 +105,7 @@ if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
         2) hypr
         3) sway
         4) gnome
+        5) cosmic
         -> "
 
         read option
@@ -129,5 +130,9 @@ if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
 
         if [[ "$option" == "4" ]]; then
             exec gnome-session
+        fi
+
+        if [[ "$option" == "5" ]]; then
+            exec start-cosmic
         fi
 fi

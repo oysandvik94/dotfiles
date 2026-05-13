@@ -32,6 +32,7 @@ docked_delete_tag() {
 
 alias cal="cal --monday"
 alias nn="nvim Jenkinsfile"
+alias codex='codex --yolo'
 
 alias disablehistory="ZSH_AUTOSUGGEST_HISTORY_IGNORE=*"
 alias enablehistory="unset ZSH_AUTOSUGGEST_HISTORY_IGNORE"

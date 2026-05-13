@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+repo="$HOME/dev/general/workmux"
+release_bin="$repo/target/release/workmux"
+
+if [[ ! -x "$release_bin" ]]; then
+    echo "Missing release binary: $release_bin" >&2
+    echo "Build it with: cargo build --release" >&2
+    exit 1
+fi
+
+exec "$release_bin" "$@"

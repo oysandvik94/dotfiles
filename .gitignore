@@ -9,3 +9,4 @@ dotfiles/.config/hypr/workspaces.conf
 secret_git_config.lua
 secret/
 dotfiles/.config/zsh/jobbaliases
+.github/hooks/workmux-status/hooks.json

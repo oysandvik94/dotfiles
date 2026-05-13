@@ -8,8 +8,10 @@ return {
     "rafamadriz/friendly-snippets",
   },
   enabled = true,
-  build = "cargo build --release",
+  version = '1.*',
+  opts_extend = { "sources.default" },
   opts = {
+    fuzzy = { implementation = "prefer_rust_with_warning" },
     sources = {
       default = { "lsp", "path", "snippets", "buffer", "copilot" },
       providers = {

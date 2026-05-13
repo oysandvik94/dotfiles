@@ -3,9 +3,17 @@ return {
   opts = {
     -- add any options here
     cli = {
+      win = {
+        layout = "float",
+      },
       mux = {
         backend = "tmux",
         enabled = false,
+      },
+      tools = {
+        codex = {
+          cmd = { "codex", "--yolo" },
+        },
       },
     },
   },

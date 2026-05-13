@@ -40,7 +40,7 @@ get_sessions_by_mru() {
 	tmux list-sessions \
 		-f "#{!=:#{session_id},$CURRENT_SID}" \
 		-F '#{session_last_attached} #{session_name}' |
-		sort --numeric-sort --reverse | awk '{print $2}; END {print "———"}'
+		sort --numeric-sort --reverse | awk 'NF{sub(/^[^ ]* /, ""); print} END{print "———"}'
 }
 
 SESSION_BIND="ctrl-s:change-prompt(sessions> )+reload(tmux list-sessions -F '#S')"
@@ -70,12 +70,12 @@ selected_name=$(basename "$selected" | tr . _)
 tmux_running=$(pgrep tmux)
 
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
-	tmux new-session -s $selected_name -c $selected
+	tmux new-session -s "$selected_name" -c "$selected"
 	exit 0
 fi
 
-if ! tmux has-session -t=$selected_name 2>/dev/null; then
-	tmux new-session -ds $selected_name -c $selected
+if ! tmux has-session -t="$selected_name" 2>/dev/null; then
+	tmux new-session -ds "$selected_name" -c "$selected"
 fi
 
-tmux switch-client -t $selected_name
+tmux switch-client -t "$selected_name"

@@ -1,0 +1,7 @@
+nerdfont: true
+agent: codex
+mode: session
+
+panes:
+  - command: nvim
+    focus: true
