@@ -137,9 +137,10 @@ return {
       },
     }
     vim.diagnostic.config(config)
-    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-      border = "single",
-    })
+    vim.lsp.handlers["textDocument/hover"] = function(err, result, ctx, handler_config)
+      local config_with_border = vim.tbl_deep_extend("force", handler_config or {}, { border = "single" })
+      return vim.lsp.handlers.hover(err, result, ctx, config_with_border)
+    end
 
     vim.lsp.util.stylize_markdown = function(bufnr, contents, opts)
       contents = vim.lsp.util._normalize_markdown(contents, {

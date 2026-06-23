@@ -30,7 +30,7 @@ local function parse_line(linenr)
 		local name = query.captures[id]
 		local start_row, start_col, end_row, end_col = node:range()
 
-		local priority = tonumber(metadata.priority or vim.highlight.priorities.treesitter)
+			local priority = tonumber(metadata.priority or vim.hl.priorities.treesitter)
 
 		if start_row == linenr - 1 and end_row == linenr - 1 then
 			-- check for characters ignored by treesitter

@@ -2,3 +2,8 @@
 .github/hooks/workmux-status/hooks.json
 kls_database.db
 .codex
+# Eclipse
+.project
+.classpath
+.settings
+

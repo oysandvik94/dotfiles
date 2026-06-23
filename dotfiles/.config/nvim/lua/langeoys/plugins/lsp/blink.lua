@@ -13,7 +13,7 @@ return {
   opts = {
     fuzzy = { implementation = "prefer_rust_with_warning" },
     sources = {
-      default = { "lsp", "path", "snippets", "buffer", "copilot" },
+      default = { "lsp", "path", "snippets", "buffer" },
       providers = {
         lazydev = {
           name = "LazyDev",
@@ -21,12 +21,12 @@ return {
           -- make lazydev completions top priority (see `:h blink.cmp`)
           score_offset = 100,
         },
-        copilot = {
-          name = "copilot",
-          module = "blink-copilot",
-          score_offset = 100,
-          async = true,
-        },
+        -- copilot = {
+        --   name = "copilot",
+        --   module = "blink-copilot",
+        --   score_offset = 100,
+        --   async = true,
+        -- },
       },
     },
     snippets = {

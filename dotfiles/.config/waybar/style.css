@@ -42,7 +42,6 @@ window#waybar > box {
 
 /* General hover effects for all modules */
 #tray:hover,
-#custom-ai:hover,
 #cpu:hover,
 #memory:hover,
 #temperature:hover,
@@ -56,7 +55,6 @@ window#waybar > box {
 
 /* Add transitions to all modules */
 #tray,
-#custom-ai,
 #cpu,
 #memory,
 #temperature,
@@ -107,7 +105,7 @@ window#waybar > box {
 /* } */
 
 #workspaces {
-  margin: 2px 8px 2px 8px;
+  margin: 2px 6px 2px 6px;
   border-radius: 22px;
   padding: 2px 4px;
   background-color: rgba(24, 28, 42, 0.42);
@@ -167,7 +165,7 @@ window#waybar > box {
 
 .modules-right {
   margin: 2px 6px 2px 6px;
-  border-radius: 22px;
+  border-radius: 20px;
   padding-left: 12px;
   padding-right: 12px;
   background-color: rgba(120, 148, 171, 0.12);
@@ -249,24 +247,23 @@ window#waybar > box {
   padding-left: 12px;
   padding-right: 14px;
   border-radius: 20px;
-  background-color: rgba(24, 28, 42, 0.42);
-  border: 1px solid rgba(222, 226, 245, 0.38);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22), 0 0 26px rgba(120, 148, 171, 0.24);
+  background-color: rgba(120, 148, 171, 0.12);
+  border: 1px solid rgba(190, 140, 140, 0.45);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 0 15px rgba(180, 180, 206, 0.12);
 }
 
 #tray,
-#custom-ai,
 #cpu,
 #memory,
 #temperature {
-  margin: 2px 8px 2px 8px;
+  margin: 2px 6px 2px 6px;
   padding-left: 12px;
   padding-right: 12px;
-  border-radius: 22px;
+  border-radius: 20px;
   color: @fg;
-  background-color: rgba(24, 28, 42, 0.42);
-  border: 1px solid rgba(222, 226, 245, 0.38);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22), 0 0 26px rgba(120, 148, 171, 0.24);
+  background-color: rgba(120, 148, 171, 0.12);
+  border: 1px solid rgba(190, 140, 140, 0.45);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 0 15px rgba(180, 180, 206, 0.12);
 }
 
 /* Keep custom modules that aren't in the right group */
@@ -304,35 +301,23 @@ window#waybar > box {
   padding-right: 12px;
   border-radius: 20px;
   color: @fg;
-  background-color: rgba(120, 148, 171, 0.12);
-  border: 1px solid rgba(190, 140, 140, 0.45);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 0 15px rgba(180, 180, 206, 0.12);
+  background-color: @bg;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 #clock {
-  margin: 2px 8px 2px 8px;
-  padding-left: 14px;
-  padding-right: 14px;
-  border-radius: 22px;
+  margin: 2px 6px 2px 6px;
+  padding-left: 12px;
+  padding-right: 12px;
+  border-radius: 20px;
   color: @fg;
-  background-color: rgba(24, 28, 42, 0.42);
-  border: 1px solid rgba(222, 226, 245, 0.38);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22), 0 0 26px rgba(120, 148, 171, 0.24);
+  background-color: rgba(120, 148, 171, 0.12);
+  border: 1px solid rgba(190, 140, 140, 0.45);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 0 15px rgba(180, 180, 206, 0.12);
   transition: all 0.3s ease;
 }
 
-#custom-ai {
-  margin: 2px 8px 2px 8px;
-  padding-left: 18px;
-  padding-right: 18px;
-  border-radius: 22px;
-  color: @fg;
-  background-color: rgba(42, 34, 58, 0.48);
-  border: 1px solid rgba(228, 188, 236, 0.46);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.24), 0 0 34px rgba(180, 140, 200, 0.34);
-}
-
-#custom-ai:hover {
+#clock:hover {
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4), 0 0 20px rgba(180, 180, 206, 0.25);
 }
 
@@ -344,14 +329,10 @@ window#waybar > box {
   box-shadow: none;
 }
 
-#clock:hover {
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4), 0 0 20px rgba(180, 180, 206, 0.25);
-}
-
 #mode {
   margin: 2px 6px 2px 6px;
-  padding-left: 12px;
-  padding-right: 12px;
+  padding-left: 10px;
+  padding-right: 10px;
   border-radius: 20px;
   background-color: rgba(120, 148, 171, 0.12);
   border: 1px solid rgba(190, 140, 140, 0.45);

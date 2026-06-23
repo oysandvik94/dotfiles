@@ -3,7 +3,6 @@
 eval "$(starship init zsh)"
 
 source $ZDOTDIR/plugins.zsh
-source $ZDOTDIR/copilot.zsh
 source $ZDOTDIR/aliases
 test -f $ZDOTDIR/jobbaliases && source $ZDOTDIR/jobbaliases
 source $ZDOTDIR/vim.zsh
@@ -27,6 +26,10 @@ path+=("$HOME/dotfiles/dotfiles/scripts")
 path+=("/usr/local/go/bin")
 path+=("$HOME/go/bin")
 path+=("$HOME/jobbscript/")
+
+export COPILOT_OTEL_ENABLED=true
+export COPILOT_OTEL_EXPORTER_TYPE=file
+export COPILOT_OTEL_FILE_EXPORTER_PATH="$HOME/.copilot/otel/copilot-otel-$(date +%Y%m%d-%H%M%S).jsonl"
 
 
 # Completion

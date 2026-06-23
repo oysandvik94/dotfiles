@@ -59,11 +59,11 @@ vim.opt.maxmempattern = 2000
 vim.g.mapleader = " "
 
 -- [[ Highlight on yank ]]
--- See `:help vim.highlight.on_yank()`
+-- See `:help vim.hl.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
 vim.api.nvim_create_autocmd("TextYankPost", {
   callback = function()
-    vim.highlight.on_yank()
+    vim.hl.on_yank()
   end,
   group = highlight_group,
   pattern = "*",
@@ -87,7 +87,7 @@ vim.opt.list = false
 vim.opt.listchars = { tab = "| ", trail = "·", nbsp = "␣" }
 --
 
-vim.highlight.priorities.semantic_tokens = 95
+vim.hl.priorities.semantic_tokens = 95
 vim.o.whichwrap = "bs<>[]hl"
 vim.opt.formatoptions:remove({ "c", "r", "o" }) -- don't insert the current comment leader automatically for auto-wrapping comments using 'textwidth', hitting <Enter> in insert mode, or hitting 'o' or 'O' in normal mode.
 
