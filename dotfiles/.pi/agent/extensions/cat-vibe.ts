@@ -134,6 +134,38 @@ function extensionStatuses(footerData: ReadonlyFooterDataProvider | undefined): 
 		.join(" · ");
 }
 
+function themeRgb(theme: Theme, color: "accent" | "borderMuted"): [number, number, number] | undefined {
+	const match = theme.getFgAnsi(color).match(/38;2;(\d+);(\d+);(\d+)/);
+	return match ? [Number(match[1]), Number(match[2]), Number(match[3])] : undefined;
+}
+
+function fadeDivider(theme: Theme, width: number): string {
+	if (width < 1) return "";
+	const solidWidth = Math.min(width, Math.max(8, Math.floor(width * 0.28)));
+	const fadeWidth = Math.max(0, Math.floor((width - solidWidth) * 0.9));
+	const steps = Math.min(12, fadeWidth);
+	const startRgb = themeRgb(theme, "accent");
+	const endRgb = themeRgb(theme, "borderMuted");
+	let line = theme.fg("accent", "━".repeat(solidWidth));
+
+	for (let step = 0; step < steps; step++) {
+		const start = Math.floor((step * fadeWidth) / steps);
+		const end = Math.floor(((step + 1) * fadeWidth) / steps);
+		const progress = steps === 1 ? 1 : step / (steps - 1);
+		const glyph = progress < 0.55 ? "─" : progress < 0.78 ? "╌" : progress < 0.94 ? "┄" : "·";
+		const text = glyph.repeat(end - start);
+		if (startRgb && endRgb) {
+			const rgb = startRgb.map((value, index) => Math.round(value + (endRgb[index]! - value) * progress));
+			line += `\x1b[38;2;${rgb.join(";")}m${text}\x1b[39m`;
+		} else {
+			const color = progress < 0.35 ? "accent" : progress < 0.7 ? "dim" : "borderMuted";
+			line += theme.fg(color, text);
+		}
+	}
+
+	return `${line}${" ".repeat(Math.max(0, width - solidWidth - fadeWidth))}`;
+}
+
 class CatAvatar implements Component {
 	constructor(
 		private readonly uiTheme: () => Theme,
@@ -153,6 +185,8 @@ class CatAvatar implements Component {
 		const coloredNote = theme.fg(working ? "accent" : "success", note);
 
 		return [
+			fadeDivider(theme, width),
+			"",
 			`${cat("  ╱|、")}  ${coloredNote}`,
 			cat(` (${eyes}7${paw}`),
 			cat("  |、˜〵"),
@@ -202,6 +236,7 @@ export default function catVibe(pi: ExtensionAPI) {
 	let activeTui: TUI | undefined;
 	let currentCtx: ExtensionContext | undefined;
 	let previousEditor: EditorFactory | undefined;
+	let previousTheme: Theme | undefined;
 	let footerData: ReadonlyFooterDataProvider | undefined;
 	let git: GitState = { isRepo: false, changed: 0, untracked: 0 };
 	let sessionCost = 0;
@@ -349,6 +384,8 @@ export default function catVibe(pi: ExtensionAPI) {
 		ctx.ui.setWorkingMessage();
 		ctx.ui.setWorkingIndicator();
 		ctx.ui.setStatus("cat-vibe", undefined);
+		if (previousTheme) ctx.ui.setTheme(previousTheme);
+		previousTheme = undefined;
 		activeTui = undefined;
 		footerData = undefined;
 	};
@@ -356,6 +393,8 @@ export default function catVibe(pi: ExtensionAPI) {
 	const enableUi = (ctx: ExtensionContext) => {
 		if (ctx.mode !== "tui") return;
 
+		previousTheme ||= ctx.ui.theme;
+		ctx.ui.setTheme("rasmus");
 		ctx.ui.setHeader(() => new EmptyFooter());
 		ctx.ui.setWidget("cat-avatar", () => new CatAvatar(() => ctx.ui.theme, () => frame, () => working));
 		ctx.ui.setWidget(
@@ -481,4 +520,8 @@ if (process.env.PI_CAT_SELF_TEST === "1") {
 		throw new Error("cat-vibe width self-test failed");
 	}
 	if (formatCost(12.734) !== "≈$12.73") throw new Error("cat-vibe cost self-test failed");
+	const divider = fadeDivider({ fg: (_color: string, text: string) => text, getFgAnsi: () => "" } as unknown as Theme, 80);
+	if (visibleWidth(divider) !== 80 || !divider.includes("╌") || !divider.endsWith(" ")) {
+		throw new Error("cat-vibe divider self-test failed");
+	}
 }
