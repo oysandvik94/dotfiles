@@ -135,16 +135,6 @@ function M:setup()
         configuration = {
           updateBuildConfiguration = "disabled",
         },
-        import = {
-          exclusions = {
-            "**/esign-model",
-            "**/esign-model/**",
-            "**/esign-service",
-            "**/esign-service/**",
-            "**/esign-repository",
-            "**/esign-repository/**",
-          },
-        },
         maven = {
           downloadSources = true,
         },

@@ -9,4 +9,8 @@ dotfiles/.config/hypr/workspaces.conf
 secret_git_config.lua
 secret/
 dotfiles/.config/zsh/jobbaliases
+dotfiles/.config/github-copilot/
+dotfiles/.config/hypr/hypr_local.lua
+__pycache__/
+*.pyc
 .github/hooks/workmux-status/hooks.json

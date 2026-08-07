@@ -43,6 +43,8 @@ CAT VIBE:
 `;
 
 const SPINNER = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"];
+const SUBAGENT_RPC_REQUEST_EVENT = "subagents:rpc:v1:request";
+const SUBAGENT_RPC_REPLY_PREFIX = "subagents:rpc:v1:reply:";
 
 function fitRail(required: string, optional: string, right: string, width: number): string {
 	if (width < 1) return "";
@@ -123,6 +125,13 @@ function formatCost(cost: number): string {
 	if (cost === 0) return "≈$0.00";
 	const digits = cost < 0.01 ? 4 : cost < 1 ? 3 : 2;
 	return `≈$${cost.toFixed(digits)}`;
+}
+
+function fleetActiveCount(value: unknown): number | undefined {
+	if (!value || typeof value !== "object") return undefined;
+	const reply = value as { success?: unknown; data?: { fleet?: { totalActive?: unknown } } };
+	const count = reply.success === true ? reply.data?.fleet?.totalActive : undefined;
+	return typeof count === "number" && Number.isSafeInteger(count) && count >= 0 ? count : undefined;
 }
 
 function extensionStatuses(footerData: ReadonlyFooterDataProvider | undefined): string {
@@ -243,6 +252,9 @@ export default function catVibe(pi: ExtensionAPI) {
 	let gitRefreshVersion = 0;
 	let costRefreshVersion = 0;
 	let costDirty = true;
+	let activeSubagents = 0;
+	let subagentRpcSequence = 0;
+	let cancelSubagentRpc: (() => void) | undefined;
 	const activeTools = new Map<string, string>();
 	const liveSubagentRuns = new Map<string, LiveRunCost>();
 
@@ -261,8 +273,36 @@ export default function catVibe(pi: ExtensionAPI) {
 				costDirty = false;
 				void refreshCost(currentCtx);
 			}
+			if (frame % 2 === 0) refreshSubagentCount();
 			requestRender();
 		}, 420);
+	};
+
+	const refreshSubagentCount = () => {
+		if (!enabled || cancelSubagentRpc) return;
+		const requestId = `cat-vibe-${Date.now()}-${++subagentRpcSequence}`;
+		let cleanup = () => {};
+		const unsubscribe = pi.events.on(`${SUBAGENT_RPC_REPLY_PREFIX}${requestId}`, (reply) => {
+			const count = fleetActiveCount(reply);
+			cleanup();
+			if (count === undefined || count === activeSubagents) return;
+			activeSubagents = count;
+			requestRender();
+		});
+		const timeout = setTimeout(() => cleanup(), 1500);
+		cleanup = () => {
+			clearTimeout(timeout);
+			unsubscribe();
+			if (cancelSubagentRpc === cleanup) cancelSubagentRpc = undefined;
+		};
+		cancelSubagentRpc = cleanup;
+		pi.events.emit(SUBAGENT_RPC_REQUEST_EVENT, {
+			version: 1,
+			requestId,
+			method: "status",
+			params: {},
+			source: { extension: "cat-vibe" },
+		});
 	};
 
 	const refreshGit = async (ctx: ExtensionContext) => {
@@ -359,8 +399,10 @@ export default function catVibe(pi: ExtensionAPI) {
 			: `${theme.fg("accent", theme.bold("RASMUS"))} ${theme.fg("dim", "//")} ${coloredModel}${separator}${coloredThinking(`think:${thinking}`)}`;
 		const topRight = theme.fg("accent", location);
 		const activityColor = working ? "accent" : "success";
+		const agents = compact ? `sub:${activeSubagents}` : `${activeSubagents} subagent${activeSubagents === 1 ? "" : "s"}`;
+		const coloredAgents = theme.fg(activeSubagents > 0 ? "accent" : "muted", agents);
 		const cost = theme.fg("mdLink", formatCost(sessionCost));
-		const bottomRequired = `${theme.fg(activityColor, `${activityMark} ${activity}`)}${separator}${cost}`;
+		const bottomRequired = `${theme.fg(activityColor, `${activityMark} ${activity}`)}${separator}${coloredAgents}${separator}${cost}`;
 		const context = theme.fg("muted", formatContext(ctx, compact));
 		const bottomOptional = `${separator}${context}${statuses ? `${separator}${statuses}` : ""}`;
 		const bottomRight = dirty ? theme.fg(dirty === "clean" ? "success" : "mdLink", dirty) : "";
@@ -424,6 +466,7 @@ export default function catVibe(pi: ExtensionAPI) {
 		startTimer();
 		void refreshGit(ctx);
 		void refreshCost(ctx);
+		refreshSubagentCount();
 	};
 
 	const applyUi = (ctx: ExtensionContext) => {
@@ -436,6 +479,8 @@ export default function catVibe(pi: ExtensionAPI) {
 		working = false;
 		sessionCost = 0;
 		costDirty = true;
+		activeSubagents = 0;
+		cancelSubagentRpc?.();
 		activeTools.clear();
 		liveSubagentRuns.clear();
 		if (ctx.mode === "tui") previousEditor = ctx.ui.getEditorComponent();
@@ -453,12 +498,17 @@ export default function catVibe(pi: ExtensionAPI) {
 	});
 
 	pi.on("tool_execution_update", (event) => {
-		if (event.toolName === "subagent") rememberLiveSubagent(event.toolCallId, event.partialResult);
+		if (event.toolName !== "subagent") return;
+		rememberLiveSubagent(event.toolCallId, event.partialResult);
+		refreshSubagentCount();
 	});
 
 	pi.on("tool_execution_end", (event) => {
 		activeTools.delete(event.toolCallId);
-		if (event.toolName === "subagent") rememberLiveSubagent(event.toolCallId, event.result);
+		if (event.toolName === "subagent") {
+			rememberLiveSubagent(event.toolCallId, event.result);
+			refreshSubagentCount();
+		}
 		requestRender();
 	});
 
@@ -493,6 +543,7 @@ export default function catVibe(pi: ExtensionAPI) {
 		else stopTimer();
 		gitRefreshVersion++;
 		costRefreshVersion++;
+		cancelSubagentRpc?.();
 		currentCtx = undefined;
 		activeTui = undefined;
 		footerData = undefined;
@@ -520,6 +571,9 @@ if (process.env.PI_CAT_SELF_TEST === "1") {
 		throw new Error("cat-vibe width self-test failed");
 	}
 	if (formatCost(12.734) !== "≈$12.73") throw new Error("cat-vibe cost self-test failed");
+	if (fleetActiveCount({ success: true, data: { fleet: { totalActive: 3 } } }) !== 3) {
+		throw new Error("cat-vibe subagent count self-test failed");
+	}
 	const divider = fadeDivider({ fg: (_color: string, text: string) => text, getFgAnsi: () => "" } as unknown as Theme, 80);
 	if (visibleWidth(divider) !== 80 || !divider.includes("╌") || !divider.endsWith(" ")) {
 		throw new Error("cat-vibe divider self-test failed");

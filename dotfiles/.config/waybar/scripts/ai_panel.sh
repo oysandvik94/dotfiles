@@ -28,25 +28,81 @@ cache_fresh() {
 }
 
 ccusage_cmd() {
-  local codex_bin
+  bunx ccusage "$@"
+}
 
-  if command -v ccusage-codex >/dev/null 2>&1; then
-    ccusage-codex "$@"
-    return
-  fi
+# Pi forked sessions contain copied parent messages with their original usage.
+# Count only assistant usage created after each session file's own start time.
+deduped_pi_costs() {
+  local sessions_dir="${PI_CODING_AGENT_DIR:-$HOME/.pi/agent}/sessions"
+  python3 - "$sessions_dir" "$timezone" <<'PY'
+import json
+import os
+import sys
+from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
 
-  while IFS= read -r codex_bin; do
-    [[ -n "$codex_bin" ]] || continue
-    if "$codex_bin" "$@"; then
-      return
-    fi
-  done < <(
-    find "$HOME/.npm/_npx" -path '*/node_modules/.bin/ccusage-codex' -printf '%T@ %p\n' 2>/dev/null \
-      | sort -nr \
-      | awk '{ print $2 }'
-  )
+sessions_dir, timezone = sys.argv[1:]
+tz = ZoneInfo(timezone)
+now = datetime.now(tz)
+today_start = now.replace(hour=0, minute=0, second=0, microsecond=0)
+tomorrow = today_start + timedelta(days=1)
+month_start = today_start.replace(day=1)
+month_start_epoch = month_start.timestamp()
+today_cost = 0.0
+month_cost = 0.0
 
-  return 127
+
+def timestamp(value):
+    if isinstance(value, (int, float)):
+        return value / 1000 if value > 1_000_000_000_000 else value
+    if not isinstance(value, str):
+        return None
+    try:
+        parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+        if parsed.tzinfo is None:
+            parsed = parsed.replace(tzinfo=tz)
+        return parsed.timestamp()
+    except ValueError:
+        return None
+
+
+for root, _, files in os.walk(sessions_dir):
+    for name in files:
+        if not name.endswith(".jsonl"):
+            continue
+        path = os.path.join(root, name)
+        try:
+            if os.stat(path).st_mtime < month_start_epoch:
+                continue
+            session_start = None
+            with open(path, encoding="utf-8") as stream:
+                for line in stream:
+                    try:
+                        entry = json.loads(line)
+                    except (json.JSONDecodeError, UnicodeDecodeError):
+                        continue
+                    if entry.get("type") == "session" and session_start is None:
+                        session_start = timestamp(entry.get("timestamp"))
+                        continue
+                    message = entry.get("message", {})
+                    if entry.get("type") != "message" or message.get("role") != "assistant":
+                        continue
+                    event_time = timestamp(entry.get("timestamp") or message.get("timestamp"))
+                    if session_start is None or event_time is None or event_time < session_start:
+                        continue
+                    cost = message.get("usage", {}).get("cost", {}).get("total", 0)
+                    if not isinstance(cost, (int, float)):
+                        continue
+                    if month_start.timestamp() <= event_time < tomorrow.timestamp():
+                        month_cost += cost
+                    if today_start.timestamp() <= event_time < tomorrow.timestamp():
+                        today_cost += cost
+        except OSError:
+            continue
+
+print(json.dumps({"today": today_cost, "month": month_cost}))
+PY
 }
 
 active_agents_count() {
@@ -74,7 +130,7 @@ active_agents_count() {
 render_error() {
   local agents details
   agents=$(active_agents_count)
-  details="Codex usage unavailable."
+  details="AI usage unavailable."
 
   if [[ -s "$err_log" ]]; then
     details=$(tail -n 1 "$err_log")
@@ -87,21 +143,28 @@ render_error() {
 }
 
 build_payload() {
-  local today month_start daily_json monthly_json today_cost month_cost agents text tooltip
+  local today month_start month_period usage_json pi_json non_pi_today non_pi_month pi_today pi_month today_cost month_cost agents text tooltip
 
   today=$(date +%F)
   month_start=$(date +%Y-%m-01)
+  month_period=$(date +%Y-%m)
 
-  daily_json=$(ccusage_cmd daily --json --since "$today" --until "$today" --timezone "$timezone")
-  monthly_json=$(ccusage_cmd monthly --json --since "$month_start" --until "$today" --timezone "$timezone")
+  # Keep ccusage for non-Pi agents, but replace its duplicated Pi totals.
+  usage_json=$(ccusage_cmd --json --by-agent --sections daily,monthly --since "$month_start" --until "$today" --timezone "$timezone")
+  pi_json=$(deduped_pi_costs)
 
-  # Old ccusage used `totalCost`; newer Codex-only output uses `costUSD`.
-  today_cost=$(jq -r '.totals.costUSD // .totals.totalCost // .daily[0].costUSD // .daily[0].totalCost // 0' <<<"$daily_json")
-  month_cost=$(jq -r '.totals.costUSD // .totals.totalCost // .monthly[0].costUSD // .monthly[0].totalCost // 0' <<<"$monthly_json")
+  non_pi_today=$(jq -r --arg period "$today" \
+    '[.daily[] | select(.period == $period) | .agents[]? | select(.agent != "pi") | .totalCost] | add // 0' <<<"$usage_json")
+  non_pi_month=$(jq -r --arg period "$month_period" \
+    '[.monthly[] | select(.period == $period) | .agents[]? | select(.agent != "pi") | .totalCost] | add // 0' <<<"$usage_json")
+  pi_today=$(jq -r '.today' <<<"$pi_json")
+  pi_month=$(jq -r '.month' <<<"$pi_json")
+  today_cost=$(jq -nr --argjson pi "$pi_today" --argjson other "$non_pi_today" '$pi + $other')
+  month_cost=$(jq -nr --argjson pi "$pi_month" --argjson other "$non_pi_month" '$pi + $other')
   agents=$(active_agents_count)
 
   printf -v text "<span foreground='#D699B6'>󰚩 %s</span> <span foreground='#DBBC7F'>󰾆 $%.2f</span> <span foreground='#88C096'>󰃭 $%.2f</span>" "$agents" "$today_cost" "$month_cost"
-  printf -v tooltip 'AI panel\nActive agents: %s\nToday: $%.2f\nMonth: $%.2f\nTimezone: %s' "$agents" "$today_cost" "$month_cost" "$timezone"
+  printf -v tooltip 'AI panel\nActive agents: %s\nToday: $%.2f\nMonth: $%.2f\nPi fork duplicates removed\nTimezone: %s' "$agents" "$today_cost" "$month_cost" "$timezone"
 
   jq -cn --arg text "$text" --arg tooltip "$tooltip" \
     '{text: $text, tooltip: $tooltip, class: ["ai-panel"], alt: "ai-panel"}'

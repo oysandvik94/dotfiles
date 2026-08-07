@@ -1,122 +1,116 @@
 configuration {
   modes: "window,drun,run,ssh";
-  font: "JetBrainsMono Nerd Font 18";
+  font: "JetBrainsMono Nerd Font 15";
+  show-icons: false;
   drun-display-format: "{name}";
+  display-drun: "›";
+  display-window: "›";
+  display-run: "›";
+  display-ssh: "›";
 }
 
+@import "~/.config/rofi/themes/colors.rasi"
+
 * {
-  // general
-  bg: @background;
-  bgt: #28282895;
-  t: transparent;
-  fg: @foreground;
-
-  selected-bg: @fg;
-  selected-fg: @bg;
-
-  // for windows
-  active: #a9b665;
+  panel: #111622f2;
+  panel-alt: #1c2232f2;
+  selected: #293445;
+  muted: #687288;
+  text: #cdcdcd;
+  bright: #f3f0ff;
+  rose: #d2788c;
+  cyan: #7894ab;
   urgent: #ea6962;
+  transparent: #00000000;
 }
 
 window {
   fullscreen: true;
-  padding: 35% 30%;
   transparency: "real";
-  background-color: @bgt;
-  border-color: @t;
+  background-color: #090b12a8;
+  padding: 26% 37% 39% 37%;
 }
 
-listview {
-  border: 0 0 0 0;
-  padding: 23 0 0;
-  scrollbar: true;
-}
-
-scrollbar {
-    width:        4px;
-    border:       0;
-    handle-color: @fg;
-    handle-width: 8px;
-    padding:      0 5;
-}
-
-entry {
-    placeholder: "";
-}
-
-// other kinda less interesting stuff {{{
-element {
-    border:  0;
-    padding: 2px;
-}
-element.normal.normal {
-    background-color: @t;
-    text-color:       @fg;
-}
-element.normal.urgent {
-    background-color: @t;
-    text-color:       @urgent;
-}
-element.normal.active {
-    background-color: @t;
-    text-color:       @active;
-}
-element.selected.normal {
-    background-color: @selected-bg;
-    text-color:       @selected-fg;
-}
-element.selected.urgent {
-    background-color: @selected-bg;
-    text-color:       @urgent;
-}
-element.selected.active {
-    background-color: @selected-bg;
-    text-color:       @selected-fg;
-}
-element.alternate.normal {
-    background-color: @t;
-    text-color:       @fg;
-}
-element.alternate.urgent {
-    background-color: @t;
-    text-color:       @urgent;
-}
-element.alternate.active {
-    background-color: @t;
-    text-color:       @active;
-}
-
-sidebar {
-    border:       2px 0 0;
-    border-color: @fg;
+mainbox {
+  children: [ inputbar, listview ];
+  spacing: 12px;
+  background-color: @transparent;
 }
 
 inputbar {
-    spacing:    0;
-    text-color: @fg;
-    padding:    2px;
-    children:   [ prompt, textbox-prompt-sep, entry, case-indicator ];
+  children: [ prompt, entry, case-indicator ];
+  padding: 16px 20px;
+  border: 1px;
+  border-color: #be8c8cb3;
+  border-radius: 10px;
+  background-color: @panel;
+  text-color: @text;
 }
 
-case-indicator,
-entry,
-prompt,
-button {
-    spacing:    0;
-    text-color: @fg;
+prompt {
+  padding: 0 12px 0 0;
+  text-color: @rose;
 }
 
-button.selected {
-    background-color: @bg;
-    text-color:       @fg;
+entry {
+  placeholder: "type to filter…";
+  placeholder-color: @muted;
+  text-color: @bright;
 }
 
-textbox-prompt-sep {
-    expand:     false;
-    str:        ":";
-    text-color: @fg;
-    margin:     0 0.3em 0 0;
+case-indicator {
+  text-color: @muted;
 }
-// }}}
-@import "~/.config/rofi/themes/colors.rasi"
+
+listview {
+  lines: 6;
+  fixed-height: true;
+  cycle: true;
+  scrollbar: false;
+  spacing: 2px;
+  padding: 10px;
+  border: 1px;
+  border-color: #7894ab66;
+  border-radius: 8px;
+  background-color: @panel;
+}
+
+element {
+  padding: 11px 14px;
+  border: 0 0 0 3px;
+  border-color: @transparent;
+  border-radius: 5px;
+  background-color: @transparent;
+  text-color: @text;
+}
+
+element normal.normal,
+element alternate.normal {
+  background-color: @transparent;
+  text-color: @text;
+}
+
+element selected.normal,
+element selected.active,
+element selected.urgent {
+  border-color: @rose;
+  background-color: @selected;
+  text-color: @bright;
+}
+
+element normal.urgent,
+element alternate.urgent {
+  background-color: @transparent;
+  text-color: @urgent;
+}
+
+element normal.active,
+element alternate.active {
+  background-color: @transparent;
+  text-color: #8faf77;
+}
+
+element-text {
+  background-color: inherit;
+  text-color: inherit;
+}

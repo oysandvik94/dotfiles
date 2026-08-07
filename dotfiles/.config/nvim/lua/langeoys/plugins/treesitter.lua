@@ -1,51 +1,43 @@
 ---@diagnostic disable: missing-fields
+local parsers = {
+  "regex",
+  "markdown_inline",
+  "vimdoc",
+  "java",
+  "javascript",
+  "typescript",
+  "c_sharp",
+  "c",
+  "lua",
+  "vim",
+  "sql",
+  "markdown",
+  "query",
+  "html",
+  "kotlin",
+  "gitcommit",
+}
+
 return {
   -- Highlight, edit, and navigate code
-  enabled = true,
   "nvim-treesitter/nvim-treesitter",
-  build = ":TSUpdate",
-  branch = "master",
+  branch = "main",
+  lazy = false,
+  build = function()
+    local treesitter = require("nvim-treesitter")
+
+    treesitter.install(parsers, { max_jobs = 4, summary = true }):wait(300000)
+    treesitter.update(parsers, { max_jobs = 4, summary = true }):wait(300000)
+  end,
   config = function()
-    require("nvim-treesitter.configs").setup({
-      -- A list of parser names, or "all" (the five listed parsers should always be installed)
-      ensure_installed = {
-        "regex",
-        "markdown_inline",
-        "vimdoc",
-        "java",
-        "javascript",
-        "typescript",
-        "c_sharp",
-        "c",
-        "lua",
-        "vim",
-        "vimdoc",
-        "sql",
-        "markdown",
-        "query",
-        "html",
-        "kotlin",
-      },
+    require("nvim-treesitter").setup()
 
-      -- Install parsers synchronously (only applied to `ensure_installed`)
-      sync_install = false,
-
-      -- Automatically install missing parsers when entering buffer
-      -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-      auto_install = true,
-
-      indent = {
-        enable = false,
-      },
-
-      highlight = {
-        enable = true,
-        -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-        -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-        -- Using this option may slow down your editor, and you may see some duplicate highlights.
-        -- Instead of true it can also be a list of languages
-        additional_vim_regex_highlighting = false,
-      },
+    vim.api.nvim_create_autocmd("FileType", {
+      group = vim.api.nvim_create_augroup("langeoys-treesitter-highlight", { clear = true }),
+      pattern = "*",
+      callback = function(args)
+        pcall(vim.treesitter.start, args.buf)
+      end,
     })
   end,
 }

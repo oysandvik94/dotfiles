@@ -357,3 +357,33 @@ window#waybar > box {
   border: none;
   box-shadow: none;
 }
+
+/* Three-island hierarchy: workspaces, AI/time, system status. */
+.modules-center {
+  margin: 2px 6px;
+  padding: 0 12px;
+  border: 1px solid rgba(190, 140, 140, 0.45);
+  border-radius: 20px;
+  background-color: rgba(24, 28, 42, 0.42);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 0 15px rgba(180, 180, 206, 0.12);
+}
+
+.modules-center > widget > * {
+  margin: 0 6px;
+  padding-left: 0;
+  padding-right: 0;
+  border: none;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+#workspaces button.active {
+  color: #f4f1ff;
+  background-color: rgba(120, 148, 171, 0.24);
+  box-shadow: inset 0 -2px #d2788c, 0 0 12px rgba(120, 148, 171, 0.18);
+}
+
+.modules-right #cpu,
+.modules-right #memory {
+  opacity: 0.58;
+}

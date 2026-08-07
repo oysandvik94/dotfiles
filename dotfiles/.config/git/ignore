@@ -6,4 +6,4 @@ kls_database.db
 .project
 .classpath
 .settings
-
+.pi-subagents/

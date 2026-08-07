@@ -1,0 +1,77 @@
+[global]
+    follow = mouse
+    width = (440, 560)
+    height = (0, 160)
+    origin = top-right
+    offset = (14, 18)
+    notification_limit = 5
+
+    progress_bar = true
+    progress_bar_height = 8
+    progress_bar_frame_width = 0
+    progress_bar_min_width = 200
+    progress_bar_max_width = 524
+    progress_bar_corner_radius = 4
+
+    indicate_hidden = yes
+    gap_size = 8
+    padding = 12
+    horizontal_padding = 18
+    frame_width = 1
+    frame_color = "#be8c8c99"
+    separator_color = frame
+
+    font = JetBrains Mono Nerd Font 13
+    line_height = 4
+    markup = full
+    format = "<b>%s</b>\n<span foreground='#b4b4ce'>%b</span>"
+    alignment = left
+    vertical_alignment = center
+    ellipsize = end
+    word_wrap = yes
+    show_indicators = no
+
+    icon_position = off
+
+    history_length = 50
+    corner_radius = 6
+    corners = all
+    layer = overlay
+
+    mouse_left_click = close_current
+    mouse_middle_click = do_action, close_current
+    mouse_right_click = close_all
+
+[experimental]
+    pause_on_mouse_over = true
+
+[urgency_low]
+    background = "#181c2ae6"
+    foreground = "#cdcdcd"
+    frame_color = "#7894ab80"
+    highlight = "#7894ab"
+    timeout = 5
+
+[urgency_normal]
+    background = "#181c2ae6"
+    foreground = "#cdcdcd"
+    frame_color = "#7894abb3"
+    highlight = "#be8c8c"
+    timeout = 8
+
+[urgency_critical]
+    background = "#2a1820f2"
+    foreground = "#f4f1ff"
+    frame_color = "#d2788cff"
+    highlight = "#d2788c"
+    timeout = 0
+
+[pi_done]
+    summary = "Pi finished working"
+    format = "<span foreground='#a9c993' background='#253127'><b> DONE </b></span>  <b>%s</b>\n<span foreground='#b4b4ce'>%b</span>"
+    frame_color = "#8faf77b3"
+
+[pi_waiting]
+    summary = "Pi question waiting"
+    format = "<span foreground='#dbbc7f' background='#302a20'><b> WAIT </b></span>  <b>%s</b>\n<span foreground='#b4b4ce'>%b</span>"
+    frame_color = "#dbbc7fb3"
