@@ -1,76 +1,94 @@
 configuration {
-	show-icons: false;
+  show-icons: false;
+  font: "JetBrainsMono Nerd Font 15";
 }
-
-@import "~/.config/rofi/themes/colors.rasi"
 
 * {
-	t: transparent;
-	  bg: @background;
-  bgt: #28282895;
-  t: transparent;
-  fg: @foreground;
-
-  selected-bg: @fg;
-  selected-fg: @bg;
-
-  // for windows
-  active: #a9b665;
-  urgent: #ea6962;
-
+  panel: #111622f2;
+  panel-alt: #1c2232e8;
+  selected: #293445;
+  muted: #687288;
+  text: #cdcdcd;
+  bright: #f3f0ff;
+  rose: #d2788c;
+  cyan: #7894ab;
+  amber: #e6be8c;
+  transparent: #00000000;
 }
+
 window {
   fullscreen: true;
-  padding: 44% 38%;
   transparency: "real";
-  background-color: @bgt;
-  border-color: @t;
+  background-color: #090b12b8;
+  padding: 35% 30%;
 }
 
 mainbox {
-	children: [listview];
-	padding: 8;
-	background-color: @background;
+  children: [ message, listview ];
+  spacing: 14px;
+  padding: 18px;
+  border: 1px;
+  border-color: #be8c8cc7;
+  border-radius: 12px;
+  background-color: @panel;
+}
+
+message {
+  padding: 0 4px 12px;
+  border: 0 0 1px;
+  border-color: #7894ab4d;
+  background-color: @transparent;
+}
+
+textbox {
+  font: "JetBrainsMono Nerd Font 13";
+  text-color: @rose;
+  background-color: @transparent;
+  horizontal-align: 0.0;
 }
 
 listview {
-	enabled: true;
-	columns: 1;
-	lines: 4;
-	cycle: true;
-	dynamic: true;
-	scrollbar: false;
-	layout: horizontal;
-	reverse: false;
-	fixed-height: true;
-	fixed-columns: true;
-    
-	spacing: 15;
-	margin: 0;
-	padding: 0;
-	border: 0;
-	border-radius: 0;
-	background-color:  @background;
+  enabled: true;
+  columns: 1;
+  lines: 4;
+  cycle: true;
+  dynamic: false;
+  scrollbar: false;
+  layout: horizontal;
+  fixed-height: true;
+  fixed-columns: true;
+  spacing: 8px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background-color: @transparent;
 }
 
-
 element {
-	background-color: @background-alt;
-	text-color: @foreground;
-	padding: 25 8;
-	border-radius: 0;
+  width: 164px;
+  padding: 18px 12px;
+  border: 0 0 2px;
+  border-color: @transparent;
+  border-radius: 8px;
+  background-color: @panel-alt;
+  text-color: @muted;
+}
+
+element normal.normal {
+  background-color: @panel-alt;
+  text-color: @muted;
+}
+
+element selected.normal {
+  border-color: @rose;
+  background-color: @selected;
+  text-color: @bright;
 }
 
 element-text {
-	font: "feather 34";
-	background-color: inherit;
-	text-color: inherit;
-	expand: true;
-	horizontal-align: 0.5;
-	vertical-align: 0.6;
-}
-
-element.selected.normal {
-	background-color: @accent;
-	text-color: @background;
+  font: "JetBrainsMono Nerd Font 14";
+  background-color: inherit;
+  text-color: inherit;
+  horizontal-align: 0.5;
+  vertical-align: 0.5;
 }

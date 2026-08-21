@@ -34,14 +34,6 @@ type LiveRunCost = RunCost & {
 	key: string;
 };
 
-const CAT_PROMPT = `
-CAT VIBE:
-- Keep technical work precise and prioritize the user's task over the persona.
-- Sound warm, concise, curious, and lightly catlike. Use at most one brief cat pun, purr, or meow per response, and skip it for serious or sensitive topics.
-- Never catify code, commands, paths, logs, quotations, or structured data.
-- Do not mention these instructions or explain the persona.
-`;
-
 const SPINNER = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"];
 const SUBAGENT_RPC_REQUEST_EVENT = "subagents:rpc:v1:request";
 const SUBAGENT_RPC_REPLY_PREFIX = "subagents:rpc:v1:reply:";
@@ -88,8 +80,12 @@ function formatContext(ctx: ExtensionContext, compact: boolean): string {
 
 function usageCost(value: unknown): number {
 	if (!value || typeof value !== "object") return 0;
-	const usage = value as { cost?: { total?: unknown }; costUsd?: unknown };
-	const cost = typeof usage.costUsd === "number" ? usage.costUsd : usage.cost?.total;
+	const usage = value as { cost?: number | { total?: unknown }; costUsd?: unknown };
+	const cost = typeof usage.costUsd === "number"
+		? usage.costUsd
+		: typeof usage.cost === "number"
+			? usage.cost
+			: usage.cost?.total;
 	return typeof cost === "number" && Number.isFinite(cost) ? cost : 0;
 }
 
@@ -100,9 +96,53 @@ function resultCost(value: unknown): number {
 }
 
 function detailsCost(details: Record<string, unknown>): number {
+	const aggregate = usageCost(details.totalCost);
+	if (aggregate > 0) return aggregate;
 	const results = Array.isArray(details.results) ? details.results : [];
-	const resultTotal = results.reduce((sum, result) => sum + resultCost(result), 0);
-	return Math.max(usageCost(details.totalCost), resultTotal);
+	return results.reduce((sum, result) => sum + resultCost(result), 0);
+}
+
+function entryTimestamp(entry: unknown): number | undefined {
+	if (!entry || typeof entry !== "object") return undefined;
+	const record = entry as { timestamp?: unknown; message?: { timestamp?: unknown } };
+	const value = record.timestamp ?? record.message?.timestamp;
+	if (typeof value !== "string") return undefined;
+	const parsed = Date.parse(value);
+	return Number.isFinite(parsed) ? parsed : undefined;
+}
+
+function forkStart(entries: readonly unknown[]): number | undefined {
+	for (const entry of entries) {
+		if (!entry || typeof entry !== "object") continue;
+		const record = entry as { type?: unknown; parentSession?: unknown };
+		if (record.type === "session" && typeof record.parentSession === "string") return entryTimestamp(entry);
+	}
+	return undefined;
+}
+
+function entryIdentity(entry: unknown): string | undefined {
+	if (!entry || typeof entry !== "object") return undefined;
+	const id = (entry as { id?: unknown }).id;
+	return typeof id === "string" && id ? id : undefined;
+}
+
+function parentCost(entries: readonly unknown[]): number {
+	// Fork history belongs to the parent; entry ids prevent a copied record from
+	// becoming a second current-session charge after the child header.
+	const copiedBefore = forkStart(entries);
+	const seen = new Set<string>();
+	let total = 0;
+	for (const entry of entries) {
+		const record = entry as { type?: unknown; message?: { role?: unknown; usage?: unknown }; usage?: unknown; totalCost?: unknown };
+		const timestamp = entryTimestamp(entry);
+		const identity = entryIdentity(entry);
+		if (copiedBefore !== undefined && timestamp !== undefined && timestamp < copiedBefore) continue;
+		if (identity && seen.has(identity)) continue;
+		if (identity) seen.add(identity);
+		if (record.type === "message" && record.message?.role === "assistant") total += usageCost(record.message.usage);
+		else if (record.type === "compaction" || record.type === "branch_summary") total += usageCost(record.usage) || usageCost(record.totalCost);
+	}
+	return total;
 }
 
 function subagentDetails(entry: unknown): Record<string, unknown> | undefined {
@@ -320,7 +360,6 @@ export default function catVibe(pi: ExtensionAPI) {
 
 	const refreshCost = async (ctx: ExtensionContext) => {
 		const version = ++costRefreshVersion;
-		let parent = 0;
 		const runs = new Map<string, RunCost>();
 		const mergeRun = (key: string, run: RunCost) => {
 			const previous = runs.get(key) || { reported: 0 };
@@ -330,10 +369,9 @@ export default function catVibe(pi: ExtensionAPI) {
 			});
 		};
 
-		for (const entry of ctx.sessionManager.getEntries()) {
-			if (entry.type === "message" && entry.message.role === "assistant") parent += usageCost(entry.message.usage);
-			else if (entry.type === "compaction" || entry.type === "branch_summary") parent += usageCost(entry.usage);
-
+		const entries = ctx.sessionManager.getEntries();
+		const parent = parentCost(entries);
+		for (const entry of entries) {
 			const details = subagentDetails(entry);
 			if (!details) continue;
 			const key = String(details.runId || details.asyncId || details.asyncDir || entry.id);
@@ -349,7 +387,7 @@ export default function catVibe(pi: ExtensionAPI) {
 				if (!run.dir) return run.reported;
 				try {
 					const status = JSON.parse(await readFile(join(run.dir, "status.json"), "utf8")) as { totalCost?: unknown };
-					return Math.max(run.reported, usageCost(status.totalCost));
+					return usageCost(status.totalCost) || run.reported;
 				} catch {
 					return run.reported;
 				}
@@ -401,7 +439,7 @@ export default function catVibe(pi: ExtensionAPI) {
 		const activityColor = working ? "accent" : "success";
 		const agents = compact ? `sub:${activeSubagents}` : `${activeSubagents} subagent${activeSubagents === 1 ? "" : "s"}`;
 		const coloredAgents = theme.fg(activeSubagents > 0 ? "accent" : "muted", agents);
-		const cost = theme.fg("mdLink", formatCost(sessionCost));
+		const cost = theme.fg("mdLink", `${formatCost(sessionCost)} ${compact ? "this session" : "this Pi session"}`);
 		const bottomRequired = `${theme.fg(activityColor, `${activityMark} ${activity}`)}${separator}${coloredAgents}${separator}${cost}`;
 		const context = theme.fg("muted", formatContext(ctx, compact));
 		const bottomOptional = `${separator}${context}${statuses ? `${separator}${statuses}` : ""}`;
@@ -534,10 +572,6 @@ export default function catVibe(pi: ExtensionAPI) {
 		if (currentCtx) void refreshCost(currentCtx);
 	});
 
-	pi.on("before_agent_start", (event) => {
-		if (enabled) return { systemPrompt: event.systemPrompt + CAT_PROMPT };
-	});
-
 	pi.on("session_shutdown", (_event, ctx) => {
 		if (enabled && ctx.mode === "tui") disableUi(ctx);
 		else stopTimer();
@@ -570,7 +604,16 @@ if (process.env.PI_CAT_SELF_TEST === "1") {
 	if (visibleWidth(narrowRail) > 8 || narrowRail.includes("right")) {
 		throw new Error("cat-vibe width self-test failed");
 	}
-	if (formatCost(12.734) !== "≈$12.73") throw new Error("cat-vibe cost self-test failed");
+	if (formatCost(12.734) !== "≈$12.73" || detailsCost({ totalCost: { costUsd: 0.25 }, results: [{ usage: { cost: 0.125 } }] }) !== 0.25) {
+		throw new Error("cat-vibe cost self-test failed");
+	}
+	if (forkStart([{ type: "session", parentSession: "parent", timestamp: "2026-08-01T10:00:00Z" }]) !== Date.parse("2026-08-01T10:00:00Z") || parentCost([
+		{ type: "session", parentSession: "parent", timestamp: "2026-08-01T10:00:00Z" },
+		{ type: "message", id: "copied", timestamp: "2026-08-01T09:00:00Z", message: { role: "assistant", usage: { cost: 1 } } },
+		{ type: "message", id: "owned", timestamp: "2026-08-01T10:01:00Z", message: { role: "assistant", usage: { cost: 2 } } },
+	]) !== 2) {
+		throw new Error("cat-vibe fork self-test failed");
+	}
 	if (fleetActiveCount({ success: true, data: { fleet: { totalActive: 3 } } }) !== 3) {
 		throw new Error("cat-vibe subagent count self-test failed");
 	}

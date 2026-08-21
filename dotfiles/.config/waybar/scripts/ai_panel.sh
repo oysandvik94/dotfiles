@@ -2,192 +2,205 @@
 
 set -euo pipefail
 
-# Waybar often launches with a minimal PATH (no interactive shell init).
-# Make sure common user install locations are available.
 export PATH="$HOME/.local/bin:$HOME/.cargo/bin:/usr/local/bin:/usr/bin:/bin:${PATH:-}"
 
 timezone="${TZ:-Europe/Oslo}"
 cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/waybar"
-cache_file="$cache_dir/ai-panel.json"
-# Waybar calls this every 60s; cache shorter than that so the UI updates per tick.
+cost_cache="$cache_dir/ai-costs.json"
 cache_ttl=55
 err_log="$cache_dir/ai-panel.err"
+oak_state_dir="${OAK_TREE_STATE_DIR:-${XDG_STATE_HOME:-$HOME/.local/state}/oak-tree}"
 
 mkdir -p "$cache_dir"
 
-now_epoch() {
-  date +%s
-}
-
 cache_fresh() {
-  [[ -f "$cache_file" ]] || return 1
-  local modified_at age
-  modified_at=$(stat -c %Y "$cache_file" 2>/dev/null || stat -f %m "$cache_file")
-  age=$(( $(now_epoch) - modified_at ))
-  (( age < cache_ttl ))
+  [[ -f "$cost_cache" ]] || return 1
+  (( $(date +%s) - $(stat -c %Y "$cost_cache") < cache_ttl ))
 }
 
 ccusage_cmd() {
-  bunx ccusage "$@"
+  npx ccusage@latest "$@"
 }
 
-# Pi forked sessions contain copied parent messages with their original usage.
-# Count only assistant usage created after each session file's own start time.
-deduped_pi_costs() {
-  local sessions_dir="${PI_CODING_AGENT_DIR:-$HOME/.pi/agent}/sessions"
-  python3 - "$sessions_dir" "$timezone" <<'PY'
+oak_tree_state() {
+  python3 - "$oak_state_dir" <<'PY'
 import json
-import os
+import re
+import subprocess
 import sys
-from datetime import datetime, timedelta
-from zoneinfo import ZoneInfo
+from pathlib import Path
 
-sessions_dir, timezone = sys.argv[1:]
-tz = ZoneInfo(timezone)
-now = datetime.now(tz)
-today_start = now.replace(hour=0, minute=0, second=0, microsecond=0)
-tomorrow = today_start + timedelta(days=1)
-month_start = today_start.replace(day=1)
-month_start_epoch = month_start.timestamp()
-today_cost = 0.0
-month_cost = 0.0
+state_dir = Path(sys.argv[1])
+sessions_dir = state_dir / "sessions"
+try:
+    result = subprocess.run(
+        ["tmux", "list-sessions", "-F", "#{session_name}"],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    active_tmux = set(result.stdout.splitlines()) if result.returncode == 0 else None
+except OSError:
+    active_tmux = None
 
-
-def timestamp(value):
-    if isinstance(value, (int, float)):
-        return value / 1000 if value > 1_000_000_000_000 else value
-    if not isinstance(value, str):
-        return None
+counts = {"live": 0, "wait": 0, "ready": 0, "review": 0, "testing": 0}
+sessions = []
+for path in sessions_dir.glob("*.json") if sessions_dir.is_dir() else []:
     try:
-        parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
-        if parsed.tzinfo is None:
-            parsed = parsed.replace(tzinfo=tz)
-        return parsed.timestamp()
-    except ValueError:
-        return None
+        session = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        continue
 
+    tmux_name = session.get("tmux_session_name", "")
+    if active_tmux is not None and tmux_name and tmux_name not in active_tmux:
+        continue
 
-for root, _, files in os.walk(sessions_dir):
-    for name in files:
-        if not name.endswith(".jsonl"):
-            continue
-        path = os.path.join(root, name)
-        try:
-            if os.stat(path).st_mtime < month_start_epoch:
-                continue
-            session_start = None
-            with open(path, encoding="utf-8") as stream:
-                for line in stream:
-                    try:
-                        entry = json.loads(line)
-                    except (json.JSONDecodeError, UnicodeDecodeError):
-                        continue
-                    if entry.get("type") == "session" and session_start is None:
-                        session_start = timestamp(entry.get("timestamp"))
-                        continue
-                    message = entry.get("message", {})
-                    if entry.get("type") != "message" or message.get("role") != "assistant":
-                        continue
-                    event_time = timestamp(entry.get("timestamp") or message.get("timestamp"))
-                    if session_start is None or event_time is None or event_time < session_start:
-                        continue
-                    cost = message.get("usage", {}).get("cost", {}).get("total", 0)
-                    if not isinstance(cost, (int, float)):
-                        continue
-                    if month_start.timestamp() <= event_time < tomorrow.timestamp():
-                        month_cost += cost
-                    if today_start.timestamp() <= event_time < tomorrow.timestamp():
-                        today_cost += cost
-        except OSError:
-            continue
+    tag = session.get("tag", "")
+    status = session.get("agent_status", "")
+    if tag == "waiting_review":
+        state = "review"
+    elif tag == "testing":
+        state = "testing"
+    elif status == "question":
+        state = "wait"
+    elif status == "working":
+        state = "live"
+    else:
+        state = "ready"
+    counts[state] += 1
 
-print(json.dumps({"today": today_cost, "month": month_cost}))
+    repo = session.get("repo_key") or Path(session.get("root", "session")).name
+    repo = re.sub(r"-[0-9a-f]{8}$", "", repo)
+    todo = session.get("todo") or {}
+    sessions.append({
+        "state": state,
+        "repo": repo,
+        "branch": session.get("branch", ""),
+        "todo_completed": todo.get("completed"),
+        "todo_total": todo.get("total"),
+    })
+
+priority = {"wait": 0, "live": 1, "ready": 2, "review": 3, "testing": 4}
+sessions.sort(key=lambda item: (priority[item["state"]], item["repo"], item["branch"]))
+print(json.dumps({**counts, "total": len(sessions), "sessions": sessions}))
 PY
 }
 
-active_agents_count() {
-  if ! command -v workmux >/dev/null 2>&1; then
-    echo 0
-    return
-  fi
-
-  if ! command -v jq >/dev/null 2>&1; then
-    echo 0
-    return
-  fi
-
-  workmux status --json 2>/dev/null | jq '
-    if type == "array" then
-      length
-    elif (type == "object") and (has("sessions")) and (.sessions | type == "array") then
-      (.sessions | length)
-    else
-      0
-    end
-  '
-}
-
-render_error() {
-  local agents details
-  agents=$(active_agents_count)
-  details="AI usage unavailable."
-
-  if [[ -s "$err_log" ]]; then
-    details=$(tail -n 1 "$err_log")
-  fi
-
-  jq -cn \
-    --arg text "<span foreground='#D699B6'>󰚩 ${agents}</span> <span foreground='#d2788c'>ccusage n/a</span>" \
-    --arg tooltip "AI panel\nActive agents: ${agents}\n${details}" \
-    '{text: $text, tooltip: $tooltip, class: ["ai-panel", "warning"], alt: "ai-panel"}'
-}
-
-build_payload() {
-  local today month_start month_period usage_json pi_json non_pi_today non_pi_month pi_today pi_month today_cost month_cost agents text tooltip
+build_costs() {
+  local today month_start month_period usage_json
+  local non_pi_today non_pi_month pi_today pi_month
 
   today=$(date +%F)
   month_start=$(date +%Y-%m-01)
   month_period=$(date +%Y-%m)
-
-  # Keep ccusage for non-Pi agents, but replace its duplicated Pi totals.
-  usage_json=$(ccusage_cmd --json --by-agent --sections daily,monthly --since "$month_start" --until "$today" --timezone "$timezone")
-  pi_json=$(deduped_pi_costs)
-
+  if ! usage_json=$(ccusage_cmd --json --by-agent --sections daily,monthly --since "$month_start" --until "$today" --timezone "$timezone"); then
+    return 1
+  fi
   non_pi_today=$(jq -r --arg period "$today" \
     '[.daily[] | select(.period == $period) | .agents[]? | select(.agent != "pi") | .totalCost] | add // 0' <<<"$usage_json")
   non_pi_month=$(jq -r --arg period "$month_period" \
     '[.monthly[] | select(.period == $period) | .agents[]? | select(.agent != "pi") | .totalCost] | add // 0' <<<"$usage_json")
-  pi_today=$(jq -r '.today' <<<"$pi_json")
-  pi_month=$(jq -r '.month' <<<"$pi_json")
-  today_cost=$(jq -nr --argjson pi "$pi_today" --argjson other "$non_pi_today" '$pi + $other')
-  month_cost=$(jq -nr --argjson pi "$pi_month" --argjson other "$non_pi_month" '$pi + $other')
-  agents=$(active_agents_count)
+  pi_today=$(jq -r --arg period "$today" \
+    '[.daily[] | select(.period == $period) | .agents[]? | select(.agent == "pi") | .totalCost] | add // 0' <<<"$usage_json")
+  pi_month=$(jq -r --arg period "$month_period" \
+    '[.monthly[] | select(.period == $period) | .agents[]? | select(.agent == "pi") | .totalCost] | add // 0' <<<"$usage_json")
 
-  printf -v text "<span foreground='#D699B6'>󰚩 %s</span> <span foreground='#DBBC7F'>󰾆 $%.2f</span> <span foreground='#88C096'>󰃭 $%.2f</span>" "$agents" "$today_cost" "$month_cost"
-  printf -v tooltip 'AI panel\nActive agents: %s\nToday: $%.2f\nMonth: $%.2f\nPi fork duplicates removed\nTimezone: %s' "$agents" "$today_cost" "$month_cost" "$timezone"
-
-  jq -cn --arg text "$text" --arg tooltip "$tooltip" \
-    '{text: $text, tooltip: $tooltip, class: ["ai-panel"], alt: "ai-panel"}'
+  jq -cn \
+    --argjson pi_today "$pi_today" --argjson pi_month "$pi_month" \
+    --argjson non_pi_today "$non_pi_today" --argjson non_pi_month "$non_pi_month" \
+    --arg timezone "$timezone" \
+    '{available: true, pi_today: $pi_today, pi_month: $pi_month, non_pi_today: $non_pi_today, non_pi_month: $non_pi_month, all_today: ($pi_today + $non_pi_today), all_month: ($pi_month + $non_pi_month), today: $pi_today, month: $pi_month, timezone: $timezone}'
 }
 
-if cache_fresh; then
-  cat "$cache_file"
-  exit 0
-fi
+load_costs() {
+  local costs tmp
+  if cache_fresh && jq -e '.available == true' "$cost_cache" >/dev/null 2>&1; then
+    cat "$cost_cache"
+    return
+  fi
 
-if [[ -f "$err_log" ]]; then
-  : >"$err_log"
-fi
+  if costs=$(build_costs 2>>"$err_log"); then
+    tmp="$cost_cache.tmp"
+    printf '%s\n' "$costs" >"$tmp"
+    mv "$tmp" "$cost_cache"
+    printf '%s\n' "$costs"
+  elif [[ -s "$cost_cache" ]]; then
+    cat "$cost_cache"
+  else
+    jq -cn --arg error "$(tail -n 1 "$err_log" 2>/dev/null || true)" \
+      '{available: false, today: 0, month: 0, error: $error}'
+  fi
+}
 
-if payload=$(build_payload 2>>"$err_log"); then
-  printf '%s\n' "$payload" >"$cache_file"
-  printf '%s\n' "$payload"
-  exit 0
-fi
+render_payload() {
+  python3 - "$1" "$2" <<'PY'
+import html
+import json
+import sys
 
-if [[ -f "$cache_file" ]]; then
-  cat "$cache_file"
-  exit 0
-fi
+oak = json.loads(sys.argv[1])
+cost = json.loads(sys.argv[2])
+parts = ["<span foreground='#be8c8c'><b>AI //</b></span>"]
+classes = ["ai-panel"]
 
-render_error
+parts.append(f"<span foreground='#8faf77'><b>{oak['live']} WORKING</b></span>")
+parts.append(f"<span foreground='#7894ab'>{oak['ready']} IDLE</span>")
+classes.append("working" if oak["live"] else "idle")
+if oak["wait"]:
+    parts.append(f"<span foreground='#e6be8c'><b>{oak['wait']} WAIT</b></span>")
+    classes.append("attention")
+if oak["ready"]:
+    parts.append(f"<span foreground='#7894ab'>{oak['ready']} READY</span>")
+if oak["review"]:
+    parts.append(f"<span foreground='#be8c8c'>{oak['review']} REVIEW</span>")
+if oak["testing"]:
+    parts.append(f"<span foreground='#b4b4ce'>{oak['testing']} TEST</span>")
+if cost.get("available"):
+    parts.append(
+        f"<span foreground='#DBBC7F'>${cost['today']:.2f}</span>"
+        f" <span foreground='#747d91'>/</span> "
+        f"<span foreground='#8faf77'>${cost['month']:.2f}</span>"
+    )
+else:
+    parts.append("<span foreground='#d2788c'>COST N/A</span>")
+
+labels = {
+    "wait": "WAIT",
+    "live": "WORK",
+    "ready": "IDLE",
+    "review": "REVIEW",
+    "testing": "TEST",
+}
+tooltip = [f"Oak Tree · {oak['total']} sessions", ""]
+for session in oak["sessions"]:
+    detail = f"{labels[session['state']]:<6}  {session['repo']}"
+    if session["branch"]:
+        detail += f" · {session['branch']}"
+    if session["todo_total"]:
+        detail += f" · todo {session['todo_completed']}/{session['todo_total']}"
+    tooltip.append(detail)
+if not oak["sessions"]:
+    tooltip.append("No live Oak Tree sessions")
+if cost.get("available"):
+    tooltip.extend([
+        "",
+        f"Pi usage cost · {cost.get('timezone', 'local')}",
+        f"Today Pi ${cost.get('pi_today', 0):.2f} · all agents ${cost.get('all_today', cost.get('today', 0) + cost.get('non_pi_today', 0)):.2f}",
+        f"Month Pi ${cost.get('pi_month', 0):.2f} · all agents ${cost.get('all_month', cost.get('month', 0) + cost.get('non_pi_month', 0)):.2f}",
+    ])
+else:
+    tooltip.extend(["", f"Cost unavailable: {cost.get('error') or 'usage parsing failed'}"])
+
+print(json.dumps({
+    "text": "  ·  ".join(parts),
+    "tooltip": html.escape("\n".join(tooltip)),
+    "class": classes,
+    "alt": "attention" if oak["wait"] else "ai",
+}, ensure_ascii=False))
+PY
+}
+
+: >"$err_log"
+oak_json=$(oak_tree_state 2>>"$err_log" || printf '%s' '{"live":0,"wait":0,"ready":0,"review":0,"testing":0,"total":0,"sessions":[]}')
+cost_json=$(load_costs)
+render_payload "$oak_json" "$cost_json"

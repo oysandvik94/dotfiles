@@ -1,11 +1,17 @@
-#! /bin/sh
+#!/bin/sh
 
-rofi_cmd() {
-    rofi -dmenu \
-        -theme ~/.config/rofi/configs/power.rasi
-}
+lock_label="  LOCK"
+suspend_label="󰤄  SUSPEND"
+reboot_label="  RESTART"
+poweroff_label="  SHUTDOWN"
 
-chosen=$(printf "  \n  \n  \n 󰤄 " | rofi_cmd)
+chosen=$(
+    printf '%s\n' "$lock_label" "$suspend_label" "$reboot_label" "$poweroff_label" |
+        rofi -dmenu \
+            -theme "$HOME/.config/rofi/configs/power.rasi" \
+            -mesg "SYSTEM // SESSION CONTROL" \
+            -selected-row 0
+) || exit 0
 
 suspend_lock() {
     swayidle -w \
@@ -13,19 +19,18 @@ suspend_lock() {
         resume 'killall -9 swayidle' \
         before-sleep 'swaylock -f -c 000000 -i ~/wallpapers/ting.png'
 }
+
 lock() {
     if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
-        swaylock --image ~/wallpapers/ting.png
+        swaylock --image "$HOME/wallpapers/ting.png"
     else
-        i3lock --image ~/wallpapers/ting.png
+        i3lock --image "$HOME/wallpapers/ting.png"
     fi
 }
+
 case "$chosen" in
-"  ") poweroff ;;
-"  ") reboot ;;
-"  ") lock ;;
-" 󰤄 ")
-    suspend_lock
-    ;;
-*) exit 1 ;;
+    "$lock_label") lock ;;
+    "$suspend_label") suspend_lock ;;
+    "$reboot_label") reboot ;;
+    "$poweroff_label") poweroff ;;
 esac
