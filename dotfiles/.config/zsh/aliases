@@ -42,6 +42,10 @@ alias wiki="zk edit --notebook-dir=\"$HOME/wiki"\ --interactive\"
 
 alias szsh="source $HOME/.config/zsh/.zshrc"
 
+urldecode() {
+    python3 -c 'import sys, urllib.parse; print(urllib.parse.unquote(sys.argv[1]))' "$1" | wl-copy
+}
+
 alias aliases="alias | cut -d '=' -f 1 | fzf | xargs -I {} sh -c 'eval "{}"' "
 
 function falias() {

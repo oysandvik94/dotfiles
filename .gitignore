@@ -13,4 +13,4 @@ dotfiles/.config/github-copilot/
 dotfiles/.config/hypr/hypr_local.lua
 __pycache__/
 *.pyc
-.github/hooks/workmux-status/hooks.json
+hyprmon.lua

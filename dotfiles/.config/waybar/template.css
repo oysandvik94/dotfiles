@@ -102,8 +102,8 @@ window#waybar {
 
 /* AI command center */
 #custom-ai {
-  min-width: 720px;
-  padding: 0 24px;
+  min-width: 420px;
+  padding: 0 12px;
   color: @fg;
   font-weight: 700;
   letter-spacing: 0.5px;

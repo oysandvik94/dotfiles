@@ -143,18 +143,11 @@ cost = json.loads(sys.argv[2])
 parts = ["<span foreground='#be8c8c'><b>AI //</b></span>"]
 classes = ["ai-panel"]
 
-parts.append(f"<span foreground='#8faf77'><b>{oak['live']} WORKING</b></span>")
-parts.append(f"<span foreground='#7894ab'>{oak['ready']} IDLE</span>")
+parts.append(f"<span foreground='#8faf77'><b>{oak['live']} ACTIVE</b></span>")
 classes.append("working" if oak["live"] else "idle")
 if oak["wait"]:
     parts.append(f"<span foreground='#e6be8c'><b>{oak['wait']} WAIT</b></span>")
     classes.append("attention")
-if oak["ready"]:
-    parts.append(f"<span foreground='#7894ab'>{oak['ready']} READY</span>")
-if oak["review"]:
-    parts.append(f"<span foreground='#be8c8c'>{oak['review']} REVIEW</span>")
-if oak["testing"]:
-    parts.append(f"<span foreground='#b4b4ce'>{oak['testing']} TEST</span>")
 if cost.get("available"):
     parts.append(
         f"<span foreground='#DBBC7F'>${cost['today']:.2f}</span>"
