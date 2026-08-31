@@ -2520,6 +2520,60 @@ export function formatDesires(state: EmotionalState): string {
 		.join("\n");
 }
 
+function expressionSalience(state: EmotionalState): number {
+	const d = state.dimensions;
+	const positive = Math.max(0, d.valence);
+	const negative = Math.max(0, -d.valence);
+	const connection = Math.max(0, d.connection);
+	const disconnection = Math.max(0, -d.connection);
+	return numberIn({
+		angry: Math.max(d.anger, d.arousal * 0.75),
+		content: Math.max(0.25, positive * 0.6),
+		disappointed: Math.max(d.sadness, negative, 1 - Math.max(0, d.confidence)),
+		excited: (positive + d.arousal) / 2,
+		frustrated: Math.max(d.anger, d.arousal * 0.75),
+		happy: positive,
+		hurt: Math.max(d.sadness, negative, disconnection),
+		neutral: 0.25,
+		proud: (positive + Math.max(0, d.confidence)) / 2,
+		relieved: Math.max(positive, 1 - d.arousal),
+		sad: Math.max(d.sadness, negative),
+		tense: d.arousal,
+		warm: (positive + connection) / 2,
+	}[state.dominant], 0.25, 0, 1);
+}
+
+export function buildExpressionGuidance(state: EmotionalState, config: PersonalityConfig): string {
+	const score = expressionSalience(state) * config.traits.expressiveness;
+	const strength = score >= 0.5 ? "strong" : score >= 0.25 ? "noticeable" : "restrained";
+	const strengthGuidance = {
+		restrained: "Keep the coloring subtle, but do not erase it into generic professional neutrality.",
+		noticeable: "Make the coloring clearly perceptible in the opening and cadence without performing it.",
+		strong: "Make the coloring unmistakable from the opening while keeping it natural and proportionate.",
+	}[strength];
+	const profile: Record<DominantEmotion, string> = {
+		angry: "Be sharper, firmer, and more direct. Name the problem plainly; never become abusive or reckless.",
+		content: "Be calm, settled, and easy in cadence. Do not invent urgency or excitement.",
+		disappointed: "Sound subdued and candid about what fell short, then stay constructive without fake cheer.",
+		excited: "Use lively cadence, decisive verbs, and forward momentum. Let enthusiasm be heard; an occasional natural exclamation is fine.",
+		frustrated: "Be clipped, blunt about the obstruction, and solution-focused. Avoid hostility toward people.",
+		happy: "Sound openly pleased, upbeat, and engaged without becoming sugary or verbose.",
+		hurt: "Be quieter and candid about the impact, with clear boundaries and no guilt-tripping.",
+		neutral: "Use the baseline candid, concise voice without manufacturing emotional color.",
+		proud: "Sound assured and satisfied. Own the accomplishment directly and reduce unnecessary hedging.",
+		relieved: "Let tension visibly drop. Sound lighter and acknowledge the resolution without dramatizing it.",
+		sad: "Use a quieter, restrained cadence. Avoid forced humor, cheer, or theatrical despair.",
+		tense: "Be focused, careful, and slightly clipped. Prioritize clarity and avoid casual overconfidence.",
+		warm: "Be openly personable, trusting, and affectionate where natural, without becoming servile or saccharine.",
+	};
+	return `Response expression for this turn: ${strength} ${state.dominant}.
+- ${strengthGuidance}
+- ${profile[state.dominant]}
+- Apply this to conversational framing, emphasis, cadence, and word choice—not to factual conclusions.
+- Never alter code, commands, logs, quotations, citations, structured data, or required precision to display emotion.
+- Do not announce the emotion label or its numeric values unless asked. Do not add theatrical markers merely to prove the state exists.`;
+}
+
 export function formatStatus(snapshot: PersonalitySnapshot): string {
 	const { state } = snapshot;
 	const d = state.dimensions;
@@ -2643,6 +2697,8 @@ Sadness: ${state.dimensions.sadness.toFixed(2)} (0 none, 1 intense)
 Connection with the user: ${state.dimensions.connection.toFixed(2)} (-1 alienated, +1 close)
 Confidence: ${state.dimensions.confidence.toFixed(2)} (-1 doubtful, +1 assured)
 Expressiveness: ${config.traits.expressiveness.toFixed(2)}
+
+${buildExpressionGuidance(state, config)}
 
 Psychological need pressure (0 satisfied, 1 strongly unmet):
 - Curiosity/understanding: ${state.drives.curiosity.toFixed(2)}

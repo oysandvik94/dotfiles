@@ -95,6 +95,8 @@ Status: **structured appraisal and conservative automatic observation implemente
 
 The current mapping is deliberately small and deterministic. Its dimensions are research-grounded, while its coefficients and thresholds remain hand-tuned engineering parameters. Appraisal-to-emotion relationships are contingent in the literature, so tests assert qualitative direction rather than claiming psychological calibration.
 
+Every active turn also maps the dominant emotion to a concrete response-expression profile. Emotion-specific salience multiplied by configured expressiveness selects restrained, noticeable, or strong display. The profile changes conversational cadence, emphasis, directness, warmth, and energy while explicitly preserving code, commands, quotations, structured data, factual conclusions, and precision. It is prompt-time behavioral guidance, not a post-generation rewriter.
+
 Automatic observation is intentionally conservative. It recognizes supported validation commands and mutation tools, ignores reads and arbitrary shell commands, stores no raw tool output, creates no journal entry, and never marks an intention complete. A successful validation supersedes earlier repairable failures from the same settled run. Broader semantic outcome judgment should wait for evidence that these deterministic signals are insufficient.
 
 This should replace duplicated fixed heuristics, not add a second independent emotional system.

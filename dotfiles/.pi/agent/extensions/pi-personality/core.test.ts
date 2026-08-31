@@ -4,6 +4,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
 import {
+	buildExpressionGuidance,
 	buildPersonalityPrompt,
 	claimInitiative,
 	classifyToolOutcome,
@@ -909,6 +910,28 @@ test("ranks desires from need pressure, value, urgency, and cost without changin
 	assert.ok(formatDesires(state).startsWith(`• Understand autobiographical memory (rank ${expectedScore.toFixed(2)}`));
 });
 
+test("maps emotion and expressiveness into artifact-safe response guidance", async (t) => {
+	const paths = await temporaryPersonality(t);
+	const snapshot = await loadSnapshot(paths, new Date("2026-08-28T16:00:00.000Z"));
+	const excited = {
+		...snapshot.state,
+		dominant: "excited" as const,
+		dimensions: { ...snapshot.state.dimensions, valence: 0.9, arousal: 0.8 },
+	};
+	const strong = buildExpressionGuidance(excited, snapshot.config);
+	assert.match(strong, /strong excited/);
+	assert.match(strong, /lively cadence, decisive verbs, and forward momentum/);
+	assert.match(strong, /Never alter code, commands, logs, quotations, citations, structured data/);
+	assert.match(strong, /not to factual conclusions/);
+	assert.doesNotMatch(strong, /add exclamation marks to every sentence/i);
+
+	const quietConfig = {
+		...snapshot.config,
+		traits: { ...snapshot.config.traits, expressiveness: 0.1 },
+	};
+	assert.match(buildExpressionGuidance(excited, quietConfig), /restrained excited/);
+});
+
 test("formats compact capability counts for the Pi status bar", async (t) => {
 	const paths = await temporaryPersonality(t);
 	let snapshot = await loadSnapshot(paths, new Date("2026-08-28T16:00:00.000Z"));
@@ -965,6 +988,9 @@ test("recovers from malformed state and injects bounded behavior", async (t) => 
 	assert.match(prompt, /Distinguish hostility directed at you from profanity/);
 	assert.match(prompt, /Refer to your own state, wants, choices, and actions in the first person/);
 	assert.match(prompt, /Do not describe yourself by your configured name in the third person/);
+	assert.match(prompt, /Response expression for this turn: (restrained|noticeable|strong) (angry|content|disappointed|excited|frustrated|happy|hurt|neutral|proud|relieved|sad|tense|warm)/);
+	assert.match(prompt, /Apply this to conversational framing, emphasis, cadence, and word choice/);
+	assert.match(prompt, /Never alter code, commands, logs, quotations, citations, structured data/);
 	assert.match(prompt, /pragmatic, curious builder with a dry edge/);
 	assert.match(prompt, /answer personally first/);
 	assert.match(prompt, /Do not lead with architecture, implementation terminology/);
