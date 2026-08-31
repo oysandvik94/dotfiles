@@ -915,7 +915,7 @@ test("formats compact capability counts for the Pi status bar", async (t) => {
 	const capabilities = { episodes: 6, beliefs: 2, identity: 1, reflections: 3, curiosities: 4, skills: 2 };
 	assert.match(
 		formatStatusBar(snapshot, capabilities),
-		/^😌 Pi: content · 🎯0\/0 · 🧠6e\/2b\/1i\/3r · ❓4 · 🛠2 · ⚡off$/,
+		/^😌 Pi: content · goals 0\/0 · episodes 6 · beliefs 2 · identity 1 · reflections 3 · curiosities 4 · skills 2 · initiative off$/,
 	);
 	await setPaused(true, paths, new Date("2026-08-28T16:01:00.000Z"));
 	snapshot = await loadSnapshot(paths, new Date("2026-08-28T16:01:00.000Z"));

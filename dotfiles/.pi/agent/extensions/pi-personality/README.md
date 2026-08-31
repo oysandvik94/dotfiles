@@ -76,7 +76,7 @@ The researched architecture and implementation phases are tracked in [ROADMAP.md
 ## Commands
 
 ```text
-/personality status     Current mood, drives, and intention (the status bar also shows 🎯 goals, 🧠 memory/identity, ❓ curiosities, 🛠 skills, and ⚡ initiative)
+/personality status     Current mood, drives, and intention (the status bar also labels goals, episodes, beliefs, identity, reflections, curiosities, skills, and initiative)
 /personality drives     Current psychological need pressure
 /personality desires    Persistent desires and current intention
 /personality episodes   Recent factual autobiographical episodes

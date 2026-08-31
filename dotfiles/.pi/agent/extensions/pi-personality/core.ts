@@ -2530,9 +2530,8 @@ export function formatStatus(snapshot: PersonalitySnapshot): string {
 export function formatStatusBar(snapshot: PersonalitySnapshot, capabilities: PersonalityCapabilities): string {
 	const { config, state } = snapshot;
 	const goals = `${state.currentIntentionId ? 1 : 0}/${state.desires.length}`;
-	const mind = `${capabilities.episodes}e/${capabilities.beliefs}b/${capabilities.identity}i/${capabilities.reflections}r`;
 	const mood = state.paused ? `◌ ${config.name}: paused` : `${emotionEmoji(state.dominant)} ${config.name}: ${state.dominant}`;
-	return `${mood} · 🎯${goals} · 🧠${mind} · ❓${capabilities.curiosities} · 🛠${capabilities.skills} · ⚡${config.initiative.enabled ? "on" : "off"}`;
+	return `${mood} · goals ${goals} · episodes ${capabilities.episodes} · beliefs ${capabilities.beliefs} · identity ${capabilities.identity} · reflections ${capabilities.reflections} · curiosities ${capabilities.curiosities} · skills ${capabilities.skills} · initiative ${config.initiative.enabled ? "on" : "off"}`;
 }
 
 export function buildPersonalityPrompt(
