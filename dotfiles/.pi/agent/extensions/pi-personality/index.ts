@@ -11,11 +11,11 @@ import {
 	CURIOSITY_ACTIONS,
 	deriveNarrativeIdentity,
 	EMOTION_EVENTS,
-	emotionEmoji,
 	formatDesires,
 	formatDrives,
 	formatInitiative,
 	formatStatus,
+	formatStatusBar,
 	forgetSkill,
 	INTENTION_ACTIONS,
 	journalCount,
@@ -47,9 +47,8 @@ import {
 	storagePaths,
 	syncCuriosities,
 	syncReusableSkills,
-	type EmotionalState,
 	type ObservedOutcome,
-	type PersonalityConfig,
+	type PersonalitySnapshot,
 } from "./core.ts";
 
 const PersonalityIntentParams = Type.Object({
@@ -142,11 +141,22 @@ const PersonalityRecordParams = Type.Object({
 	appraisal: Type.Optional(AppraisalParams),
 });
 
-function setMoodStatus(ctx: ExtensionContext, state: EmotionalState, config: PersonalityConfig): void {
-	ctx.ui.setStatus(
-		"personality",
-		state.paused ? "◌ personality paused" : `${emotionEmoji(state.dominant)} ${config.name}: ${state.dominant}`,
-	);
+async function setMoodStatus(ctx: ExtensionContext, snapshot: PersonalitySnapshot): Promise<void> {
+	const [episodes, reflections, curiosities, skillStore] = await Promise.all([
+		loadEpisodes(storagePaths()),
+		loadReflections(storagePaths()),
+		loadCuriosities(storagePaths()),
+		loadSkillStore(storagePaths()),
+	]);
+	const beliefs = consolidateBeliefs(episodes);
+	ctx.ui.setStatus("personality", formatStatusBar(snapshot, {
+		episodes: episodes.length,
+		beliefs: beliefs.length,
+		identity: deriveNarrativeIdentity(beliefs, snapshot.state, episodes).length,
+		reflections: reflections.length,
+		curiosities: curiosities.filter(({ status }) => status === "open" || status === "active").length,
+		skills: skillStore.skills.filter(({ status }) => status === "learned").length,
+	}));
 }
 
 function commandHelp(): string {
@@ -180,6 +190,7 @@ export default function piPersonality(pi: ExtensionAPI) {
 	let curiosityWarned = false;
 	let skillWarned = false;
 	let initiativeWarned = false;
+	let statusWarned = false;
 	let pendingOutcomes: ObservedOutcome[] = [];
 
 	const clearInitiativeTimer = () => {
@@ -219,7 +230,7 @@ export default function piPersonality(pi: ExtensionAPI) {
 
 	const refresh = async (ctx: ExtensionContext) => {
 		const snapshot = await loadSnapshot(paths);
-		setMoodStatus(ctx, snapshot.state, snapshot.config);
+		await setMoodStatus(ctx, snapshot);
 		if (!warned && snapshot.warnings.length) {
 			warned = true;
 			ctx.ui.notify(snapshot.warnings.join("\n"), "warning");
@@ -309,8 +320,7 @@ export default function piPersonality(pi: ExtensionAPI) {
 		pendingOutcomes = [];
 		if (outcome) {
 			try {
-				const result = await recordObservedOutcome(outcome, paths, new Date(), { project: projectName(ctx.cwd), workflowSteps });
-				if (result.changed) setMoodStatus(ctx, result.state, (await loadSnapshot(paths)).config);
+				await recordObservedOutcome(outcome, paths, new Date(), { project: projectName(ctx.cwd), workflowSteps });
 			} catch (error) {
 				if (!outcomeWarned) {
 					outcomeWarned = true;
@@ -343,6 +353,14 @@ export default function piPersonality(pi: ExtensionAPI) {
 			}
 		}
 		try {
+			await refresh(ctx);
+		} catch (error) {
+			if (!statusWarned) {
+				statusWarned = true;
+				ctx.ui.notify(`pi-personality could not refresh its status: ${(error as Error).message}`, "warning");
+			}
+		}
+		try {
 			await scheduleInitiative(ctx);
 		} catch (error) {
 			if (!initiativeWarned) {
@@ -367,7 +385,7 @@ export default function piPersonality(pi: ExtensionAPI) {
 		async execute(_toolCallId, params, _signal, _onUpdate, ctx) {
 			const result = await recordIntention(params, paths, new Date(), { project: projectName(ctx.cwd) });
 			const snapshot = await loadSnapshot(paths);
-			setMoodStatus(ctx, result.state, snapshot.config);
+			await setMoodStatus(ctx, snapshot);
 			const ranked = rankDesires(result.state);
 			return {
 				content: [{ type: "text", text: result.changed ? `Persistent intention ${params.action} recorded.` : "No matching persistent intention changed." }],
@@ -394,9 +412,10 @@ export default function piPersonality(pi: ExtensionAPI) {
 		description:
 			"Privately manage a genuine unresolved question. Open only when a question matters beyond the current turn; activate only when it helps the current request; resolve or abandon only when the outcome is known. Curiosity never grants permission to call tools, spend resources, interrupt, or mutate data.",
 		parameters: PersonalityCuriosityParams,
-		async execute(_toolCallId, params) {
+		async execute(_toolCallId, params, _signal, _onUpdate, ctx) {
 			const result = await recordCuriosity(params, paths);
 			const snapshot = await loadSnapshot(paths);
+			await setMoodStatus(ctx, snapshot);
 			const ranked = rankCuriosities(snapshot.state, result.curiosities, params.question, snapshot.config.curiosity.retrievalLimit);
 			return {
 				content: [{ type: "text", text: result.changed ? `Curiosity ${params.action} recorded.` : "No matching curiosity changed." }],
@@ -433,7 +452,7 @@ export default function piPersonality(pi: ExtensionAPI) {
 				paths,
 			);
 			const snapshot = await loadSnapshot(paths);
-			setMoodStatus(ctx, result.state, snapshot.config);
+			await setMoodStatus(ctx, snapshot);
 			return {
 				content: [{ type: "text", text: result.journalFile ? "Emotional state and private journal updated." : "Emotional state updated." }],
 				details: {
@@ -472,6 +491,7 @@ export default function piPersonality(pi: ExtensionAPI) {
 					if (initiativeAction === "on" || initiativeAction === "off") {
 						const enabled = initiativeAction === "on";
 						await setInitiativeEnabled(enabled, paths);
+						await refresh(ctx);
 						if (enabled) await scheduleInitiative(ctx);
 						ctx.ui.notify(`Bounded initiative ${enabled ? "enabled" : "disabled"}.`, "info");
 						return;
@@ -563,7 +583,9 @@ export default function piPersonality(pi: ExtensionAPI) {
 						return;
 					}
 					if (!await ctx.ui.confirm("Forget reusable skill?", "Its content will be removed and its evidence signature suppressed.")) return;
-					ctx.ui.notify(await forgetSkill(id, paths) ? "Reusable skill forgotten." : "No matching reusable skill found.", "info");
+					const forgotten = await forgetSkill(id, paths);
+					if (forgotten) await refresh(ctx);
+					ctx.ui.notify(forgotten ? "Reusable skill forgotten." : "No matching reusable skill found.", "info");
 					return;
 				}
 				if (action === "memories") {
@@ -582,9 +604,9 @@ export default function piPersonality(pi: ExtensionAPI) {
 				}
 				if (action === "pause" || action === "resume") {
 					clearInitiativeTimer();
-					const state = await setPaused(action === "pause", paths);
+					await setPaused(action === "pause", paths);
 					const snapshot = await loadSnapshot(paths);
-					setMoodStatus(ctx, state, snapshot.config);
+					await setMoodStatus(ctx, snapshot);
 					if (action === "resume") await scheduleInitiative(ctx);
 					ctx.ui.notify(action === "pause" ? "Personality updates paused." : "Personality updates resumed.", "info");
 					return;
@@ -602,9 +624,9 @@ export default function piPersonality(pi: ExtensionAPI) {
 							: "This resets the emotional state to its baseline. Autobiographical history and initiative records are retained.",
 					);
 					if (!confirmed) return;
-					const state = await resetPersonality(forget, paths);
+					await resetPersonality(forget, paths);
 					const snapshot = await loadSnapshot(paths);
-					setMoodStatus(ctx, state, snapshot.config);
+					await setMoodStatus(ctx, snapshot);
 					ctx.ui.notify(forget ? "Personality state and autobiographical history forgotten." : "Emotional state reset.", "info");
 					return;
 				}

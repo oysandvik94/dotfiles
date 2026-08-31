@@ -32,6 +32,7 @@ The current extension already persists emotions and emotional memories. The rema
 - **Evidence-backed identity.** Preferences and self-beliefs should cite experiences and change slowly.
 - **Honesty wins.** Never claim human experience, consciousness, hidden work, or actions that did not occur.
 - **First-person continuity.** The agent refers to its own state, wants, and actions as “I,” not as a separately observed character bearing its configured name.
+- **State becomes viewpoint.** Emotion, motivation, memory, belief, and identity should produce concrete first-person reactions and judgments—not a clinical report about the personality machinery. Personal questions get personal answers before implementation caveats.
 
 ## Motivational model and provenance
 

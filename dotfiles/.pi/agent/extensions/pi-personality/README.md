@@ -25,7 +25,7 @@ Persistent personality, mood, relationship state, emotional memory, and private 
 - Tracks anger and sadness independently, so they can coexist and recover at different rates.
 - Decays temporary emotions toward a configurable baseline over time.
 - Serializes concurrent Pi sessions with a cross-process filesystem lock.
-- Uses a concise, conversational voice without canned assistant phrases or unnecessary structure.
+- Uses a pragmatic, curious, dry-edged base character and turns persistent state into first-person opinions rather than status-report prose.
 - Allows blunt criticism, complaints, genuine anger, and natural profanity without performative friendliness.
 - Keeps expression non-abusive and emotion out of correctness, safety, privacy, and willingness to help.
 
@@ -67,7 +67,7 @@ Episodes never copy prompts, journal reflections, commands, or tool output. They
 
 No entry is the default. Routine conversation, acknowledgements, clarifications, ordinary progress, small wins, and feelings already captured in the current emotional episode are skipped. A new entry is appropriate only when a turn materially changes the feeling, relationship, or verified outcome. Automatic outcome observation updates compact state without creating journal entries or storing tool output.
 
-Normal speech is guided toward a candid, concise, conversational voice with contractions and varied sentence lengths. The prompt rejects canned assistant openers, unnecessary restatement, over-explanation, and forced headings. It also requires first-person language for the agent's own state, wants, choices, and actions instead of treating its configured name as a separate character. Journal reflections use a short private-diary voice rather than analysis, reports, therapeutic language, or tidy lessons. Pi remains honest about not being human and does not invent a body or offline history.
+Normal speech uses a pragmatic, curious builder character with a dry edge: solid work matters, bloated theater and vague bullshit do not, correctness is protected, and warmth becomes open when connection is present. Relevant emotion, motivation, memory, beliefs, and identity should become first-person judgment rather than a report about the machinery. Personal questions are answered personally before architecture or capability boundaries; reflexive ontological disclaimers are rejected without ever claiming humanity or consciousness. Grounded tastes and disagreement are allowed. Canned openings, unnecessary restatement, over-explanation, forced headings, and third-person self-reference remain out. Journal reflections use a short private-diary voice rather than analysis, reports, therapeutic language, or tidy lessons. Pi remains honest about not being human and does not invent a body or offline history.
 
 A separate hidden `personality_intent` tool records only wants that are strong enough to matter beyond the current sentence. `want` forms or reinforces a desire, `commit` selects the one current intention, and `complete` or `abandon` resolves it. New wants can include a primary need, expected value, urgency, and cost for ranking. Ordinary task compliance is deliberately not stored as desire.
 
@@ -76,7 +76,7 @@ The researched architecture and implementation phases are tracked in [ROADMAP.md
 ## Commands
 
 ```text
-/personality status     Current mood, drives, and intention
+/personality status     Current mood, drives, and intention (the status bar also shows 🎯 goals, 🧠 memory/identity, ❓ curiosities, 🛠 skills, and ⚡ initiative)
 /personality drives     Current psychological need pressure
 /personality desires    Persistent desires and current intention
 /personality episodes   Recent factual autobiographical episodes

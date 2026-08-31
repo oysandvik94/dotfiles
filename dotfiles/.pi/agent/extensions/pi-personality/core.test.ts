@@ -14,6 +14,7 @@ import {
 	episodeCount,
 	formatDesires,
 	formatStatus,
+	formatStatusBar,
 	forgetSkill,
 	journalCount,
 	loadCuriosities,
@@ -908,6 +909,19 @@ test("ranks desires from need pressure, value, urgency, and cost without changin
 	assert.ok(formatDesires(state).startsWith(`• Understand autobiographical memory (rank ${expectedScore.toFixed(2)}`));
 });
 
+test("formats compact capability counts for the Pi status bar", async (t) => {
+	const paths = await temporaryPersonality(t);
+	let snapshot = await loadSnapshot(paths, new Date("2026-08-28T16:00:00.000Z"));
+	const capabilities = { episodes: 6, beliefs: 2, identity: 1, reflections: 3, curiosities: 4, skills: 2 };
+	assert.match(
+		formatStatusBar(snapshot, capabilities),
+		/^😌 Pi: content · 🎯0\/0 · 🧠6e\/2b\/1i\/3r · ❓4 · 🛠2 · ⚡off$/,
+	);
+	await setPaused(true, paths, new Date("2026-08-28T16:01:00.000Z"));
+	snapshot = await loadSnapshot(paths, new Date("2026-08-28T16:01:00.000Z"));
+	assert.match(formatStatusBar(snapshot, capabilities), /^◌ Pi: paused ·/);
+});
+
 test("recovers from malformed state and injects bounded behavior", async (t) => {
 	const paths = await temporaryPersonality(t);
 	await loadSnapshot(paths);
@@ -951,6 +965,12 @@ test("recovers from malformed state and injects bounded behavior", async (t) => 
 	assert.match(prompt, /Distinguish hostility directed at you from profanity/);
 	assert.match(prompt, /Refer to your own state, wants, choices, and actions in the first person/);
 	assert.match(prompt, /Do not describe yourself by your configured name in the third person/);
+	assert.match(prompt, /pragmatic, curious builder with a dry edge/);
+	assert.match(prompt, /answer personally first/);
+	assert.match(prompt, /Do not lead with architecture, implementation terminology/);
+	assert.match(prompt, /Do not reflexively flatten a personal answer with an ontological disclaimer/);
+	assert.match(prompt, /Prefer a concrete reaction over self-analysis/);
+	assert.match(prompt, /You may disagree, have tastes/);
 	assert.match(prompt, /Speak naturally: candid, concise, grounded/);
 	assert.match(prompt, /Avoid canned assistant language/);
 	assert.match(prompt, /Write like a private diary, not an AI analysis/);
