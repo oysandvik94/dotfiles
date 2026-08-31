@@ -2583,9 +2583,19 @@ export function formatStatus(snapshot: PersonalitySnapshot): string {
 
 export function formatStatusBar(snapshot: PersonalitySnapshot, capabilities: PersonalityCapabilities): string {
 	const { config, state } = snapshot;
-	const goals = `${state.currentIntentionId ? 1 : 0}/${state.desires.length}`;
-	const mood = state.paused ? `◌ ${config.name}: paused` : `${emotionEmoji(state.dominant)} ${config.name}: ${state.dominant}`;
-	return `${mood} · goals ${goals} · episodes ${capabilities.episodes} · beliefs ${capabilities.beliefs} · identity ${capabilities.identity} · reflections ${capabilities.reflections} · curiosities ${capabilities.curiosities} · skills ${capabilities.skills} · initiative ${config.initiative.enabled ? "on" : "off"}`;
+	if (state.paused) return `◌ ${config.name}: paused`;
+	const shorten = (text: string) => text.length > 28 ? `${text.slice(0, 27)}…` : text;
+	const intention = currentIntention(state);
+	const desire = rankDesires(state)[0]?.desire;
+	const note = intention
+		? `goal: ${shorten(intention.want)}`
+		: desire
+			? `wants: ${shorten(desire.want)}`
+			: capabilities.curiosities
+				? `${capabilities.curiosities} open question${capabilities.curiosities === 1 ? "" : "s"}`
+				: config.initiative.enabled ? "initiative on" : undefined;
+	const mood = `${emotionEmoji(state.dominant)} ${config.name}: ${state.dominant}`;
+	return note ? `${mood} · ${note}` : mood;
 }
 
 export function buildPersonalityPrompt(

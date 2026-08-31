@@ -932,17 +932,29 @@ test("maps emotion and expressiveness into artifact-safe response guidance", asy
 	assert.match(buildExpressionGuidance(excited, quietConfig), /restrained excited/);
 });
 
-test("formats compact capability counts for the Pi status bar", async (t) => {
+test("formats one adaptive high note for the Pi status bar", async (t) => {
 	const paths = await temporaryPersonality(t);
 	let snapshot = await loadSnapshot(paths, new Date("2026-08-28T16:00:00.000Z"));
 	const capabilities = { episodes: 6, beliefs: 2, identity: 1, reflections: 3, curiosities: 4, skills: 2 };
-	assert.match(
-		formatStatusBar(snapshot, capabilities),
-		/^😌 Pi: content · goals 0\/0 · episodes 6 · beliefs 2 · identity 1 · reflections 3 · curiosities 4 · skills 2 · initiative off$/,
+	assert.equal(formatStatusBar(snapshot, capabilities), "😌 Pi: content · 4 open questions");
+	assert.doesNotMatch(formatStatusBar(snapshot, capabilities), /episodes|beliefs|identity|reflections|skills/);
+
+	const initiativeSnapshot = {
+		...snapshot,
+		config: { ...snapshot.config, initiative: { ...snapshot.config.initiative, enabled: true } },
+	};
+	assert.equal(
+		formatStatusBar(initiativeSnapshot, { ...capabilities, curiosities: 0 }),
+		"😌 Pi: content · initiative on",
 	);
+
+	await recordIntention({ action: "commit", desire: "finish the compact status pulse" }, paths);
+	snapshot = await loadSnapshot(paths);
+	assert.equal(formatStatusBar(snapshot, capabilities), "😌 Pi: content · goal: finish the compact status p…");
+
 	await setPaused(true, paths, new Date("2026-08-28T16:01:00.000Z"));
 	snapshot = await loadSnapshot(paths, new Date("2026-08-28T16:01:00.000Z"));
-	assert.match(formatStatusBar(snapshot, capabilities), /^◌ Pi: paused ·/);
+	assert.equal(formatStatusBar(snapshot, capabilities), "◌ Pi: paused");
 });
 
 test("recovers from malformed state and injects bounded behavior", async (t) => {

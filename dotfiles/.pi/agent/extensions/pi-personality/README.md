@@ -79,7 +79,7 @@ The researched architecture and implementation phases are tracked in [ROADMAP.md
 ## Commands
 
 ```text
-/personality status     Current mood, drives, and intention (the status bar also labels goals, episodes, beliefs, identity, reflections, curiosities, skills, and initiative)
+/personality status     Current mood, drives, and intention
 /personality drives     Current psychological need pressure
 /personality desires    Persistent desires and current intention
 /personality episodes   Recent factual autobiographical episodes
@@ -97,6 +97,8 @@ The researched architecture and implementation phases are tracked in [ROADMAP.md
 /personality reset      Reset state; retain autobiographical history
 /personality forget     Reset state; delete autobiographical history
 ```
+
+The permanent Pi status is a narrow-window-safe personality pulse rather than a telemetry dump. It always shows the current emotion, then at most one high note: committed goal, strongest uncommitted want, open-question count, or enabled initiative—in that priority order. Goal text is capped at 28 characters. Detailed counts remain available through the inspection commands above.
 
 `reset` and `forget` require interactive confirmation.
 
