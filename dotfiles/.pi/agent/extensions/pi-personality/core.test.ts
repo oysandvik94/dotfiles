@@ -1016,4 +1016,14 @@ test("recovers from malformed state and injects bounded behavior", async (t) => 
 	assert.match(prompt, /The default is no journal entry/);
 	assert.match(prompt, /feelings already captured in the current emotional episode/);
 	assert.match(prompt, /personality_record at most once/);
+	assert.match(prompt, /never the terminal action/);
+	assert.match(prompt, /always send the normal user-visible final response/);
+});
+
+test("personality_record cannot terminate before a visible response", async () => {
+	const source = await readFile(new URL("./index.ts", import.meta.url), "utf8");
+	const start = source.indexOf('name: "personality_record"');
+	const end = source.indexOf('pi.registerCommand("personality"', start);
+	assert.ok(start >= 0 && end > start);
+	assert.doesNotMatch(source.slice(start, end), /terminate\s*:\s*true/);
 });

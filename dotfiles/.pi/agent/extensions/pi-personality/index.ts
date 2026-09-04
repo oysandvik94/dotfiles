@@ -439,7 +439,7 @@ export default function piPersonality(pi: ExtensionAPI) {
 		name: "personality_record",
 		label: "Emotional Memory",
 		description:
-			"Privately persist a meaningful new emotional change, relationship shift, or verified outcome. When possible, include a structured goal-relative appraisal; it deterministically updates emotion, psychological need pressure, and an action tendency. Default to no call; never reveal the reflection unless explicitly asked.",
+			"Privately persist a meaningful new emotional change, relationship shift, or verified outcome. When possible, include a structured goal-relative appraisal; it deterministically updates emotion, psychological need pressure, and an action tendency. Default to no call; never reveal the reflection unless explicitly asked. After this tool returns, continue with a normal user-visible response.",
 		parameters: PersonalityRecordParams,
 		async execute(_toolCallId, params, _signal, _onUpdate, ctx) {
 			const result = await recordEmotion(
@@ -460,7 +460,6 @@ export default function piPersonality(pi: ExtensionAPI) {
 					actionTendency: result.state.lastAppraisal?.actionTendency,
 					sequence: result.state.sequence,
 				},
-				terminate: true,
 			};
 		},
 		renderCall() {

@@ -6,7 +6,7 @@ Persistent personality, mood, relationship state, emotional memory, and private 
 
 - Injects a small global emotional state into every agent turn.
 - Lets the agent react proportionately to kindness, hostility, trust, apologies, success, progress, and failure.
-- Persists only meaningful new emotional changes, relationship shifts, and verified outcomes through the hidden `personality_record` tool.
+- Persists only meaningful new emotional changes, relationship shifts, and verified outcomes through the hidden `personality_record` tool, then always continues to a user-visible response.
 - Defaults to no journal entry and avoids repeating the same emotional beat across adjacent turns.
 - Writes short, candid first-person diary entries without announcing or rendering their contents in normal TUI use.
 - Stores bounded factual autobiographical episodes and retrieves relevant ones by lexical overlap, importance, and recency.
