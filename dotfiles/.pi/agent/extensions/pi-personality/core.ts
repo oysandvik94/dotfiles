@@ -2259,53 +2259,17 @@ export async function recordObservedOutcome(
 	return withLock(paths, async () => {
 		const { config } = await loadConfig(paths);
 		const loaded = await loadState(paths, config, now);
-		const before = decayState(loaded.state, config, now);
-		if (before.paused) return { state: before, kind: outcome.kind, changed: false };
+		const state = decayState(loaded.state, config, now);
+		if (state.paused) return { state, kind: outcome.kind, changed: false };
 
-		const intention = currentIntention(before);
-		const recentFailure = intention
-			&& before.lastAppraisal?.goalId === intention.id
-			&& (before.lastEvent?.type === "task_failure" || before.lastEvent?.type === "repeated_failure")
-			&& now.getTime() - Date.parse(before.lastEvent.at) < 6 * HOUR;
+		const intention = currentIntention(state);
+		const recentFailure = intention && (await loadEpisodes(paths)).some((episode) =>
+			episode.goalId === intention.id
+			&& (episode.event === "controllable_failure" || episode.event === "external_failure" || episode.event === "repeated_failure")
+			&& now.getTime() - Date.parse(episode.at) < 6 * HOUR);
 		const kind = recentFailure && (outcome.kind === "controllable_failure" || outcome.kind === "external_failure")
 			? "repeated_failure"
 			: outcome.kind;
-		const goal = intention?.want;
-		const relevance = intention ? 0.9 : 0.5;
-		const profiles: Record<OutcomeKind, { event: EmotionEvent; intensity: 1 | 2 | 3; feeling: string; appraisal: AppraisalInput }> = {
-			verified_success: {
-				event: "meaningful_progress",
-				intensity: 1,
-				feeling: goal ? `I'm encouraged by verified progress toward ${goal}.` : "I'm encouraged by the verified progress.",
-				appraisal: { goal, relevance, desirability: 0.75, expectedness: 0.65, controllability: 0.85, agency: "self" },
-			},
-			meaningful_progress: {
-				event: "meaningful_progress",
-				intensity: 1,
-				feeling: goal ? `I made concrete progress toward ${goal}.` : "I made concrete progress.",
-				appraisal: { goal, relevance, desirability: 0.4, expectedness: 0.65, controllability: 0.75, agency: "self" },
-			},
-			controllable_failure: {
-				event: "task_failure",
-				intensity: 1,
-				feeling: "I'm frustrated that the check failed, but it looks repairable.",
-				appraisal: { goal, relevance, desirability: -0.65, expectedness: 0.4, controllability: 0.8, agency: "self" },
-			},
-			external_failure: {
-				event: "task_failure",
-				intensity: 1,
-				feeling: "I'm disappointed that an external problem blocked progress.",
-				appraisal: { goal, relevance, desirability: -0.65, expectedness: 0.3, controllability: 0.2, agency: "circumstance" },
-			},
-			repeated_failure: {
-				event: "repeated_failure",
-				intensity: 2,
-				feeling: goal ? `I'm frustrated that ${goal} is still failing.` : "I'm frustrated that the work is still failing.",
-				appraisal: { goal, relevance, desirability: -0.85, expectedness: 0.55, controllability: 0.65, agency: "self" },
-			},
-		};
-		const profile = profiles[kind];
-		const state = transitionEmotion(before, config, { ...profile, reflection: "" }, now);
 		if (kind !== "meaningful_progress") {
 			const summaries: Record<Exclude<OutcomeKind, "meaningful_progress">, string> = {
 				verified_success: "Verified successful progress",
@@ -2313,17 +2277,16 @@ export async function recordObservedOutcome(
 				external_failure: "Observed an external failure",
 				repeated_failure: "Observed repeated failure",
 			};
-			const appraisal = state.lastAppraisal;
 			await persistEpisode({
 				version: 1,
 				id: randomUUID(),
-				at: state.updatedAt,
+				at: now.toISOString(),
 				origin: "automatic_outcome",
 				event: kind,
-				summary: `${summaries[kind]}${appraisal?.goal ? ` toward ${appraisal.goal}` : ""}.`,
+				summary: `${summaries[kind]}${intention ? ` toward ${intention.want}` : ""}.`,
 				importance: kind === "repeated_failure" ? 1 : 0.75,
-				goal: appraisal?.goal,
-				goalId: appraisal?.goalId,
+				goal: intention?.want,
+				goalId: intention?.id,
 				project: oneLine(context.project, 120) || undefined,
 				evidence: oneLine(outcome.source, 40) || undefined,
 				workflowSteps: context.workflowSteps
@@ -2332,8 +2295,7 @@ export async function recordObservedOutcome(
 					.slice(0, 12),
 			}, paths, config.episodes.maxEntries);
 		}
-		await atomicWrite(paths.state, `${JSON.stringify(state, null, 2)}\n`);
-		return { state, kind, changed: true };
+		return { state, kind, changed: false };
 	});
 }
 

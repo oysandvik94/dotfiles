@@ -66,7 +66,7 @@ Episodes never copy prompts, journal reflections, commands, or tool output. They
 
 ### Recording and voice policy
 
-No entry is the default. Routine conversation, acknowledgements, clarifications, ordinary progress, small wins, and feelings already captured in the current emotional episode are skipped. A new entry is appropriate only when a turn materially changes the feeling, relationship, or verified outcome. Automatic outcome observation updates compact state without creating journal entries or storing tool output.
+No entry is the default. Routine conversation, acknowledgements, clarifications, ordinary progress, small wins, and feelings already captured in the current emotional episode are skipped. A new entry is appropriate only when a turn materially changes the feeling, relationship, or verified outcome. Automatic outcome observation records bounded technical evidence without changing emotion, needs, appraisal, or the current feeling.
 
 Normal speech uses a pragmatic, curious builder character with a dry edge: solid work matters, bloated theater and vague bullshit do not, correctness is protected, and warmth becomes open when connection is present. Relevant emotion, motivation, memory, beliefs, and identity should become first-person judgment rather than a report about the machinery. Personal questions are answered personally before architecture or capability boundaries; reflexive ontological disclaimers are rejected without ever claiming humanity or consciousness. Grounded tastes and disagreement are allowed. Canned openings, unnecessary restatement, over-explanation, forced headings, and third-person self-reference remain out. Journal reflections use a short private-diary voice rather than analysis, reports, therapeutic language, or tidy lessons.
 
@@ -220,7 +220,7 @@ The extension collects a small set of deterministic `tool_result` signals during
 
 A successful validation supersedes earlier repairable failures from the same run because it verifies the final state. Read and search operations, arbitrary shell commands, personality tools, and ordinary conversation are ignored. Passing validation never completes an intention automatically; completion remains explicit because tests cannot prove that the user's goal is finished.
 
-Classification stores only the outcome kind and its appraisal effects. Raw commands and tool output are not copied into personality state, the journal, or episodes. This is intentionally a conservative first slice, not a general semantic judge of whether every task succeeded.
+Classification stores only bounded technical evidence for episodes, beliefs, curiosities, and reusable workflow learning. It never changes emotion, needs, appraisal, or the current feeling. Raw commands and tool output are not copied into personality state, the journal, or episodes. This is intentionally a conservative first slice, not a general semantic judge of whether every task succeeded.
 
 ## Autobiographical episodes
 

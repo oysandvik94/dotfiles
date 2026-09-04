@@ -585,46 +585,38 @@ test("classifies only verifiable checks and mutations", () => {
 	]), { kind: "repeated_failure", source: "validation" });
 });
 
-test("records automatic outcomes without creating journal noise", async (t) => {
+test("records automatic outcomes without changing emotional state", async (t) => {
 	const paths = await temporaryPersonality(t);
-	const start = new Date("2026-08-28T16:00:00.000Z");
-	await recordIntention({ action: "commit", desire: "Finish automatic outcome observation", strength: 0.9 }, paths, start);
-	await recordObservedOutcome({ kind: "meaningful_progress", source: "edit" }, paths, start);
-	assert.equal(await episodeCount(paths), 1);
-	const before = await loadSnapshot(paths, start);
-	const failed = await recordObservedOutcome(
-		{ kind: "controllable_failure", source: "validation" },
-		paths,
-		new Date(start.getTime() + 1),
-	);
+	const now = new Date("2026-08-28T16:00:00.000Z");
+	await recordIntention({ action: "commit", desire: "Finish automatic outcome observation", strength: 0.9 }, paths, now);
+	await recordEmotion({
+		event: "user_hostility",
+		intensity: 3,
+		feeling: "I'm angry.",
+		reflection: "The hostility landed sharply.",
+	}, {}, paths, now);
+	const before = await loadSnapshot(paths, now);
+	assert.equal(before.state.dominant, "angry");
+	const progress = await recordObservedOutcome({ kind: "meaningful_progress", source: "edit" }, paths, now);
+	assert.equal(progress.changed, false);
+	assert.deepEqual(progress.state, before.state);
+
+	const failed = await recordObservedOutcome({ kind: "controllable_failure", source: "validation" }, paths, now);
 	assert.equal(failed.kind, "controllable_failure");
-	assert.equal(failed.state.lastAppraisal?.goalId, failed.state.currentIntentionId);
-	assert.equal(failed.state.lastAppraisal?.actionTendency, "repair");
-	assert.ok(failed.state.drives.competence > before.state.drives.competence);
-	assert.ok(failed.state.drives.closure > before.state.drives.closure);
-	assert.equal(await journalCount(paths), 0);
-
-	const repeated = await recordObservedOutcome(
-		{ kind: "controllable_failure", source: "validation" },
-		paths,
-		new Date(start.getTime() + 2),
-	);
+	assert.deepEqual(failed.state, before.state);
+	const repeated = await recordObservedOutcome({ kind: "controllable_failure", source: "validation" }, paths, now);
 	assert.equal(repeated.kind, "repeated_failure");
-	assert.equal(repeated.state.lastEvent?.type, "repeated_failure");
+	assert.deepEqual(repeated.state, before.state);
+	const verified = await recordObservedOutcome({ kind: "verified_success", source: "validation" }, paths, now);
+	assert.equal(verified.kind, "verified_success");
+	assert.deepEqual(verified.state, before.state);
 
-	const recovered = await recordObservedOutcome(
-		{ kind: "verified_success", source: "validation" },
-		paths,
-		new Date(start.getTime() + 3),
-	);
-	assert.equal(recovered.kind, "verified_success");
-	assert.equal(recovered.state.lastAppraisal?.actionTendency, "approach");
-	assert.match(recovered.state.summary, /^I'm encouraged by verified progress toward/);
-	assert.equal(await journalCount(paths), 0);
-	assert.equal(await episodeCount(paths), 4);
+	assert.deepEqual((await loadSnapshot(paths, now)).state, before.state);
+	assert.equal(await journalCount(paths), 1);
+	assert.equal(await episodeCount(paths), 5);
 	assert.deepEqual(
-		(await loadEpisodes(paths)).filter(({ origin }) => origin === "automatic_outcome").map(({ event }) => event),
-		["verified_success", "repeated_failure", "controllable_failure"],
+		(await loadEpisodes(paths)).filter(({ origin }) => origin === "automatic_outcome").map(({ event }) => event).sort(),
+		["controllable_failure", "repeated_failure", "verified_success"],
 	);
 });
 
