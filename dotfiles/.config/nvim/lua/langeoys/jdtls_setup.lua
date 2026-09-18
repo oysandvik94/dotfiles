@@ -2,6 +2,8 @@ local M = {}
 
 local jdtls_install = vim.fn.expand("$MASON/packages/jdtls")
 local lombok_path = jdtls_install .. "/lombok.jar"
+local shared_index = vim.fn.stdpath("cache") .. "/jdtls-shared-index"
+vim.fn.mkdir(shared_index, "p")
 
 local function jdtls_on_attach(client, bufnr)
   -- vim.api.nvim_create_autocmd({ "BufWritePost", "LspAttach" }, {
@@ -80,6 +82,8 @@ function M:setup()
       'java.base/java.util=ALL-UNNAMED',
       '--add-opens',
       'java.base/java.lang=ALL-UNNAMED',
+
+      "-Djdt.core.sharedIndexLocation=" .. shared_index,
 
       -- 💀
       "-jar",

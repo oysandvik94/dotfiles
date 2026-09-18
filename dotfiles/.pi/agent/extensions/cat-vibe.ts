@@ -12,6 +12,7 @@ import {
 	type Component,
 	type EditorTheme,
 	type TUI,
+	stripTerminalSequences,
 	truncateToWidth,
 	visibleWidth,
 } from "@earendil-works/pi-tui";
@@ -177,9 +178,22 @@ function fleetActiveCount(value: unknown): number | undefined {
 function extensionStatuses(footerData: ReadonlyFooterDataProvider | undefined): string {
 	if (!footerData) return "";
 	return [...footerData.getExtensionStatuses()]
-		.filter(([key, value]) => key !== "cat-vibe" && visibleWidth(value) > 0)
+		.filter(([key, value]) => key !== "cat-vibe" && key !== "llm-wiki-model" && visibleWidth(value) > 0)
 		.sort(([a], [b]) => a.localeCompare(b))
-		.map(([, value]) => value.replace(/\s+/g, " ").trim())
+		.map(([key, value]) => {
+			const plain = stripTerminalSequences(value).replace(/\s+/g, " ").trim();
+			if (key === "llm-wiki" && /LLM Wiki \(/i.test(plain)) return "🧠 wiki";
+			if (key === "personality") {
+				return plain
+					.replace(/^(\S+)\s+[^:]+:\s*/, "$1 ")
+					.replace(/\s*·\s*(\d+) open questions?$/i, " · ?$1");
+			}
+			if (key === "ponytail") {
+				const mode = plain.match(/([⚡✂]\s*(?:lite|full|ultra))/i)?.[1];
+				return mode ? `🐴 ${mode}` : "🐴 ponytail";
+			}
+			return plain;
+		})
 		.join(" · ");
 }
 
@@ -442,15 +456,18 @@ export default function catVibe(pi: ExtensionAPI) {
 		const cost = theme.fg("mdLink", `${formatCost(sessionCost)} ${compact ? "this session" : "this Pi session"}`);
 		const bottomRequired = `${theme.fg(activityColor, `${activityMark} ${activity}`)}${separator}${coloredAgents}${separator}${cost}`;
 		const context = theme.fg("muted", formatContext(ctx, compact));
-		const bottomOptional = `${separator}${context}${statuses ? `${separator}${statuses}` : ""}`;
+		const contextOptional = `${separator}${context}`;
+		const statusOptional = statuses ? `${separator}${statuses}` : "";
 		const bottomRight = dirty ? theme.fg(dirty === "clean" ? "success" : "mdLink", dirty) : "";
 		const rail = (line: string, color: "accent" | "borderMuted") => `${theme.fg(color, "▌ ")}${line}`;
 		const contentWidth = Math.max(0, width - 2);
-
-		return [
+		const allStatusesFit = visibleWidth(bottomRequired + contextOptional + statusOptional) + visibleWidth(bottomRight) + (bottomRight ? 1 : 0) <= contentWidth;
+		const lines = [
 			truncateToWidth(rail(fitRail(topRequired, "", topRight, contentWidth), "accent"), width, ""),
-			truncateToWidth(rail(fitRail(bottomRequired, bottomOptional, bottomRight, contentWidth), "borderMuted"), width, ""),
+			truncateToWidth(rail(fitRail(bottomRequired, allStatusesFit ? contextOptional + statusOptional : contextOptional, bottomRight, contentWidth), "borderMuted"), width, ""),
 		];
+		if (!allStatusesFit && statuses) lines.push(truncateToWidth(rail(statuses, "borderMuted"), width, ""));
+		return lines;
 	};
 
 	const disableUi = (ctx: ExtensionContext) => {
@@ -603,6 +620,17 @@ if (process.env.PI_CAT_SELF_TEST === "1") {
 	const narrowRail = fitRail("left", " optional", "right", 8);
 	if (visibleWidth(narrowRail) > 8 || narrowRail.includes("right")) {
 		throw new Error("cat-vibe width self-test failed");
+	}
+	const statuses = extensionStatuses({
+		getExtensionStatuses: () => new Map([
+			["llm-wiki", "🧠 LLM Wiki (13 tools, observe + recall active)"],
+			["llm-wiki-model", "🧠 wiki model: session model (gpt-5.6-sol)"],
+			["personality", "😌 Rasmus: proud · 6 open questions"],
+			["ponytail", "🐴 ponytail: ⚡ FULL"],
+		]),
+	} as unknown as ReadonlyFooterDataProvider);
+	if (statuses !== "🧠 wiki · 😌 proud · ?6 · 🐴 ⚡ FULL") {
+		throw new Error("cat-vibe extension status self-test failed");
 	}
 	if (formatCost(12.734) !== "≈$12.73" || detailsCost({ totalCost: { costUsd: 0.25 }, results: [{ usage: { cost: 0.125 } }] }) !== 0.25) {
 		throw new Error("cat-vibe cost self-test failed");

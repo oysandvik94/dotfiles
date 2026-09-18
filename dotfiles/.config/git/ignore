@@ -7,3 +7,4 @@ kls_database.db
 .settings
 /.pi-subagents/
 /.pi/subagents/
+graphify-out/
