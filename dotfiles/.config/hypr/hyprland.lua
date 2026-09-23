@@ -5,6 +5,7 @@ require("hypr_base")
 require("hypr_styling")
 require("hypr_layout")
 require("hypr_keybindings")
+require("hypr_mouseless")
 pcall(require, "hypr_local")
 require("hypr_autostart")
 

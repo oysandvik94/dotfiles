@@ -1,4 +1,4 @@
 return {
   "mfussenegger/nvim-jdtls",
-  -- enabled = false,
+  enabled = false,
 }

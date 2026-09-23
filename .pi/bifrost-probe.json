@@ -1,0 +1,281 @@
+[
+  {
+    "provider": "github-copilot",
+    "model": "claude-fable-5",
+    "cost_input": 10,
+    "cost_output": 50,
+    "status": "error",
+    "duration_ms": 0.1,
+    "error": "TypeError: ctx.modelRegistry.streamSimple is not a function"
+  },
+  {
+    "provider": "github-copilot",
+    "model": "claude-fable-5.1",
+    "cost_input": 10,
+    "cost_output": 50,
+    "status": "error",
+    "duration_ms": 0,
+    "error": "TypeError: ctx.modelRegistry.streamSimple is not a function"
+  },
+  {
+    "provider": "github-copilot",
+    "model": "claude-haiku-4.5",
+    "cost_input": 1,
+    "cost_output": 5,
+    "status": "error",
+    "duration_ms": 0,
+    "error": "TypeError: ctx.modelRegistry.streamSimple is not a function"
+  },
+  {
+    "provider": "github-copilot",
+    "model": "claude-opus-4.7",
+    "cost_input": 5,
+    "cost_output": 25,
+    "status": "error",
+    "duration_ms": 0,
+    "error": "TypeError: ctx.modelRegistry.streamSimple is not a function"
+  },
+  {
+    "provider": "github-copilot",
+    "model": "claude-opus-4.8",
+    "cost_input": 5,
+    "cost_output": 25,
+    "status": "error",
+    "duration_ms": 0,
+    "error": "TypeError: ctx.modelRegistry.streamSimple is not a function"
+  },
+  {
+    "provider": "github-copilot",
+    "model": "claude-opus-5",
+    "cost_input": 5,
+    "cost_output": 25,
+    "status": "error",
+    "duration_ms": 0,
+    "error": "TypeError: ctx.modelRegistry.streamSimple is not a function"
+  },
+  {
+    "provider": "github-copilot",
+    "model": "claude-sonnet-5",
+    "cost_input": 2,
+    "cost_output": 10,
+    "status": "error",
+    "duration_ms": 0,
+    "error": "TypeError: ctx.modelRegistry.streamSimple is not a function"
+  },
+  {
+    "provider": "github-copilot",
+    "model": "gemini-3.5-flash",
+    "cost_input": 1.5,
+    "cost_output": 9,
+    "status": "error",
+    "duration_ms": 0,
+    "error": "TypeError: ctx.modelRegistry.streamSimple is not a function"
+  },
+  {
+    "provider": "github-copilot",
+    "model": "gemini-3.6-flash",
+    "cost_input": 0.75,
+    "cost_output": 3.75,
+    "status": "error",
+    "duration_ms": 0,
+    "error": "TypeError: ctx.modelRegistry.streamSimple is not a function"
+  },
+  {
+    "provider": "github-copilot",
+    "model": "gemini-3.7-flash",
+    "cost_input": 0.75,
+    "cost_output": 3.75,
+    "status": "error",
+    "duration_ms": 0.1,
+    "error": "TypeError: ctx.modelRegistry.streamSimple is not a function"
+  },
+  {
+    "provider": "github-copilot",
+    "model": "gemini-3.8-flash",
+    "cost_input": 0.75,
+    "cost_output": 3.75,
+    "status": "error",
+    "duration_ms": 0,
+    "error": "TypeError: ctx.modelRegistry.streamSimple is not a function"
+  },
+  {
+    "provider": "github-copilot",
+    "model": "gpt-6-astra",
+    "cost_input": 10,
+    "cost_output": 50,
+    "status": "error",
+    "duration_ms": 0,
+    "error": "TypeError: ctx.modelRegistry.streamSimple is not a function"
+  },
+  {
+    "provider": "github-copilot",
+    "model": "kimi-k2.7-code",
+    "cost_input": 0.95,
+    "cost_output": 4,
+    "status": "error",
+    "duration_ms": 0,
+    "error": "TypeError: ctx.modelRegistry.streamSimple is not a function"
+  },
+  {
+    "provider": "github-copilot",
+    "model": "kimi-k3",
+    "cost_input": 3,
+    "cost_output": 15,
+    "status": "error",
+    "duration_ms": 0,
+    "error": "TypeError: ctx.modelRegistry.streamSimple is not a function"
+  },
+  {
+    "provider": "github-copilot",
+    "model": "gpt-5-mini",
+    "cost_input": 0.25,
+    "cost_output": 2,
+    "status": "error",
+    "duration_ms": 0,
+    "error": "TypeError: ctx.modelRegistry.streamSimple is not a function"
+  },
+  {
+    "provider": "github-copilot",
+    "model": "gpt-5.3-codex",
+    "cost_input": 1.75,
+    "cost_output": 14,
+    "status": "error",
+    "duration_ms": 0,
+    "error": "TypeError: ctx.modelRegistry.streamSimple is not a function"
+  },
+  {
+    "provider": "github-copilot",
+    "model": "gpt-5.4",
+    "cost_input": 2.5,
+    "cost_output": 15,
+    "status": "error",
+    "duration_ms": 0,
+    "error": "TypeError: ctx.modelRegistry.streamSimple is not a function"
+  },
+  {
+    "provider": "github-copilot",
+    "model": "gpt-5.4-mini",
+    "cost_input": 0.75,
+    "cost_output": 4.5,
+    "status": "error",
+    "duration_ms": 0,
+    "error": "TypeError: ctx.modelRegistry.streamSimple is not a function"
+  },
+  {
+    "provider": "github-copilot",
+    "model": "gpt-5.5",
+    "cost_input": 5,
+    "cost_output": 30,
+    "status": "error",
+    "duration_ms": 0,
+    "error": "TypeError: ctx.modelRegistry.streamSimple is not a function"
+  },
+  {
+    "provider": "github-copilot",
+    "model": "gpt-5.6-luna",
+    "cost_input": 0.2,
+    "cost_output": 1.2,
+    "status": "error",
+    "duration_ms": 0,
+    "error": "TypeError: ctx.modelRegistry.streamSimple is not a function"
+  },
+  {
+    "provider": "github-copilot",
+    "model": "gpt-5.6-sol",
+    "cost_input": 4,
+    "cost_output": 20,
+    "status": "error",
+    "duration_ms": 0,
+    "error": "TypeError: ctx.modelRegistry.streamSimple is not a function"
+  },
+  {
+    "provider": "github-copilot",
+    "model": "gpt-5.6-terra",
+    "cost_input": 2,
+    "cost_output": 12,
+    "status": "error",
+    "duration_ms": 0,
+    "error": "TypeError: ctx.modelRegistry.streamSimple is not a function"
+  },
+  {
+    "provider": "github-copilot",
+    "model": "mai-code-1.1-flash",
+    "cost_input": 0.2,
+    "cost_output": 1.2,
+    "status": "error",
+    "duration_ms": 0,
+    "error": "TypeError: ctx.modelRegistry.streamSimple is not a function"
+  },
+  {
+    "provider": "openai-codex",
+    "model": "gpt-5.3-codex-spark",
+    "cost_input": 1.75,
+    "cost_output": 14,
+    "status": "error",
+    "duration_ms": 0,
+    "error": "TypeError: ctx.modelRegistry.streamSimple is not a function"
+  },
+  {
+    "provider": "openai-codex",
+    "model": "gpt-5.4",
+    "cost_input": 2.5,
+    "cost_output": 15,
+    "status": "error",
+    "duration_ms": 0,
+    "error": "TypeError: ctx.modelRegistry.streamSimple is not a function"
+  },
+  {
+    "provider": "openai-codex",
+    "model": "gpt-5.4-mini",
+    "cost_input": 0.75,
+    "cost_output": 4.5,
+    "status": "error",
+    "duration_ms": 0,
+    "error": "TypeError: ctx.modelRegistry.streamSimple is not a function"
+  },
+  {
+    "provider": "openai-codex",
+    "model": "gpt-5.5",
+    "cost_input": 5,
+    "cost_output": 30,
+    "status": "error",
+    "duration_ms": 0,
+    "error": "TypeError: ctx.modelRegistry.streamSimple is not a function"
+  },
+  {
+    "provider": "openai-codex",
+    "model": "gpt-5.6-luna",
+    "cost_input": 0.2,
+    "cost_output": 1.2,
+    "status": "error",
+    "duration_ms": 0,
+    "error": "TypeError: ctx.modelRegistry.streamSimple is not a function"
+  },
+  {
+    "provider": "openai-codex",
+    "model": "gpt-5.6-sol",
+    "cost_input": 5,
+    "cost_output": 30,
+    "status": "error",
+    "duration_ms": 0,
+    "error": "TypeError: ctx.modelRegistry.streamSimple is not a function"
+  },
+  {
+    "provider": "openai-codex",
+    "model": "gpt-5.6-terra",
+    "cost_input": 2,
+    "cost_output": 12,
+    "status": "error",
+    "duration_ms": 0,
+    "error": "TypeError: ctx.modelRegistry.streamSimple is not a function"
+  },
+  {
+    "provider": "openai-codex",
+    "model": "gpt-6-astra",
+    "cost_input": 10,
+    "cost_output": 50,
+    "status": "error",
+    "duration_ms": 0,
+    "error": "TypeError: ctx.modelRegistry.streamSimple is not a function"
+  }
+]

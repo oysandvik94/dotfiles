@@ -5,4 +5,5 @@ hyprland-git
 rofi
 slides
 uuid
+wl-kbptr
 xdg-desktop-portal-hyprland-git

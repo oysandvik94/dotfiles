@@ -90,6 +90,15 @@ window#waybar {
   box-shadow: inset 0 -2px rgba(120, 148, 171, 0.54);
 }
 
+#submap {
+  padding: 0 14px;
+  color: @bg;
+  background: @amber;
+  border-radius: 7px;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+
 #custom-playerctl {
   padding: 0 14px;
   color: @green;

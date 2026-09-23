@@ -11,6 +11,7 @@
   "modules-left": [
     "custom/identity",
     "hyprland/workspaces",
+    "hyprland/submap",
     "custom/playerctl"
   ],
   "modules-center": [
@@ -33,6 +34,10 @@
     "format": "{name}",
     "sort-by-number": true,
     "all-outputs": false
+  },
+  "hyprland/submap": {
+    "format": "MOUSE MODE",
+    "tooltip": false
   },
   "custom/playerctl": {
     "format": "{icon}  <span>{text}</span>",

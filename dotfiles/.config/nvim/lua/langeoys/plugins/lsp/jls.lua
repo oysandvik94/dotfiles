@@ -2,8 +2,11 @@
 return {
   "idelice/nvim-jls",
   enabled = false,
-  opts = {
-    jls_dir = "/home/sandvoys/bin/jls", -- must contain dist/lang_server_*.sh
-    root_markers = { ".git" }
-  },
+  inlay_hints = {
+    enabled = false, -- show parameter name hints at call sites
+  }
+  -- opts = {
+  --   jls_dir = "/home/sandvoys/bin/jls", -- must contain dist/lang_server_*.sh
+  --   root_markers = { ".git" }
+  -- },
 }

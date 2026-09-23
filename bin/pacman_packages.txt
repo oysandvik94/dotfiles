@@ -59,6 +59,7 @@ xdg-utils
 xdo
 xdotool
 xss-lock
+ydotool
 zip
 zk
 zsh
