@@ -12,5 +12,6 @@ dotfiles/.config/zsh/jobbaliases
 dotfiles/.config/github-copilot/
 dotfiles/.config/hypr/hypr_local.lua
 __pycache__/
+.pi/bifrost-state.json
 *.pyc
 hyprmon.lua
