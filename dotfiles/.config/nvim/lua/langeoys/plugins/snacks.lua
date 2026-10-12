@@ -43,6 +43,26 @@ return {
     scroll = { enabled = true },
     picker = {
       enabled = true,
+      sources = {
+        git_status = {
+          win = {
+            input = {
+              keys = {
+                ["<Tab>"] = { "select_and_next", mode = { "i", "n" } },
+              },
+            },
+          },
+        },
+        git_diff = {
+          win = {
+            input = {
+              keys = {
+                ["<Tab>"] = { "select_and_next", mode = { "i", "n" } },
+              },
+            },
+          },
+        },
+      },
       layout = {
         preset = "vertical",
       },
@@ -75,7 +95,7 @@ return {
   },
   keys = {
     { "<leader>/",  function() Snacks.picker.files({ hidden = true }) end,     desc = "picker files" },
-    { "<leader>fp", function() Snacks.picker() end,                            desc = "picker files" },
+    { "<leader>fp", function() Snacks.picker() end,                            desc = "All Snacks pickers" },
     { "<leader>f:", function() Snacks.picker.command_history() end,            desc = "Command history" },
     { "<leader>fc", function() Snacks.picker.commands() end,                   desc = "Command history" },
     { "<leader>fr", function() Snacks.picker.recent() end,                     desc = "Recent" },
@@ -83,8 +103,8 @@ return {
     { "<leader>fm", function() folders() end,                                  desc = "Search folders" },
     { "<leader>fw", function() Snacks.picker.grep_word({ hidden = true }) end, desc = "Visual selection or word", mode = { "n", "x" } },
     { "<leader>fh", function() Snacks.picker.help() end,                       desc = "Help Pages" },
-    { "<leader>fl", function() Snacks.picker.resume() end,                     desc = "Help Pages" },
-    { "<leader>fe", function() Snacks.picker.explorer() end,                   desc = "Help Pages" },
+    { "<leader>fl", function() Snacks.picker.resume() end,                     desc = "Resume" },
+    { "<leader>fe", function() Snacks.picker.explorer() end,                   desc = "Explorer" },
     { "<leader>zm", function() Snacks.zen() end,                               desc = "Toggle Zen Mode" },
     {
       "<leader>uH",

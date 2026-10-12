@@ -18,6 +18,19 @@ vim.keymap.set("x", "p", [["_dP]])
 -- Copy to system clipboard with leader y
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 vim.keymap.set("n", "<leader>Y", [["+Y]])
+
+local function copy_line_location()
+	local path = vim.fn.expand("%:p:.")
+	if path == "" then
+		vim.notify("Buffer has no file path", vim.log.levels.WARN)
+		return
+	end
+	local location = path .. ":" .. vim.fn.line(".")
+	vim.fn.setreg("+", location)
+	vim.notify("Copied " .. location)
+end
+
+vim.keymap.set("n", "<leader>yl", copy_line_location, { desc = "Copy file:line to clipboard" })
 vim.keymap.set({ "n", "v" }, "<leader>p", [["+p]])
 vim.keymap.set("n", "<leader>p", [["+P]])
 

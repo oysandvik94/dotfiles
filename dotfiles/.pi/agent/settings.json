@@ -1,0 +1,33 @@
+{
+  "lastChangelogVersion": "1.0.4",
+  "theme": "rasmus",
+  "packages": [
+    "npm:@pi-plugins/usage",
+    "npm:pi-side-chat",
+    "npm:pi-design-deck",
+    "git:github.com/DietrichGebert/ponytail",
+    "npm:@heyhuynhgiabuu/pi-diff",
+    "npm:@juicesharp/rpiv-ask-user-question",
+    "npm:pi-rtk-optimizer",
+    "git:github.com/nicobailon/visual-explainer",
+    "npm:pi-skill-palette",
+    "npm:@porche/pi-usage",
+    "npm:@juicesharp/rpiv-todo",
+    "npm:pi-web-access",
+    "npm:pi-intercom",
+    "npm:@tintinweb/pi-subagents",
+    "npm:pi-simplify",
+    "npm:@llblab/pi-codex-usage",
+    "npm:pi-mono-usage",
+    "npm:pi-blackhole",
+    "npm:pi-daybreak-param"
+  ],
+  "defaultProvider": "anthropic",
+  "defaultModel": "claude-opus-5-5",
+  "defaultThinkingLevel": "high",
+  "editorPaddingX": 2,
+  "workingVibe": "cat",
+  "tuiMode": "regular",
+  "fullscreenScrollbar": "auto",
+  "hideThinkingBlock": false
+}

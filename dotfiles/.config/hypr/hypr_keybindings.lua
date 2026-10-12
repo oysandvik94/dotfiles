@@ -9,6 +9,7 @@ hl.bind(mainMod .. " + return", hl.dsp.exec_cmd("sh -c 'GTK_IM_MODULE=simple gho
 hl.bind(mainMod .. " + C", hl.dsp.window.close())
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + D", hl.dsp.exec_cmd(menu))
+hl.bind(mainMod .. " + SHIFT + D", hl.dsp.exec_cmd("wayscriber --daemon-toggle"))
 hl.bind(mainMod .. " + Q", hl.dsp.exec_cmd(powermenu))
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen())
 
@@ -61,7 +62,7 @@ hl.bind(
 )
 
 hl.bind(mainMod .. " + SHIFT + T", hl.dsp.exec_cmd("~/dotfiles/dotfiles/scripts/theme.sh"))
-hl.bind(mainMod .. " + CTRL + P", hl.dsp.exec_cmd("1password --ozone-platform-hint=wayland --quick-access"))
+hl.bind(mainMod .. " + CTRL + P", hl.dsp.exec_cmd("1password --render-node-override=/dev/dri/renderD128 --ozone-platform-hint=wayland --quick-access"))
 
 -- Dropdown terminal (special workspace)
 hl.window_rule({
@@ -86,3 +87,37 @@ hl.window_rule({
 -- Special workspace toggles
 hl.bind(mainMod .. " + T", hl.dsp.workspace.toggle_special("dropdown"))
 hl.bind(mainMod .. " + A", hl.dsp.workspace.toggle_special("ai"))
+
+-- Desktop toys: Super+W, then W (whip), G (gun), C (camera), or T (tractor).
+local gagCommand = "node ~/dev/general/OpenWhip/bin/openwhip.js"
+hl.bind(mainMod .. " + W", hl.dsp.submap("ai-gags"))
+hl.define_submap("ai-gags", function()
+  local function equip(flag)
+    hl.dispatch(hl.dsp.submap("reset"))
+    hl.exec_cmd(gagCommand .. " " .. flag)
+  end
+  hl.bind("w", function() equip("--whip") end)
+  hl.bind("g", function() equip("--gun") end)
+  hl.bind("SUPER + w", function() equip("--whip") end)
+  hl.bind("SUPER + g", function() equip("--gun") end)
+  hl.bind("c", function() equip("--camera") end)
+  hl.bind("t", function() equip("--tractor") end)
+  hl.bind("SUPER + c", function() equip("--camera") end)
+  hl.bind("SUPER + t", function() equip("--tractor") end)
+  hl.bind("escape", hl.dsp.submap("reset"))
+end)
+
+-- Active only while equipped. Normal typing (including synthesized Escape)
+-- passes through to Pi; right-click restores the normal desktop bindings.
+hl.define_submap("ai-gag", function()
+  local function pointer(flag)
+    local pos = hl.get_cursor_pos()
+    hl.exec_cmd(gagCommand .. " " .. flag .. " " .. math.floor(pos.x) .. " " .. math.floor(pos.y))
+  end
+  hl.bind("mouse:272", function() pointer("--fire") end)
+  hl.bind("mouse:272", function() pointer("--release") end, { release = true })
+  hl.bind("mouse:273", function()
+    hl.dispatch(hl.dsp.submap("reset"))
+    hl.exec_cmd(gagCommand .. " --drop")
+  end)
+end)

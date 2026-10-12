@@ -10,5 +10,3 @@ pcall(require, "hypr_local")
 require("hypr_autostart")
 
 
--- hyprmon: managed monitor profile include
-require("hyprmon")

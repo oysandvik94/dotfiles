@@ -42,6 +42,18 @@ hl.window_rule({
   opacity = 0.0,
 })
 
+-- Keep keyboard focus on the terminal while using the whip overlay.
+hl.window_rule({
+  name = "openwhip-no-focus",
+  match = {
+    class = "^openwhip$",
+  },
+
+  no_anim = true,
+  no_initial_focus = true,
+  no_focus = true,
+})
+
 -- Tempfix for Hyprland + Edge.
 hl.window_rule({
   name = "tempfix-edge-empty-xwayland",

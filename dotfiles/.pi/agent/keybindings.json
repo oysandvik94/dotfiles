@@ -1,0 +1,9 @@
+{
+  "tui.altScreen.pageUp": ["pageUp", "ctrl+u"],
+  "tui.altScreen.pageDown": ["pageDown", "ctrl+d"],
+  "tui.editor.pageUp": ["pageUp", "ctrl+u"],
+  "tui.editor.pageDown": ["pageDown", "ctrl+d"],
+  "tui.editor.deleteCharForward": "delete",
+  "tui.editor.deleteToLineStart": [],
+  "app.exit": []
+}

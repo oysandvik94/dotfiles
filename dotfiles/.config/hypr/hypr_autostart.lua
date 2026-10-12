@@ -1,11 +1,14 @@
 -- Autostart.
 hl.on("hyprland.start", function()
+  hl.exec_cmd("ydotoold")
   hl.exec_cmd("waybar")
   hl.exec_cmd("nm-applet --indicator")
+  hl.exec_cmd("wayscriber --daemon")
 
   hl.exec_cmd("brightnessctl set 100%")
-  hl.exec_cmd("/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")
-  hl.exec_cmd("swaybg -m fill -i ~/wallpapers/ting.png")
+  hl.exec_cmd("systemctl --user start hyprpolkitagent")
+  -- hl.exec_cmd("/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")
+  hl.exec_cmd("swaybg -m fill -i ~/wallpapers/dd2.jpg")
 
   hl.dispatch(hl.dsp.exec_cmd("slack", { workspace = "1 silent" }))
   hl.dispatch(hl.dsp.exec_cmd("GTK_IM_MODULE=simple ghostty", { workspace = "2 silent" }))
@@ -26,11 +29,5 @@ hl.on("hyprland.start", function()
   hl.dispatch(
     hl.dsp.exec_cmd("GTK_IM_MODULE=simple ghostty --class=com.example.dropdown",
       { workspace = "special:dropdown silent" })
-  )
-  hl.dispatch(
-    hl.dsp.exec_cmd(
-      "GTK_IM_MODULE=simple ghostty --class=com.example.ai-dropdown -e codex --yolo",
-      { workspace = "special:ai silent" }
-    )
   )
 end)

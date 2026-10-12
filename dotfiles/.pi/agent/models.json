@@ -1,0 +1,20 @@
+{
+  "providers": {
+    "llama-cpp": {
+      "baseUrl": "http://127.0.0.1:8080/v1",
+      "api": "openai-completions",
+      "apiKey": "local",
+      "compat": {
+        "supportsDeveloperRole": false,
+        "supportsReasoningEffort": false
+      },
+      "models": [
+        {
+          "id": "Qwen/Qwen2.5-Coder-7B-Instruct-GGUF",
+          "name": "Local Qwen 2.5 Coder 7B",
+          "input": ["text"]
+        }
+      ]
+    }
+  }
+}

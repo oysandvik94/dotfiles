@@ -624,7 +624,7 @@ if (process.env.PI_CAT_SELF_TEST === "1") {
 	const statuses = extensionStatuses({
 		getExtensionStatuses: () => new Map([
 			["llm-wiki", "🧠 LLM Wiki (13 tools, observe + recall active)"],
-			["llm-wiki-model", "🧠 wiki model: session model (gpt-5.6-sol)"],
+			["llm-wiki-model", "🧠 wiki model: session model"],
 			["personality", "😌 Rasmus: proud · 6 open questions"],
 			["ponytail", "🐴 ponytail: ⚡ FULL"],
 		]),

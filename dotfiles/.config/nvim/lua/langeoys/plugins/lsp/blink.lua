@@ -15,6 +15,13 @@ return {
     sources = {
       default = { "lsp", "path", "snippets", "buffer" },
       providers = {
+        -- hide 1-letter LSP results (IntelliJ server: ~400 ms for 1 letter, ~150 ms for 2);
+        -- 0 after a trigger character so '.' completion still shows
+        lsp = {
+          min_keyword_length = function(ctx)
+            return ctx.trigger.initial_kind == 'trigger_character' and 0 or 2
+          end,
+        },
         lazydev = {
           name = "LazyDev",
           module = "lazydev.integrations.blink",

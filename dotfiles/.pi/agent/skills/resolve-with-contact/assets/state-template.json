@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "job_id": null,
+  "status": "ready",
+  "created_at": null,
+  "updated_at": null,
+  "deadline_at": null,
+  "owner_session_id": null,
+  "brief": {
+    "goal": null,
+    "completion_criteria": [],
+    "context": null,
+    "allowed_evidence_sources": [],
+    "allowed_disclosures": [],
+    "language": null,
+    "authorization": {
+      "user_request_reference": null,
+      "scope": null,
+      "send_initial_message": false,
+      "send_scoped_followups": false,
+      "create_direct_chat": false
+    }
+  },
+  "contact": {
+    "display_name": null,
+    "email": null,
+    "user_id": null,
+    "chat_id": null
+  },
+  "limits": {
+    "poll_interval_minutes": 5,
+    "max_followups": 5,
+    "unsolicited_reminders": 0
+  },
+  "contact_refused": false,
+  "followups_sent": 0,
+  "last_checked_at": null,
+  "processed_messages": [],
+  "evidence": [],
+  "open_questions": [],
+  "outbox": [],
+  "scheduling": {
+    "mode": "manual",
+    "pending_intent": null,
+    "schedule_id": null,
+    "next_check_at": null,
+    "last_run_id": null
+  },
+  "result": null,
+  "blocker": null
+}

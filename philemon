@@ -22,10 +22,10 @@ sudo -v
 
 echo "First I will check if you have the required dependencies to run this script"
 echo
-$BIN_DIR/checkDependencies.sh || {
-    echo "I couldn't find or install the requirements, good luck to you :)" >&2
-    exit 1
-}
+#$BIN_DIR/checkDependencies.sh || {
+#    echo "I couldn't find or install the requirements, good luck to you :)" >&2
+#    exit 1
+#}
 
 echo "------------------"
 echo "Now we are ready to proceed."
@@ -33,14 +33,14 @@ echo
 
 echo "Installing packages"
 echo
-"$BIN_DIR"/installPackages.sh || exit 1
+#"$BIN_DIR"/installPackages.sh || exit 1
 
 sudo -v
 echo "Updating packages"
 echo
-source "$BIN_DIR"/updateFormatter.sh
-upgrade_output=$(yay -Syu --noconfirm | tee /dev/tty || exit 1)
-parsed_output=$(format_yay_output "$upgrade_output")
+#source "$BIN_DIR"/updateFormatter.sh
+#upgrade_output=$(yay -Syu --noconfirm | tee /dev/tty || exit 1)
+#parsed_output=$(format_yay_output "$upgrade_output")
 
 echo "Stowing dotfiles"
 echo

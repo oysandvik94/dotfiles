@@ -17,14 +17,14 @@ suspend_lock() {
     swayidle -w \
         timeout 1 'systemctl suspend' \
         resume 'killall -9 swayidle' \
-        before-sleep 'swaylock -f -c 000000 -i ~/wallpapers/ting.png'
+        before-sleep 'swaylock -f -c 000000 -i ~/wallpapers/dd2.jpg'
 }
 
 lock() {
     if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
-        swaylock --image "$HOME/wallpapers/ting.png"
+        swaylock --image "$HOME/wallpapers/dd2.jpg"
     else
-        i3lock --image "$HOME/wallpapers/ting.png"
+        i3lock --image "$HOME/wallpapers/dd2.jpg"
     fi
 }
 
