@@ -8,3 +8,4 @@ kls_database.db
 /.pi-subagents/
 /.pi/subagents/
 graphify-out/
+/.pi/remote-pi/
