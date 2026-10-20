@@ -66,7 +66,7 @@ export default function (pi) {
     await reportTodos(ctx, latest);
     registerCampfireTool();
     registerCampfireReadTool();
-    if (!pi.getAllTools().some((tool) => tool.name === "ask_user_question")) registerQuestionTool();
+    if (!pi.getAllTools().some((tool) => tool.name === "ask_user_question" || tool.name === "ask_user")) registerQuestionTool();
     return true;
   }
   pi.on("session_start", async (_event, ctx) => {
@@ -90,6 +90,8 @@ export default function (pi) {
   pi.on("agent_start", async (_event, ctx) => { await hook("agent_start", identity(ctx)); });
   pi.on("agent_settled", async (_event, ctx) => { await hook("agent_settled", identity(ctx)); });
   pi.on("session_shutdown", async (_event, ctx) => {
+    piAskFlows.clear();
+    piAskIdentity = undefined;
     await hook("session_shutdown", identity(ctx));
     currentIdentity = undefined;
   });
@@ -98,6 +100,24 @@ export default function (pi) {
   let externalQuestionHook;
   pi.on("tool_execution_start", (event, ctx) => {
     if (event.toolName === "ask_user_question") externalQuestion = identity(ctx);
+    if (event.toolName === "ask_user") piAskIdentity = identity(ctx);
+  });
+  // @eko24ive/pi-ask (ask_user) reports its form lifecycle on pi.events.
+  const piAskFlows = new Set();
+  let piAskIdentity;
+  let piAskHook = Promise.resolve();
+  const piAskHookChain = (event) => {
+    const who = piAskIdentity ?? currentIdentity;
+    if (who) piAskHook = piAskHook.then(() => hook(event, who));
+  };
+  pi.events.on("@eko24ive/pi-ask:started", (event) => {
+    if (!event?.flowId || piAskFlows.has(event.flowId)) return;
+    piAskFlows.add(event.flowId);
+    if (piAskFlows.size === 1) piAskHookChain("question");
+  });
+  pi.events.on("@eko24ive/pi-ask:completed", (event) => {
+    if (!piAskFlows.delete(event?.flowId)) return;
+    if (piAskFlows.size === 0) piAskHookChain("question_answered");
   });
   pi.events.on("rpiv:ask-user:prompt", () => {
     if (externalQuestion) externalQuestionHook = hook("question", externalQuestion);
