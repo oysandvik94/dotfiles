@@ -27,7 +27,7 @@ Do not update anything during this phase.
    - a one-line “routine/low signal” entry when nothing noteworthy is documented;
    - explicit “no reliable changelog found” where evidence is missing;
    - source links.
-5. End with a clear gate offering: **Update all**, **Pi only**, **packages only**, or **skip**. Use `ask_user_question` when available. Stop and wait for a later user response.
+5. End with a clear gate offering: **Update all**, **Pi only**, **packages only**, or **skip**. Use `ask_user` when available. Stop and wait for a later user response.
 
 Do not treat the initial request to inspect updates as approval to install them. Approval must come after the briefing. A plain-language confirmation such as “go ahead”, “update all”, or an equivalent selection is sufficient; do not ask twice.
 
